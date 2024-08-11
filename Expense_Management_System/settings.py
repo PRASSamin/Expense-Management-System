@@ -27,8 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
+
+if os.getenv("DEBUG") == "True":
+    DEBUG = True
+else:
+    DEBUG = False
 
 alhost = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 formatedAlowedHosts = list(map(lambda x: x.strip(), alhost))

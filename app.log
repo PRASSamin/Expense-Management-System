@@ -2054,3 +2054,7 @@ INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management
 WARNING:django.request:Not Found: /
 WARNING:django.request:Not Found: /favicon.ico
 INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\wsgi.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
