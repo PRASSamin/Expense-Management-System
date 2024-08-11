@@ -22,15 +22,17 @@ const Login = () => {
     const LoginUser = async (e) => {
         e.preventDefault()
 
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(credentials.email)) {
+
+        const emailOrUsernameRegex = /^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[a-zA-Z0-9_-]{3,30})$/;
+
+        if (!emailOrUsernameRegex.test(credentials.email)) {
             setResponse({
-                message: "Invalid email format",
+                message: "Invalid email or username format",
                 type: "errorInfo",
             });
             return;
         }
-
+        
         if (credentials.password.length === 0) {
             setResponse({
                 message: "Please fill all the fields",
@@ -93,7 +95,7 @@ const Login = () => {
                                         <label htmlFor="email"
                                             className={`text-[#6E6E6E] cursor-pointer text-[13px] transition-all duration-300 select-none ${activeFeild === 'email' || credentials.email.length !== 0 ? 'mt-0 mb-1' : '-mb-6'} z-10`} >Email Address</label>
                                         <input onFocus={() => setActiveFeild('email')}
-                                        autoComplete='off'
+                                            autoComplete='off'
                                             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                                             onBlur={() => setActiveFeild(null)} className='w-full outline-none bg-transparent' type="text" name="email" id="email" />
 
