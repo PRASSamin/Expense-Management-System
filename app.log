@@ -2051,3 +2051,5 @@ INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py chang
 INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
 INFO:root:[2024-08-11 06:09:59.447631 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
 INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+WARNING:django.request:Not Found: /
+WARNING:django.request:Not Found: /favicon.ico
