@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "regions": ["iad1"],
+  "builds": [
+    {
+      "src": "Expense_Management_System/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+    },
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "staticfiles_build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "Expense_Management_System/wsgi.py"
+    }
+  ]
+}
