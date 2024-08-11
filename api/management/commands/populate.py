@@ -19,7 +19,7 @@ IncomeCategory = [
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
-        user = CustomUser.objects.get(username='test')
+        user = CustomUser.objects.get(username='testuser')
 
         expense_categories = ExpenseCategory
         income_categories = IncomeCategory

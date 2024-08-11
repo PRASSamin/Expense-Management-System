@@ -36,8 +36,8 @@ def Login(request):
         logging.error("email or password not provided in email login request")
         return JsonResponse({"status": "error", "message": "email and password required"}, status=400)
     
-    user = CustomUser.objects.filter(email=email).first()
-        
+    user = CustomUser.objects.filter(email=email).first() if "@" in email else CustomUser.objects.filter(username=str(email).lower()).first() 
+            
     if user:
         print(user.email)
         print(password)
