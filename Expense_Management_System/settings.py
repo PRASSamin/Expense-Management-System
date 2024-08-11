@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -137,7 +138,11 @@ AUTH_USER_MODEL = 'api.CustomUser'
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -183,3 +188,6 @@ CORS_EXPOSE_HEADERS = [
     'Access-Control-Allow-Origin',
     'X-CSRFToken',  
 ]
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
