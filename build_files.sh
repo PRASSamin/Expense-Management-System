@@ -6,14 +6,14 @@ if ! command -v pip3 &> /dev/null; then
     export PATH=$PATH:~/.local/bin
 fi
 
-python3.9 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 
-python3.9 -m pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
-python3.9 manage.py collectstatic --noinput --clear
-python3.9 manage.py makemigrations
-python3.9 manage.py migrate
+python3 manage.py collectstatic --noinput --clear
+python3 manage.py makemigrations
+python3 manage.py migrate
 
 
 echo "BUILD END"
