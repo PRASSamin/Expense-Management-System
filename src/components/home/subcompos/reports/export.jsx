@@ -116,7 +116,7 @@ const ExportWindow = ({ isOpen, setIsOpen, data }) => {
                                                         className={`font-bold option
                                                             transition-all duration-300  relative py-[8px] px-[10px] text-[13px]  cursor-pointer ${format.includes(option.split(" ")[0])
                                                                 ? "bg-[#4495E4] hover:bg-[#317cbd] text-white"
-                                                                : "hover:bg-gray-600"
+                                                                : "hover:bg-gray-400"
                                                             }`}
                                                         onClick={() => {
                                                             setIsFormatDropdownOpen(false)
