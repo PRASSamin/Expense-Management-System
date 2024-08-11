@@ -13,7 +13,7 @@ import Reports from './subcompos/reports'
 const Home = () => {
   const [userData, setUserData] = useState(null)
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [activeTab, setActiveTab] = useState('reports')
+  const [activeTab, setActiveTab] = useState('dashboard')
   const navigate = useNavigate()
 
   useEffect(() => {
