@@ -2058,3 +2058,1281 @@ INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management
 INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
 INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
 INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+INFO:root:[2024-08-11 15:06:37.533660 :: 127.0.0.1] Login Successful for user: prassamin@tahmidzrahat.com with Email
+WARNING:django.request:Not Found: /favicon.ico
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\Expense_Management_System\settings.py changed, reloading.
+WARNING:django.request:Unauthorized: /api/register/
+WARNING:django.request:Unauthorized: /api/register/
+INFO:root:[2024-08-14 16:10:57.128724 :: 127.0.0.1] Registration Successful for user: prassamin@tahmidzrahat.com with Email
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+INFO:root:[2024-08-14 16:38:08.548798 :: 192.168.10.203] Login Successful for user: prassamin@tahmidzrahat.com with Email
+WARNING:django.request:Not Found: /favicon.ico
+INFO:root:[2024-08-15 02:35:02.157166 :: 192.168.68.109] Login Successful for user: prassamin@gmail.com with Email
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+INFO:root:[2024-08-15 02:35:50.605284 :: 192.168.68.109] Login Successful for user: prassamin@tahmidzrahat.com with Email
+INFO:root:[2024-08-16 13:00:43.686991 :: 127.0.0.1] Login Successful for user: prassamin@tahmidzrahat.com with Email
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/add/card/
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 236, in AddCard
+    data = json.loads(request.body)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prass\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prass\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prass\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+WARNING:django.request:Not Found: /favicon.ico
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/add/card/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/add/card/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/add/card/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 238, in AddCard
+    data = json.loads(request.data)
+                      ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'data'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Not Found: /favicon.ico
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+INFO:root:[2024-08-16 19:37:20.129344 :: 127.0.0.1] Login Successful for user: prassamin@tahmidzrahat.com with Email
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 244, in AddCard
+    user=get_object_or_404(CustomUser, userUID=data['userUID']),
+                                               ~~~~^^^^^^^^^^^
+KeyError: 'userUID'
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 244, in AddCard
+    user=get_object_or_404(CustomUser, userUID=data['userUID']),
+                                               ~~~~^^^^^^^^^^^
+KeyError: 'userUID'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 251, in AddCard
+    cvc=data['cvc'],
+        ~~~~^^^^^^^
+KeyError: 'cvc'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 251, in AddCard
+    cvv=data['cvc'],
+        ~~~~^^^^^^^
+KeyError: 'cvc'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 245, in AddCard
+    add = Card.objects.create(
+          ^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1835, in execute_sql
+    for sql, params in self.as_sql():
+                       ^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1760, in as_sql
+    self.prepare_value(field, self.pre_save_val(field, obj))
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1699, in prepare_value
+    return field.get_db_prep_save(value, connection=self.connection)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 1008, in get_db_prep_save
+    return self.get_db_prep_value(value, connection=connection, prepared=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 1536, in get_db_prep_value
+    value = self.get_prep_value(value)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 1531, in get_prep_value
+    return self.to_python(value)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 1497, in to_python
+    raise exceptions.ValidationError(
+django.core.exceptions.ValidationError: ['“2024-07” value has an invalid date format. It must be in YYYY-MM-DD format.']
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.InvalidDatetimeFormat: invalid input syntax for type date: "2024-07"
+LINE 1: ..."is_active") VALUES (2, 'Visa', '84512', 'Debit', '2024-07',...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 245, in AddCard
+    add = Card.objects.create(
+          ^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.DataError: invalid input syntax for type date: "2024-07"
+LINE 1: ..."is_active") VALUES (2, 'Visa', '84512', 'Debit', '2024-07',...
+                                                             ^
+
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Not Found: /api/get/expense-income/7days/
+INFO:root:[2024-08-16 20:18:46.588175 :: 127.0.0.1] Registration Successful for user: prassamin@gmail.com with Email
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 127, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+                                             ~~~~^^^^^^^^^^^^^^^
+KeyError: 'card_number'
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 127, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+                                             ~~~~^^^^^^^^^^^^^^^
+KeyError: 'card_number'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:root:[2024-08-16 20:41:45.365273 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-16 20:42:33.798854 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:root:[2024-08-16 21:37:35.518133 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-16 21:46:21.875828 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\utils.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\utils.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 127, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+                                             ~~~~^^^^^^^^^^^^^^^
+KeyError: 'card_number'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 127, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 127, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 127, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 119, in AddExpenseIncome
+    print(get_object_or_404(Card, card_number=data['card_number']))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 119, in AddExpenseIncome
+    print(get_object_or_404(Card, card_number=data['card_number']))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 128, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 128, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 128, in AddExpenseIncome
+    card=get_object_or_404(Card, card_number=data['card_number'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 6!
+WARNING:django.request:Not Found: /api/get/user/cards/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:root:[2024-08-18 12:08:25.872612 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:08:53.155418 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:09:08.938697 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:09:20.657113 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:09:35.087443 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:09:43.454757 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+ERROR:root:Wrong email or password in email login request
+WARNING:django.request:Unauthorized: /api/login/
+INFO:root:[2024-08-18 12:10:42.686551 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:11:24.469649 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:12:44.134547 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:14:00.050468 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:14:54.600003 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:15:46.182396 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:16:00.331846 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:17:27.364659 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:20:13.210514 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:20:41.876081 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:21:11.766491 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:21:46.317038 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:22:11.402363 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+WARNING:django.request:Method Not Allowed (GET): /api/login/
+INFO:root:[2024-08-18 12:25:53.159774 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:26:21.682905 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:root:[2024-08-18 12:30:24.487517 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:root:[2024-08-18 12:31:24.162318 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\serializers.py changed, reloading.
+INFO:root:[2024-08-18 12:40:24.640690 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 132, in AddExpenseIncome
+    current_balance = Balance.objects.filter(Card=card).first().balance
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1476, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1494, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1501, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\query.py", line 1609, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\query.py", line 1641, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\query.py", line 1491, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\query.py", line 1303, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'Card' into field. Choices are: balance, card, card_id, id
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "api_balance" does not exist
+LINE 1: ..._balance"."card_id", "api_balance"."balance" FROM "api_balan...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 132, in AddExpenseIncome
+    current_balance = Balance.objects.filter(card=card).first().balance
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1097, in first
+    for obj in queryset[:1]:
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "api_balance" does not exist
+LINE 1: ..._balance"."card_id", "api_balance"."balance" FROM "api_balan...
+                                                             ^
+
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 132, in AddExpenseIncome
+    current_balance = Balance.objects.filter(card=card).first().balance
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'balance'
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 132, in AddExpenseIncome
+    current_balance = Balance.objects.filter(card=card).first().balance
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'balance'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+WARNING:django.request:Not Found: /
+WARNING:django.request:Not Found: /favicon.ico
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\admin.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+INFO:root:[2024-08-18 14:02:05.358639 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+WARNING:django.request:Not Found: /favicon.ico
+INFO:root:[2024-08-18 14:04:50.574919 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 138, in AddExpenseIncome
+    new_balance = current_balance + data['amount']
+                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'str'
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 138, in AddExpenseIncome
+    new_balance = current_balance + data['amount']
+                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'str'
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/add/expense-income/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+WARNING:django.request:Method Not Allowed (GET): /api/delete/card/
+WARNING:django.request:Method Not Allowed (GET): /api/delete/card/
+WARNING:django.request:Method Not Allowed (GET): /api/delete/card/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+WARNING:django.security.csrf:Forbidden (CSRF cookie not set.): /api/card/activation-defaultation/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+WARNING:django.request:Bad Request: /api/card/activation-defaultation/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Method Not Allowed (POST): /api/card/activation-defaultation/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Not Found: /api/get/card/details/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+WARNING:django.request:Not Found: /api/get/card/details/
+WARNING:django.request:Not Found: /api/get/card/details
+WARNING:django.request:Not Found: /api/get/card/details
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+WARNING:django.request:Not Found: /api/get/card/datas
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+WARNING:django.request:Not Found: /api/get/card/details
+WARNING:django.request:Not Found: /api/get/card/details
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\urls.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:root:[2024-08-18 21:29:55.907084 :: 127.0.0.1] Login Successful for user: prassamin@gmail.com with Email
+WARNING:django.request:Not Found: /favicon.ico
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(16)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 274, in AddCard
+    add = Card.objects.create(
+          ^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "R:\Git\Expense_Management_System\api\models.py", line 93, in save
+    super().save(*args, **kwargs)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.DataError: value too long for type character varying(16)
+
+ERROR:django.request:Internal Server Error: /api/add/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(16)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 274, in AddCard
+    add = Card.objects.create(
+          ^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "R:\Git\Expense_Management_System\api\models.py", line 93, in save
+    super().save(*args, **kwargs)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.DataError: value too long for type character varying(16)
+
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\models.py changed, reloading.
+ERROR:django.request:Internal Server Error: /api/delete/card/
+Traceback (most recent call last):
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\api\views.py", line 334, in delete_card
+    card = get_object_or_404(Card, card_number=card_number)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\Git\Expense_Management_System\venv\Lib\site-packages\django\db\models\query.py", line 652, in get
+    raise self.model.MultipleObjectsReturned(
+api.models.Card.MultipleObjectsReturned: get() returned more than one Card -- it returned 3!
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+WARNING:django.request:Not Found: /api/add/card/
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.
+INFO:django.utils.autoreload:R:\Git\Expense_Management_System\api\views.py changed, reloading.

@@ -19,13 +19,13 @@ IncomeCategory = [
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
-        user = CustomUser.objects.get(username='testuser')
+        user = CustomUser.objects.get(username='prassamin')
 
         expense_categories = ExpenseCategory
         income_categories = IncomeCategory
         types = ['Expense', 'Income']
 
-        years = list(range(2018, 2025)) 
+        years = list(range(2010, 2025)) 
         months = list(range(1, 13)) 
 
         for _ in range(200):

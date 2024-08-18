@@ -14,6 +14,8 @@ import jwt
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+from django.db import transaction
+from decimal import Decimal
 
 load_dotenv()
 
@@ -112,23 +114,50 @@ def Register(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def AddExpenseIncome(request):
-    data = json.loads(request.body)
-    if not data:
-        return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+    try:
+        data = json.loads(request.body)
+        if not data:
+            return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+
+        user = get_object_or_404(CustomUser, userUID=data['userUID'])
+        card = get_object_or_404(Card, card_number=data['card_number'])
+
+        with transaction.atomic():
+            add = ExpenseIncome.objects.create(
+                user=user,
+                title=data['title'],
+                amount=Decimal(data['amount']),
+                date=data['date'],
+                description=data['description'],
+                category=data['category'],
+                type=data['type'],
+                card=card
+            )
+
+            balance_record = Balance.objects.filter(card=card).first()
+            if not balance_record:
+                return JsonResponse({"status": "error", "message": "Balance record not found for the card"}, status=400)
+
+            current_balance = balance_record.balance
+
+            if data['type'] == 'Expense':
+                new_balance = current_balance - Decimal(data['amount'])
+            elif data['type'] == 'Income':
+                new_balance = current_balance + Decimal(data['amount'])
+            else:
+                return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
+
+            balance_record.balance = new_balance
+            balance_record.save()
+
+        return JsonResponse({"status": "success", "message": f"{data['type']} added successfully with id: {add.id}", "data": add.id}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
     
-    add = ExpenseIncome.objects.create(
-        user=get_object_or_404(CustomUser, userUID=data['userUID']),
-        title=data['title'],
-        amount=data['amount'],
-        date=data['date'],
-        description=data['description'],
-        category=data['category'],
-        type=data['type'],
-    ) 
-
-    add.save()
-
-    return JsonResponse({"status": "success", "message": f"{data['type']} added successfully with id: {add.id}", "data": add.id}, status=201)
 
 @require_http_methods(["GET"])
 def GetExpenseIncome7Days(request):
@@ -230,3 +259,140 @@ def getAllDatas(request):
     }
 
     return JsonResponse({"status": "success", "data": data}, status=200)
+
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def AddCard(request):
+    data = json.loads(request.body)
+
+    uid = request.GET.get('u', None)
+
+    if not data:
+        return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+    
+    if Card.objects.filter(card_number=data['card_number']).exists():
+        return JsonResponse({"status": "error", "message": "Card already exists"}, status=400)
+    
+    add = Card.objects.create(
+        user=get_object_or_404(CustomUser, userUID=uid),
+        card_type=data['card_type'],
+        card_number=data['card_number'],
+        card_category=data['card_category'],
+        expiry_date=data['expiry_date'],
+        cvv=data['cvv'],
+        cardholder_name=data['cardholder_name'],
+        is_default=data['is_default']
+    )
+
+    Balance.objects.create(
+        card=add,
+        balance=0
+    )
+
+    add.save()
+
+    return JsonResponse({"status": "success", "message": "Card added successfully"}, status=200)
+
+@require_http_methods(["GET"])
+def getMyData(request):
+    uid = request.GET.get('u', None)
+
+    if not uid:
+        return JsonResponse({"status": "error", "message": "User not specified"}, status=400)
+
+    user = get_object_or_404(CustomUser, userUID=uid)
+
+    data = CustomUserSerializer(user).data
+
+    encoded_data = jwt.encode(data, settings.SECRET_KEY, algorithm="HS256")
+
+    return JsonResponse({"status": "success", "data": encoded_data}, status=200)
+
+
+@require_http_methods(["GET"])
+def GetUserCards(request):
+    uid = request.GET.get('u', None)
+
+    if not uid:
+        return JsonResponse({"status": "error", "message": "User not specified"}, status=400)
+
+    user = get_object_or_404(CustomUser, userUID=uid)
+
+    cards = Card.objects.filter(user=user)
+
+    data = CardSerializer(cards, many=True).data
+
+    return JsonResponse({"status": "success", "data": data}, status=200)
+
+
+@require_http_methods(["DELETE"])
+@csrf_exempt
+def delete_card(request):
+    card_number = request.GET.get('c')
+
+    if not card_number:
+        return JsonResponse({"status": "error", "message": "Card not specified"}, status=400)
+
+    card = get_object_or_404(Card, card_number=card_number)
+
+    try:
+        with transaction.atomic():
+            ExpenseIncome.objects.filter(card=card).delete()
+
+            Balance.objects.filter(card=card).delete()
+
+            card.delete()
+
+        return JsonResponse({"status": "success", "message": "Card deleted successfully"}, status=200)
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+    
+
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def card_activation_and_defaultation(request):
+    card_number = request.GET.get('c')
+    action = request.GET.get('a')
+
+    if not card_number or not action:
+        print(card_number, action)
+        return JsonResponse({"status": "error", "message": "Card number or action not specified"}, status=400)
+
+    card = get_object_or_404(Card, card_number=card_number)
+
+    actions = {
+        'default': lambda: setattr(card, 'is_default', True),
+        'activate': lambda: setattr(card, 'is_active', True),
+        'deactivate': lambda: setattr(card, 'is_active', False)
+    }
+
+    if action in actions:
+        actions[action]()
+        card.save()
+        if action == 'activate':
+            return JsonResponse({"status": "success", "message": "Card activated successfully"}, status=200)
+        elif action == 'deactivate':
+            return JsonResponse({"status": "success", "message": "Card deactivated successfully"}, status=200)
+        elif action == 'default':
+            return JsonResponse({"status": "success", "message": "Card set as default successfully"}, status=200)
+    
+    return JsonResponse({"status": "error", "message": "Invalid action"}, status=400)
+
+
+@require_http_methods(["GET"])
+def getCardDetails(request):
+    card_number = request.GET.get('c')
+    cvv = request.GET.get('cvv')
+    userUID = request.GET.get('u')
+
+    if not card_number or not cvv or not userUID:
+        return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
+    
+    card = get_object_or_404(Card, card_number=card_number, cvv=cvv, user__userUID=userUID)
+
+    if not card:
+        return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
+
+    return JsonResponse({"status": "success", "data": CardSerializer(card).data}, status=200)
