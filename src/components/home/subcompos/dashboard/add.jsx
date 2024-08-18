@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh }) => {
 
-    const defaultCard = user.cards.find(card => card.is_default === true);
+    const defaultCard = user?.cards?.find(card => card?.is_default === true);
 
     const [addData, setAddData] = useState({
         amount: '',
