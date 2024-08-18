@@ -13,8 +13,8 @@ const Incomes = ({ userData }) => {
 
 
     return (
-        <main className='mt-[70px] overflow-auto px-2 grid grid-cols-1 min-h-screen md:grid-cols-2 gap-4'>
-            <div className='col-span-1 md:col-span-2 flex flex-col gap-4'>
+        <main className='mt-[70px] overflow-auto px-2 grid grid-cols-1 min-h-[calc(100vh-70px)] md:grid-cols-2 gap-4'>
+            <div className='col-span-1 md:col-span-2 flex flex-col gap-4 pras-ov'>
                 <button onClick={() => {
                      if (!Cookies.get('userData')) {
                         navigate('/login')
@@ -27,7 +27,7 @@ const Incomes = ({ userData }) => {
                 <Table isRefresh={isRefresh} setIsRefresh={setIsRefresh} userData={userData} type={"Income"}/>
             </div>
 
-            <Add isShow={isAddShow} user={userData} setIsShow={setIsAddShow} setIsRefresh={setIsRefresh} expenseOrIncome={"Income"} />
+            <Add isRefresh={isRefresh} isShow={isAddShow} user={userData} setIsShow={setIsAddShow} setIsRefresh={setIsRefresh} expenseOrIncome={"Income"} />
         </main>
     )
 }

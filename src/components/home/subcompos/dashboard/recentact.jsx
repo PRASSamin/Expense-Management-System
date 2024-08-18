@@ -141,7 +141,7 @@ const RecentActs = ({ isRefresh, setIsRefresh, userData }) => {
                 <div className={`${selectedRows.length > 0 ? " h-14 py-3" : "h-0"} overflow-hidden transition-all duration-300 fixed w-full z-50 bottom-0 right-0 bg-emerald-800 text-white px-3  flex items-center justify-between`}>
                     <h1>{selectedRows.length > 0 ? `${selectedRows.length} items selected` : ""}</h1>
                     <button onClick={() => {
-                        deleteRows(selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData)
+                        deleteRows(selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData, setRemoveResponse)
                     }} className=' bg-gray-500 w-20 py-1 rounded'>
                         {isDeleting ? <Spinner className="transition-all duration-300 py-[3px]" bgColor="bg-gray-500" frColor="text-black" svgClassName="w-[18px] h-[18px]" /> : "Delete"}
                     </button>
@@ -160,7 +160,10 @@ export const ExpandedComponent = ({ data }) => {
         <div className={`${data.type === 'Expense' ? 'bg-[#f8d7da]' : 'bg-[#d4edda]'}  px-2 py-1 text-sm`}>
             <style>{`
           input {
-          background-color: transparent !important; border: none !important; font-weight: bold !important;}
+          background-color: transparent !important; border: none !important; font-weight: bold !important;
+          outline: none !important;
+          border: none !important;
+          }
           label {
             font-weight: normal !important;}
           `}</style>
@@ -180,6 +183,10 @@ export const ExpandedComponent = ({ data }) => {
                 <label htmlFor="Date">Amount: </label>
                 <input type="text" readOnly value={data.amount + " " + data.user.currency_type} />
             </div>
+            <div >
+                <label htmlFor="Date">Card: </label>
+                <input type="text" readOnly value={`${data.card.card_number} (${data.card.card_type})`} />
+            </div>
             <div className='flex gap-2'>
                 <label htmlFor="Date">Description: </label>
                 <p className='bg-transparent border-none w-full resize-none font-bold'>{data.description ? data.description : "N/A"}</p>
@@ -190,7 +197,7 @@ export const ExpandedComponent = ({ data }) => {
 }
 
 
-export const deleteRows = async (selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData) => {
+export const deleteRows = async (selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData, setRemoveResponse) => {
     setIsDeleting(true)
     try {
         const res = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_DELETE_7DAYS_EXPENSE_INCOME_API_EP}?u=${userData.userUID}`, {
@@ -238,6 +245,10 @@ export const columns = [
         name: 'Amount',
         selector: row => row.amount,
     },
+    {
+        name: 'Card',
+        selector: row => row.card.card_number
+    }
 ]
 
 

@@ -26,15 +26,15 @@ const IncomeExpensePieChart = ({ data, type, className, currency }) => {
     const chartData = {
         labels: categories,
         datasets: [{
-            data: categories.map(category => 
+            data: categories.map(category =>
                 filteredData
                     .filter(item => item.category === category)
                     .reduce((acc, curr) => acc + parseFloat(curr.amount), 0)
             ),
-            backgroundColor: categories.map((_, idx) => 
+            backgroundColor: categories.map((_, idx) =>
                 `hsl(${(idx * 360) / categories.length}, 70%, 50%)`
             ),
-            hoverBackgroundColor: categories.map((_, idx) => 
+            hoverBackgroundColor: categories.map((_, idx) =>
                 `hsl(${(idx * 360) / categories.length}, 80%, 60%)`
             )
         }]
@@ -45,14 +45,14 @@ const IncomeExpensePieChart = ({ data, type, className, currency }) => {
         plugins: {
             tooltip: {
                 callbacks: {
-                    label: function(context) {
+                    label: function (context) {
                         const value = context.raw;
                         const percentage = ((value / totalAmount) * 100).toFixed(2);
-                        return `${value} ${currency} (${percentage}%)`;
+                        return `${value.toFixed(2)} ${currency} (${percentage}%)`;
                     }
                 }
             },
-            
+
         }
     };
 

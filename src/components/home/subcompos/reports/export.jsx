@@ -64,8 +64,13 @@ const ExportWindow = ({ isOpen, setIsOpen, data }) => {
 
 
     return (
-        <div onClick={() => setIsOpen(false)} className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 ${isOpen ? 'block' : 'hidden'} flex justify-center items-center`}>
-            <div onClick={e => e.stopPropagation()} className='relative aspect-[12/16] h-[80%] flex flex-col justify-between rounded shadow-sm shadow-black/50 bg-white px-4 py-3'>
+        <div onClick={() => {
+            setIsFormatDropdownOpen(false);
+            setType("Lifetime");
+            setFormat("Excel");
+            setIsOpen(false)
+        }} className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 ${isOpen ? 'block' : 'hidden'} flex justify-center items-center`}>
+            <div onClick={e => e.stopPropagation()} className='relative aspect-[12/16] w-[calc(100%-2rem)] sm:w-auto h-[80%] flex flex-col justify-between rounded shadow-sm shadow-black/50 bg-white px-4 py-3'>
                 <div className='flex flex-col'>
                     <h1 className='text-lg font-bold'>Export Report</h1>
                     <div className='flex gap-10 mt-7 items-center'>

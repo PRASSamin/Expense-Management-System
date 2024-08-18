@@ -4,7 +4,7 @@ import reception from '../../assets/reception.svg'
 import prasme from '../../assets/prasme-b.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import cookies from 'js-cookie'
+import Cookies from 'js-cookie'
 import { DecodeJWT } from '../../utils'
 import { useNavigate } from 'react-router-dom'
 const Login = () => {
@@ -32,7 +32,7 @@ const Login = () => {
             });
             return;
         }
-        
+
         if (credentials.password.length === 0) {
             setResponse({
                 message: "Please fill all the fields",
@@ -46,13 +46,13 @@ const Login = () => {
         try {
             const res = await axios.post(import.meta.env.VITE_BACKEND_BASE_URL + import.meta.env.VITE_LOGIN_API_EP, credentials)
 
-            cookies.set('userData', res.data.data)
-            setResponse({ message: res.data.message, type: 'success' })
+
             if (res.data.status === 'success') {
+                Cookies.set('userData', res.data.data, { expires: 30 })
+                setResponse({ message: res.data.message, type: 'success' })
                 navigate('/')
             }
         } catch (err) {
-            console.log(err.response.data.message)
             setResponse({ message: err.response.data.message, type: 'error' })
         } finally {
             setIsLoginProcessing(false)

@@ -6,9 +6,9 @@ import Cookies from 'js-cookie'
 import Spinner from '../../../global/spinner'
 import Alert from '../../../global/alert';
 import { deleteRows, ExpandedComponent, columns, conditionalRowStyles, customStyles } from '../dashboard/recentact';
-import { ExpenseCategory, IncomeCategory } from '../dashboard/add';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { getUniqueCategories } from '../../../../utils';
 import ExportAsExcel from '../../../global/exportasexcel';
 
 const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
@@ -18,6 +18,8 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
     const [totalRows, setTotalRows] = useState(0)
     const [isDeleting, setIsDeleting] = useState(false)
     const [removeResponse, setRemoveResponse] = useState(null)
+    const [ExpenseCategory, setExpenseCategory] = useState([])
+    const [IncomeCategory, setIncomeCategory] = useState([])
     const [selectedRows, setSelectedRows] = useState([]);
     const [filteredData, setFilteredData] = useState(data);
     const [titleFilter, setTitleFilter] = useState('');
@@ -26,7 +28,6 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
     const [toDateFilter, setToDateFilter] = useState('');
     const [wannaFilter, setWannaFilter] = useState(false);
     const [wannaTo, setWannaTo] = React.useState('Single');
-
 
     const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -38,7 +39,6 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
         }
         setWannaTo(newWannaTo);
     };
-
 
     useEffect(() => {
         let filtered = data;
@@ -101,6 +101,13 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
             if (res.status === 200) {
                 setData(res.data.data)
                 setTotalRows(res.data.totalEntries || 0)
+                if (type === 'Income')
+                {
+                    setIncomeCategory(getUniqueCategories(res.data.data))
+
+                } else {
+                    setExpenseCategory(getUniqueCategories(res.data.data))
+                }
             }
         } catch (err) {
             console.log(err)
@@ -217,6 +224,8 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
                 <style>
                     {
                         `
+                        }
+
                   @media only screen and (max-width: 600px) {
                     .sc-bhjgvs.fxNobI {
                       display: flex !important;
@@ -290,7 +299,7 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
                 <div className={`${selectedRows.length > 0 ? " h-14 py-3" : "h-0"} overflow-hidden transition-all duration-300 fixed w-full z-50 bottom-0 right-0 bg-emerald-800 text-white px-3  flex items-center justify-between`}>
                     <h1>{selectedRows.length > 0 ? `${selectedRows.length} items selected` : ""}</h1>
                     <button onClick={() => {
-                        deleteRows(selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData)
+                        deleteRows(selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData, setRemoveResponse)
                     }} className=' bg-gray-500 w-20 py-1 rounded'>
                         {isDeleting ? <Spinner className="transition-all duration-300 py-[3px]" bgColor="bg-gray-500" frColor="text-black" svgClassName="w-[18px] h-[18px]" /> : "Delete"}
                     </button>

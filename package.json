@@ -13,7 +13,9 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.7",
+    "antd": "^5.20.1",
     "axios": "^1.7.3",
+    "card-validator": "^10.0.0",
     "chart.js": "^4.4.3",
     "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.12",
@@ -23,10 +25,13 @@
     "peekdata-datagateway-api-sdk": "^3.2.5",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
+    "react-credit-cards": "^0.8.3",
+    "react-credit-cards-2": "^0.9.0",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.0",
     "styled-components": "^6.1.12",
+    "tailwindcss-filters": "^3.0.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

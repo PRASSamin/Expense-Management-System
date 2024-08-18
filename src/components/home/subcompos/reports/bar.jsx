@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import dayjs from 'dayjs';
@@ -65,6 +65,14 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
   const [selectedYear, setSelectedYear] = useState(dayjs().format('YYYY'));
   const { monthlyLabels, monthlyIncomeData, monthlyExpenseData, yearlyLabels, yearlyIncomeData, yearlyExpenseData, years } = processData(data, selectedYear);
 
+
+  useEffect(() => {
+    if (type === 'yearly') {
+      console.log(document.body.scrollHeight);
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  }, [type]);
+
   const chartData = {
     labels: type === 'yearly' ? yearlyLabels : monthlyLabels,
     datasets: [
@@ -92,6 +100,7 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
         position: 'top',
       },
       tooltip: {
+        position: 'nearest',
         callbacks: {
           label: function (tooltipItem) {
             const dataset = tooltipItem.dataset;
@@ -103,8 +112,8 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
             let currentIncome = 0;
 
             if (datasets[0] && datasets[1]) {
-              currentIncome = datasets[0].data[index];
-              currentExpense = datasets[1].data[index];
+              currentIncome = datasets[0].data[index] || 0;
+              currentExpense = datasets[1].data[index] || 0;
             }
 
             let percentage = 0;
@@ -118,8 +127,8 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
             }
 
             if (index > 0) {
-              let prevExpense = datasets[1].data[index - 1];
-              let prevIncome = datasets[0].data[index - 1];
+              let prevExpense = datasets[1].data[index - 1] || 0;
+              let prevIncome = datasets[0].data[index - 1] || 0;
               if (prevExpense > 0) {
                 prevExpenseDifference = (((currentExpense - prevExpense) / prevExpense) * 100).toFixed(2);
               }
@@ -129,8 +138,8 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
             }
 
             if (index < datasets[0].data.length - 1) {
-              let nextExpense = datasets[1].data[index + 1];
-              let nextIncome = datasets[0].data[index + 1];
+              let nextExpense = datasets[1].data[index + 1] || 0;
+              let nextIncome = datasets[0].data[index + 1] || 0;
               if (nextExpense > 0) {
                 nextExpenseDifference = (((currentExpense - nextExpense) / nextExpense) * 100).toFixed(2);
               }
@@ -140,23 +149,23 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
             }
 
             let labels = [
-              `${dataset.label}: ${value} ${currency}`,
+              `${dataset.label}: ${value.toFixed(2)} ${currency}`,
             ];
 
             if (dataset.label === 'Expense') {
               labels.push(`Expense through income: ${percentage}%`)
               if (prevExpenseDifference !== null) {
-                labels.push(`Expense compared to previous month: ${prevExpenseDifference}%`);
+                labels.push(`Expense compared to previous period: ${prevExpenseDifference}%`);
               }
               if (nextExpenseDifference !== null) {
-                labels.push(`Expense compared to next month: ${nextExpenseDifference}%`);
+                labels.push(`Expense compared to next period: ${nextExpenseDifference}%`);
               }
             } else if (dataset.label === 'Income') {
               if (prevIncomeDifference !== null) {
-                labels.push(`Income compared to previous month: ${prevIncomeDifference}%`);
+                labels.push(`Income compared to previous period: ${prevIncomeDifference}%`);
               }
               if (nextIncomeDifference !== null) {
-                labels.push(`Income compared to next month: ${nextIncomeDifference}%`);
+                labels.push(`Income compared to next period: ${nextIncomeDifference}%`);
               }
             }
 
@@ -164,6 +173,7 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
           }
         }
       }
+
 
 
       ,
@@ -178,20 +188,34 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
       },
       y: {
         beginAtZero: true,
+        ticks: {
+          display: window.innerWidth > 768,
+        },
+        grid: {
+          drawBorder: window.innerWidth > 768,
+        }
       }
     }
   };
 
+  window.addEventListener('resize', () => {
+    if (chartInstance) {
+      chartInstance.options.scales.y.ticks.display = window.innerWidth > 768;
+      chartInstance.options.scales.y.grid.drawBorder = window.innerWidth > 768;
+      chartInstance.update();
+    }
+  });
+
+
   return (
     <div className='flex flex-col items-center justify-center'>
-      <div className='w-full flex justify-start'>
+      <div className='w-full flex flex-wrap gap-2 justify-start'>
         {type !== "yearly" && [...years].sort((a, b) => b - a).map(year => (
           <button
             key={year}
             onClick={() => setSelectedYear(year)}
             className='text-[12px] md:text-md px-2 py-1 cursor-pointer'
             style={{
-              margin: '0 5px',
               backgroundColor: year === selectedYear ? 'rgba(75, 192, 192, 0.5)' : '#eee',
               border: '1px solid #ccc',
             }}
@@ -207,6 +231,13 @@ const IncomeExpenseBarChart = ({ data, type, currency }) => {
     width: 100% !important;
     height: auto !important;
  
+    }
+
+    @media (max-width: 768px) {
+      .barChart {
+        width: 100% !important;
+        height: 100% !important;
+      }
     }
 
   `}</style>

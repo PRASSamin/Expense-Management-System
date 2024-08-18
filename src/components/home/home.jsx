@@ -9,11 +9,12 @@ import Dashboard from './subcompos/dashboard'
 import Incomes from './subcompos/incomes'
 import Expenses from './subcompos/expenses'
 import Reports from './subcompos/reports'
+import UserCards from './subcompos/cards'
 
 const Home = () => {
   const [userData, setUserData] = useState(null)
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [activeTab, setActiveTab] = useState('dashboard')
+  const [activeTab, setActiveTab] = useState('cards')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const Home = () => {
 
 
   return (
-    <div className='w-full h-screen bg-[#F5F6F6] flex justify-center items-center'>
+    <div className={`w-full h-screen bg-[#F5F6F6] flex justify-center items-center`}>
       <section className={`${isCollapsed ? "min-w-[50px] px-2" : "min-w-[200px] px-5"}  transition-all duration-300 shadow-sm z-10 h-screen bg-[#ffffff]  relative pt-[70px]`}>
         <h1 className="sr-only">Sidebar</h1>
         <ul className='flex flex-col gap-1 text-[14px] '>
@@ -83,6 +84,15 @@ const Home = () => {
               <span className={isCollapsed ? "hidden" : "block"}>Reports</span>
             </button>
           </li>
+          <li className=''>
+            <button onClick={() => setActiveTab('cards')} type='button' className={`${activeTab === 'cards' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-credit-card-2-front" viewBox="0 0 16 16">
+  <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+  <path d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
+</svg>
+              <span className={isCollapsed ? "hidden" : "block"}>Cards</span>
+            </button>
+          </li>
          {Cookies.get('userData') ? <li className='absolute bottom-3 left-1/2 -translate-x-1/2'>
             <button onClick={() => LogOut()} type='button' className={`bg-[#ffffff] text-[#000000] font-bold hover:bg-[#d8d8d8] transition-all duration-300 flex items-center gap-2 ${isCollapsed ? 'p-2': 'px-3 py-2'} rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -94,7 +104,7 @@ const Home = () => {
           </li> : null}
         </ul>
       </section>
-      <section className='w-full bg-[#F8F8FA] h-screen overflow-auto'>
+      <section className={`w-full bg-[#F8F8FA] h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' ? "pras-ov" : ""}`}>
         <div className={`w-full h-[60px] bg-[#ffffff] py-3 flex items-center shadow-sm z-10 justify-between absolute top-0 left-0`}>
           <h1 className="sr-only">Top Header</h1>
           <button  onClick={() => {
@@ -127,7 +137,7 @@ const Home = () => {
           </div>
         </div>
         {
-          activeTab === 'dashboard' ? <Dashboard userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : <Reports userData={userData} />}
+          activeTab === 'dashboard' ? <Dashboard userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'cards' ? <UserCards userData={userData}/> : <Reports userData={userData} />}
       </section>
     </div>
   )

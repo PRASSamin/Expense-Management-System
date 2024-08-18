@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const DecodeJWT = (token) => {
     return jwtDecode(token);
@@ -119,4 +120,26 @@ export const exportDataToCSV = (data, fileName) => {
 export const LogOut = () => {
     Cookies.remove('userData');
     window.location.href = '/login';
+}
+
+
+export const getUniqueCategories = (data) => {
+    const categories = data.map(item => item.category);
+    const uniqueCategories = [...new Set(categories)];
+    return uniqueCategories;
+};
+
+
+
+
+export const getMyData = async (uid) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_MY_DATA_API_EP}?u=${uid}`);
+
+        if (res.status === 200) {
+            return res.data;
+        }
+    } catch (err) {
+        console.log(err);
+    }
 }

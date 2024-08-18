@@ -124,15 +124,15 @@ const Register = () => {
         setIsLoginProcessing(true)
         try {
             const res = await axios.post(import.meta.env.VITE_BACKEND_BASE_URL + import.meta.env.VITE_REGISTER_API_EP, {
-            email: credentials.email,
-            password: passwordData.password,
-            first_name: credentials.first_name,
-            last_name: credentials.last_name,
-            gender: credentials.gender,
-            username: credentials.username,
-            currency: credentials.currency
+                email: credentials.email,
+                password: passwordData.password,
+                first_name: credentials.first_name,
+                last_name: credentials.last_name,
+                gender: credentials.gender,
+                username: credentials.username,
+                currency: credentials.currency
 
-        })
+            })
 
             cookies.set('userData', res.data.data)
             setResponse({ message: res.data.message, type: 'success' })
@@ -140,8 +140,7 @@ const Register = () => {
                 navigate('/')
             }
         } catch (err) {
-            console.log(err)
-            setResponse({ message: err.response, type: 'error' })
+            setResponse({ message: err.response.data.message, type: 'error' })
         } finally {
             setIsLoginProcessing(false)
         }

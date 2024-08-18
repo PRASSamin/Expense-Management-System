@@ -1,57 +1,74 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState, useRef } from 'react';
+import Cookies from 'js-cookie';
 
-const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
+const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh }) => {
+
+    const defaultCard = user.cards.find(card => card.is_default === true);
+
     const [addData, setAddData] = useState({
         amount: '',
         category: '',
         description: '',
         title: '',
         date: new Date().toISOString().split("T")[0],
-    })
-    const [isProcessing, setIsProcessing] = useState(false)
-    const [response, setResponse] = useState(null)
+        card_number: defaultCard?.card_number || '',
+    });
+
+
+    const dropdownRef = useRef(null);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [response, setResponse] = useState(null);
+    const [isOtherShow, setIsOtherShow] = useState(false);
+    const [categories, setCategories] = useState({ expenses: [], incomes: [] });
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
 
     useEffect(() => {
-        setAddData({
-            ...addData,
-            date: new Date().toISOString().split("T")[0],
+        const storedCategories = JSON.parse(localStorage.getItem('userCategory')) || { expense: [], income: [] };
+
+        const arrangeCategories = (defaultCategories, storedCategories) => {
+            const withoutOther = defaultCategories.filter(category => category !== 'other');
+            const combinedCategories = [...new Set([...withoutOther, ...storedCategories])];
+            return [...combinedCategories, 'other'];
+        };
+
+        setCategories({
+            expenses: arrangeCategories(ExpenseCategory, storedCategories.expense),
+            incomes: arrangeCategories(IncomeCategory, storedCategories.income),
+        });
+    }, [isProcessing]);
+
+
+    useEffect(() => {
+        setAddData(prevData => ({
+            ...prevData,
             category: expenseOrIncome === "Expense" ? ExpenseCategory[0] : IncomeCategory[0],
-        })
-    }, [])
-
-    useEffect(() => {
-        if (expenseOrIncome === "Expense") {
-            setAddData({
-                ...addData,
-                category: ExpenseCategory[0],
-            })
-        } else if (expenseOrIncome === "Income") {
-            setAddData({
-                ...addData,
-                category: IncomeCategory[0],
-            })
-        }
-    }, [expenseOrIncome])
-
-
-
+        }));
+    }, [expenseOrIncome]);
 
     const submitData = async (e) => {
-        e.stopPropagation()
-        e.preventDefault()
+        e.stopPropagation();
+        e.preventDefault();
 
-        if (addData.amount.length === 0 || addData.category.length === 0 || addData.date.length === 0) {
-            setResponse({
-                type: "error",
-                message: "Please fill all the fields"
-            })
-            return
+        if (!addData.amount || !addData.category || !addData.date) {
+            setResponse({ type: "error", message: "Please fill all the fields" });
+            return;
         }
 
-        setIsProcessing(true)
-        setResponse(null)
+        const newCategory = addData.category.toLowerCase();
+        const userCategory = JSON.parse(localStorage.getItem("userCategory")) || { expense: [], income: [] };
+
+        if (expenseOrIncome === "Expense" && !userCategory.expense.includes(newCategory)) {
+            userCategory.expense.push(newCategory);
+        } else if (expenseOrIncome === "Income" && !userCategory.income.includes(newCategory)) {
+            userCategory.income.push(newCategory);
+        }
+
+        localStorage.setItem("userCategory", JSON.stringify(userCategory));
+
+        setIsProcessing(true);
+        setResponse(null);
         try {
             const res = await axios.post(import.meta.env.VITE_BACKEND_BASE_URL + import.meta.env.VITE_ADD_EXPENSE_INCOME_API_EP, {
                 amount: addData.amount,
@@ -60,31 +77,23 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
                 date: addData.date,
                 title: addData.title,
                 userUID: user.userUID,
-                type: expenseOrIncome
-            })
+                type: expenseOrIncome,
+                card_number: addData.card_number
+            });
 
-
-            setResponse({
-                type: "success",
-                message: res.data.message
-            })
-            setIsShow(false)
-            setResponse(null)
-            e.target.reset()
-            setIsRefresh(true)
-
-
+            setIsShow(false);
+            setIsRefresh(true);
+            setAddData(null);
+            setResponse(null);
+            e.target.reset();
         } catch (err) {
-            console.log(err)
-            setResponse({
-                type: "error",
-                message: err?.response?.data?.message
-            })
+            console.log(err);
+            setResponse({ type: "error", message: err?.response?.data?.message });
         } finally {
-            setIsProcessing(false)
-
+            setIsProcessing(false);
         }
-    }
+    };
+
     return (
         <div onClick={() => setIsShow(!isShow)} className={`w-full h-screen z-50 flex justify-center items-center fixed top-0 left-0 bg-black bg-opacity-50 ${isShow ? "block" : "hidden"}`}>
             <div onClick={(e) => e.stopPropagation()} className='w-[calc(100%-32px)] md:w-[70%] p-3 z-50 bg-white rounded shadow-lg'>
@@ -102,11 +111,68 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
                             }
                             input, textarea, select {
                             outline: none;
-                            border: 1px solid #EEF2F5;
                             background-color: #EEF2F5;
                             }
                         `}
                     </style>
+                    <div>
+                        <label htmlFor="gender"
+                            className={``} >Card<span className='text-red-500'>*</span></label>
+                        <div className=' bg-[#EEF2F5]  rounded-md w-full border border-gray-300 flex items-center justify-center w-full py-2 px-1 gap-5'>
+                            <div className='flex flex-col w-full'>
+                                <div ref={dropdownRef} className="z-20 relative">
+                                    <div className="select-component">
+                                        <div className="custom-select">
+                                            <div
+                                                className={`${addData.card_number ? "text-[#000000]" : "text-[#a7a7a7]"} selected-option px-1  flex items-center justify-between text-[15px]`}
+                                                onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+                                            >
+                                                {addData?.card_number ? addData.card_number : "Select Gender"}
+                                                <svg
+                                                    className={`w-4 h-4 ml-2 inline-block transform ${isDropDownOpen ? "rotate-180" : "rotate-0"
+                                                        }`}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            {isDropDownOpen && (
+                                                <div className={`${isDropDownOpen ? "max-h-[100px]" : "h-0"} transition-all duration-300 select-none options-container  overflow-y-auto absolute mt-1 bg-white border border-gray-400 w-full rounded-b-lg shadow-lg `}>
+                                                    {(user?.cards).map((option, i) => (
+                                                        <div
+                                                            key={i}
+                                                            className={`font-medium option hover:bg-gray-200 relative py-[6px] px-[8px] text-[13px]  cursor-pointer ${addData.card_number === option.card_number
+                                                                ? "bg-gray-200"
+                                                                : ""
+                                                                }`}
+                                                            onClick={() => {
+                                                                setAddData({
+                                                                    ...addData,
+                                                                    card_number: option.card_number
+                                                                });
+                                                                setIsDropDownOpen(false);
+                                                            }}
+                                                        >
+                                                            {option.card_number}{' '}({option.card_type})
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div>
                         <label htmlFor="title">Title<span className='text-red-500'>*</span></label>
                         <input onChange={(e) => setAddData({ ...addData, title: e.target.value })} type="text" name="title" id="title" className='w-full border border-gray-300 rounded px-2 py-1' />
@@ -121,9 +187,29 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
                     </div>
                     <div>
                         <label htmlFor="category">Category<span className='text-red-500'>*</span></label>
-                        <select onChange={(e) => setAddData({ ...addData, category: e.target.value })} type="text" name="category" id="category" className='w-full border border-gray-300 rounded px-2 py-1' >
-                            {expenseOrIncome === "Income" ? IncomeCategory.map((item, index) => <option key={index}>{item}</option>) : ExpenseCategory.map((item, index) => <option key={index}>{item}</option>)}
+                        <select onChange={(e) => {
+                            if (e.target.value === "other") {
+                                setIsOtherShow(true)
+                                return
+                            }
+                            setIsOtherShow(false)
+                            setAddData({ ...addData, category: (e.target.value).toLowerCase() })
+                        }} type="text" name="category" id="category" className='w-full border border-gray-300 rounded px-2 py-1' >
+                            {expenseOrIncome === "Income" ? (categories.incomes.length > 0 && (categories.incomes).map((item, index) => <option className={``} key={index}>{item}</option>)) : (categories.expenses.length > 0 && (categories.expenses).map((item, index) => <option className={``} key={index}>{item}</option>))}
                         </select>
+                    </div>
+                    <div className={`${isOtherShow ? "block" : "hidden"}`} >
+                        <label htmlFor="other">Other Category<span className='text-red-500'>*</span></label>
+                        <input onChange={(e) => {
+                            const userCategory = localStorage.getItem("userCategory")
+                            if (userCategory) {
+                                if (userCategory.includes(e.target.value)) {
+                                    setAddData({ ...addData, category: (e.target.value).toLowerCase() })
+                                    return
+                                }
+                            }
+                            setAddData({ ...addData, category: (e.target.value).toLowerCase() })
+                        }} type="text" name="other" id="other" className='w-full border border-gray-300 rounded px-2 py-1' />
                     </div>
                     <div>
                         <label htmlFor="date">Date<span className='text-red-500'>*</span></label>
@@ -131,6 +217,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
                             defaultValue={new Date().toISOString().split("T")[0]}
                             name="date" id="date" className='w-full border border-gray-300 rounded px-2 py-1' />
                     </div>
+
                     {response?.message ? (
                         <p className={`${response.type === "success" ? "text-emerald-500" : "text-red-500"} text-sm`}>{response.message}</p>
                     ) : null}
@@ -158,31 +245,32 @@ export default Add
 
 
 export const ExpenseCategory = [
-    "Rent",
-    "Utilities",
-    "Groceries",
-    "Transportation",
-    "Healthcare/Medical",
-    "Insurance",
-    "Education",
-    "Entertainment",
-    "Dining Out",
-    "Clothing",
-    "Debt Payments",
-    "Savings/Investments",
-    "Gifts/Donations",
-    "Miscellaneous",
+    "rent",
+    "utilities",
+    "groceries",
+    "transportation",
+    "healthcare/medical",
+    "insurance",
+    "education",
+    "entertainment",
+    "dining Out",
+    "clothing",
+    "debt payments",
+    "savings/investments",
+    "gifts/donations",
+    "miscellaneous",
+    "other",
 ]
 
 export const IncomeCategory = [
-    "Salary",
-    "Freelancing",
-    "Business",
-    "Investments",
-    "Interest",
-    "Rental Income",
-    "Dividends",
-    "Gifts",
-    "Bonuses",
-    "Others",
+    "salary",
+    "freelancing",
+    "business",
+    "investments",
+    "interest",
+    "rental income",
+    "dividends",
+    "gifts",
+    "bonuses",
+    "other",
 ]
