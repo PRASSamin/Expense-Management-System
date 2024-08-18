@@ -14,9 +14,7 @@
     "env": {
       "BUILD_START": "echo \"BUILD START\"",
       "BUILD_END": "echo \"BUILD END\""
-    }
-  },
-  "scripts": {
-    "build": "npm install --legacy-peer-deps && npm run build"
+    },
+    "command": "npm install --legacy-peer-deps && npm run build"
   }
 }
