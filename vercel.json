@@ -7,17 +7,20 @@
       "use": "@vercel/node",
       "config": { 
         "maxLambdaSize": "15mb", 
-        "runtime": "nodejs18.x",
-        "installCommand": "echo 'Skipping additional install'"
+        "runtime": "nodejs18.x"
       }
     },
     {
-      "src": "build_files.sh",
+      "src": "build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "installCommand": "echo 'Skipping additional install'"
+        "distDir": "dist"
       }
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--legacy-peer-deps"
+    }
+  }
 }
