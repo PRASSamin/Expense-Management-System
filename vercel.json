@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "regions": ["iad1"],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "build": {
+    "env": {
+      "BUILD_START": "echo \"BUILD START\"",
+      "BUILD_END": "echo \"BUILD END\""
+    }
+  },
+  "scripts": {
+    "build": "npm install --legacy-peer-deps && npm run build"
+  }
+}
