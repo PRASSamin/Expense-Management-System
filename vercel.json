@@ -5,13 +5,18 @@
     {
       "src": "package.json",
       "use": "@vercel/node",
-      "config": { "maxLambdaSize": "15mb", "runtime": "nodejs18.x" }
+      "config": { 
+        "maxLambdaSize": "15mb", 
+        "runtime": "nodejs18.x",
+        "installCommand": "echo 'Skipping additional install'"
+      }
     },
     {
       "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "installCommand": "echo 'Skipping additional install'"
       }
     }
   ]
