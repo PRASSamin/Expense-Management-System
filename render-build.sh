@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -o errexit
 
-npm install --legacy-peer-deps
-npm run build
+npm config set legacy-peer-deps true
