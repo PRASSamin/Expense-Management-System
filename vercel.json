@@ -4,17 +4,15 @@
   "builds": [
     {
       "src": "package.json",
+      "use": "@vercel/node",
+      "config": { "maxLambdaSize": "15mb", "runtime": "nodejs18.x" }
+    },
+    {
+      "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
       }
     }
-  ],
-  "build": {
-    "env": {
-      "BUILD_START": "echo \"BUILD START\"",
-      "BUILD_END": "echo \"BUILD END\""
-    },
-    "command": "npm install --legacy-peer-deps && npm run build"
-  }
+  ]
 }
