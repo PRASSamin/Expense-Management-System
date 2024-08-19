@@ -185,7 +185,7 @@ export const ExpandedComponent = ({ data }) => {
             </div>
             <div >
                 <label htmlFor="Date">Card: </label>
-                <input type="text" readOnly value={`${data.card.card_number} (${data.card.card_type})`} />
+                <input type="text" readOnly value={`${data?.card?.card_number} (${data?.card?.card_type})`} />
             </div>
             <div className='flex gap-2'>
                 <label htmlFor="Date">Description: </label>
@@ -247,7 +247,7 @@ export const columns = [
     },
     {
         name: 'Card',
-        selector: row => row.card.card_number
+        selector: row => row?.card?.card_number
     }
 ]
 
