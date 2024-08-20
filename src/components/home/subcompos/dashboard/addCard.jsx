@@ -218,7 +218,7 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
                             className={`${isProcessing ? 
                                 'px-[36.3px] py-[10.5px]' : 'px-3 py-2'
                             }  text-white bg-emerald-500 hover:bg-emerald-600 rounded `}>
-                            {!confirm ? 'Confirm ?' : isProcessing ? (
+                            {confirm ? 'Confirm ?' : isProcessing ? (
                                 <Spinner/>
                             ) : 'Add Card'}
                         </button>
