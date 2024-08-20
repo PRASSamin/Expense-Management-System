@@ -1,1 +1,1 @@
-from CMS.wsgi import application
+from Expense_Management_System.wsgi import application

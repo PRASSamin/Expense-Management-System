@@ -94,6 +94,12 @@ WSGI_APPLICATION = 'Expense_Management_System.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+            'charset': 'utf8mb4',
+            'use_unicode': True,
+        },
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv("MYSQL_DATABASE"),
         'USER': os.getenv("MYSQL_USER"),
