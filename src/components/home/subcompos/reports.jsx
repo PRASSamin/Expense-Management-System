@@ -41,20 +41,6 @@ const Reports = ({ userData }) => {
         }
     }, [userData])
 
-    const calculateBalance = ({ incomes = [], expenses = [] }) => {
-        const totalIncomes = incomes.reduce((total, { amount }) => total + parseFloat(amount), 0);
-        const totalExpenses = expenses.reduce((total, { amount }) => total + parseFloat(amount), 0);
-
-        const balance = totalIncomes - totalExpenses;
-
-        const balanceData = {
-            totalIncomes: totalIncomes,
-            totalExpenses: totalExpenses,
-            totalBalance: balance === 0 ? 0 : balance.toFixed(2)
-        }
-
-        return balanceData;
-    }
 
 
 
@@ -140,3 +126,20 @@ const Reports = ({ userData }) => {
 }
 
 export default Reports
+
+
+
+export const calculateBalance = ({ incomes = [], expenses = [] }) => {
+    const totalIncomes = incomes.reduce((total, { amount }) => total + parseFloat(amount), 0);
+    const totalExpenses = expenses.reduce((total, { amount }) => total + parseFloat(amount), 0);
+
+    const balance = totalIncomes - totalExpenses;
+
+    const balanceData = {
+        totalIncomes: totalIncomes,
+        totalExpenses: totalExpenses,
+        totalBalance: balance === 0 ? 0 : balance.toFixed(2)
+    }
+
+    return balanceData;
+}

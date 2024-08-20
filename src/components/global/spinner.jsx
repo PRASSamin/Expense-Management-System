@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Spinner = ({ bgColor, frColor, svgClassName, className }) => {
+const spinner = ({ bgColor, frColor, svgClassName, className }) => {
     return (
         <div className={`w-full h-full flex items-center justify-center ${className}`}>
                     <svg className={`${bgColor} ${svgClassName} animate-spin`} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ const Spinner = ({ bgColor, frColor, svgClassName, className }) => {
     )
 }
 
-export default Spinner
+export default spinner

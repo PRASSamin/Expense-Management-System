@@ -104,7 +104,7 @@ const Home = () => {
           </li> : null}
         </ul>
       </section>
-      <section className={`w-full bg-[#F8F8FA] h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' ? "pras-ov" : ""}`}>
+      <section className={`w-full bg-[#F8F8FA] h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' || activeTab === 'cards' ? "pras-ov" : ""}`}>
         <div className={`w-full h-[60px] bg-[#ffffff] py-3 flex items-center shadow-sm z-10 justify-between absolute top-0 left-0`}>
           <h1 className="sr-only">Top Header</h1>
           <button  onClick={() => {

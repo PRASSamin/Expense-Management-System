@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import DataTable from 'react-data-table-component';
 import Cookies from 'js-cookie'
-import Spinner from '../../../global/spinner'
+import spinner from '../../../global/spinner'
 import Alert from '../../../global/alert';
 
 
@@ -143,7 +143,7 @@ const RecentActs = ({ isRefresh, setIsRefresh, userData }) => {
                     <button onClick={() => {
                         deleteRows(selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData, setRemoveResponse)
                     }} className=' bg-gray-500 w-20 py-1 rounded'>
-                        {isDeleting ? <Spinner className="transition-all duration-300 py-[3px]" bgColor="bg-gray-500" frColor="text-black" svgClassName="w-[18px] h-[18px]" /> : "Delete"}
+                        {isDeleting ? <spinner className="transition-all duration-300 py-[3px]" bgColor="bg-gray-500" frColor="text-black" svgClassName="w-[18px] h-[18px]" /> : "Delete"}
                     </button>
                 </div>
             </div>
@@ -262,6 +262,13 @@ export const conditionalRowStyles = [
     },
     {
         when: row => row.type === 'Income',
+        style: {
+            backgroundColor: '#d4edda',
+            color: '#155724',
+        }
+    },
+    {
+        when: row => row.type === 'Restore Credit',
         style: {
             backgroundColor: '#d4edda',
             color: '#155724',

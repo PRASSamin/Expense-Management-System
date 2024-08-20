@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import cookies from 'js-cookie';
 import { getMyData } from '../../../../utils';
 import valid from 'card-validator';
+import { Spinner } from '../card/detailedCard';
+import { useAppContext } from '../../../../root';
 
-const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh }) => {
+const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
     const [addData, setAddData] = useState({
         card_type: '',
         card_category: '',
@@ -13,11 +15,15 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRef
         cardholder_name: '',
         cvv: '',
         bank_name: '',
-        is_default: false
+        is_default: false,
+        credit_limit: 0,
+        interest_rate: 0,
     });
     const [errors, setErrors] = useState({});
     const [isProcessing, setIsProcessing] = useState(false);
     const [response, setResponse] = useState(null);
+    const [confirm, setConfirm] = useState(false);
+    const { refreshApp } = useAppContext();
 
     const validate = () => {
         let validationErrors = {};
@@ -26,7 +32,6 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRef
         if (!cardNumberValidation.isValid) {
             validationErrors.card_number = 'Invalid card number';
         } else {
-            console.log(cardNumberValidation)
             setAddData({ ...addData, card_type: cardNumberValidation.card.type });
         }
 
@@ -53,7 +58,10 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRef
 
         if (!validate()) return;
 
-        if (!addData.card_type) return;
+        if (!addData.card_type) {
+            setConfirm(true);
+            return};
+            setConfirm(false);
         setIsProcessing(true);
         setResponse(null);
         try {
@@ -65,15 +73,18 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRef
         cardholder_name: addData.cardholder_name,
         cvv: addData.cvv,
         bank_name: addData.bank_name,
-        is_default: addData.is_default
+        is_default: addData.is_default,
+        credit_limit: addData.credit_limit,
+        interest_rate: addData.interest_rate
             });
 
             const userRes = await getMyData(user.userUID)
-            cookies.set('userData', userRes.data);
+            cookies.set('userData', userRes.data, { expires: 30 });
             setIsShow(false);
             setIsRefresh(true);
             setAddData(null);
             setResponse(null);
+            refreshApp();
             e.target.reset();
         } catch (err) {
             setResponse({ type: "error", message: err?.response?.data?.message });
@@ -147,20 +158,45 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRef
                         {errors.cardholder_name && <p className="text-red-500 text-sm">{errors.cardholder_name}</p>}
                     </div>
 
-                    <div>
+{
+                        addData?.card_category === "Credit" ? <div className='flex flex-col md:flex-row gap-2'>
+                            <div className='w-full'>
                         <label htmlFor="cvv">CVV<span className='text-red-500'>*</span></label>
                         <input onChange={(e) => setAddData({ ...addData, cvv: e.target.value })}
                             type="number" name="cvv" id="cvv"
                             className=' number-input w-full border border-gray-300 rounded px-2 py-1' required />
                         {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
                     </div>
-
+                            <div className='w-full'>
+                        <label htmlFor="credit_limit">Credit Limit<span className='text-red-500'>*</span></label>
+                        <input onChange={(e) => setAddData({ ...addData, credit_limit: e.target.value })}
+                            type="text" name="credit_limit" id="credit_limit"
+                            className='w-full border border-gray-300 rounded px-2 py-1' />
+                    </div>
+                            <div className='w-full'>
+                        <label className='truncate' htmlFor="interest_rate">Annual Interest Rate (%)<span className='text-red-500'>*</span></label>
+                        <input onChange={(e) => setAddData({ ...addData, interest_rate: e.target.value })}
+                            type="text" name="interest_rate" id="interest_rate"
+                            className='w-full border border-gray-300 rounded px-2 py-1' />
+                    </div>
+                        </div> : (
+                             <div>
+                             <label htmlFor="cvv">CVV<span className='text-red-500'>*</span></label>
+                             <input onChange={(e) => setAddData({ ...addData, cvv: e.target.value })}
+                                 type="number" name="cvv" id="cvv"
+                                 className=' number-input w-full border border-gray-300 rounded px-2 py-1' required />
+                             {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
+                         </div>
+                        )
+                    }
                     <div>
-                        <label htmlFor="bank_name">Bank Name</label>
+                        <label htmlFor="bank_name">Bank Name<span className='text-red-500'>*</span></label>
                         <input onChange={(e) => setAddData({ ...addData, bank_name: e.target.value })}
                             type="text" name="bank_name" id="bank_name"
                             className='w-full border border-gray-300 rounded px-2 py-1' />
                     </div>
+
+                    
 
                     <div className="flex justify-between col-span-1 lg:col-span-2">
                         <div className="flex flex-col sm:flex-row gap-1 sm:items-center">
@@ -179,13 +215,17 @@ const AddCard = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRef
 
                     <div className='flex justify-end'>
                         <button type="submit" disabled={isProcessing}
-                            className='p-3 text-white bg-emerald-500 hover:bg-emerald-600 rounded'>
-                            {isProcessing ? 'Processing...' : 'Add Card'}
+                            className={`${isProcessing ? 
+                                'px-[36.3px] py-[10.5px]' : 'px-3 py-2'
+                            }  text-white bg-emerald-500 hover:bg-emerald-600 rounded `}>
+                            {!confirm ? 'Confirm ?' : isProcessing ? (
+                                <Spinner/>
+                            ) : 'Add Card'}
                         </button>
                     </div>
 
                     {response && (
-                        <div className={`p-4 mt-4 rounded ${response.type === "error" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
+                        <div className={`py-2 px-3 rounded ${response.type === "error" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
                             {response.message}
                         </div>
                     )}

@@ -22,7 +22,7 @@ const QuickAcc = ({ setIsAddShow, setAddExpenseOrIncome, isAddShow }) => {
               <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
             </svg>
           </div>
-          <h1 className=' text-[#000] text-[12px] md:text-[14px] font-[500] font-bold text-left'>+New Income</h1>
+          <h1 className=' text-[#000] text-[12px] md:text-[14px] font-[500] font-bold text-left '>+New Income</h1>
         </button>
         <button onClick={() => {
           if (!Cookies.get('userData')) {

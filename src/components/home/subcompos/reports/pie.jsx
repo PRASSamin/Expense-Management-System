@@ -11,7 +11,7 @@ const IncomeExpensePieChart = ({ data, type, className, currency }) => {
     let filteredData;
     let categories;
 
-    if (type === 'income') {
+    if (type === 'income' || type === 'Credit Payment') {
         filteredData = incomes;
         categories = [...new Set(incomes.map(item => item.category))];
     } else if (type === 'expense') {
