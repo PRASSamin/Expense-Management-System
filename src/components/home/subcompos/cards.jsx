@@ -4,12 +4,15 @@ import Cards from 'react-credit-cards-2';
 import 'react-credit-cards/es/styles-compiled.css';
 import Cookies from 'js-cookie';
 import DetailedCard from './card/detailedCard';
+import { useNavigate } from 'react-router-dom';
 
 const UserCards = ({ userData }) => {
     const [cards, setCards] = useState([]);
     const [flippedIndex, setFlippedIndex] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleMouseEnter = (index) => {
         setFlippedIndex(index);
@@ -87,13 +90,13 @@ const UserCards = ({ userData }) => {
                     </svg>
                 </div>
             ) : cards.length === 0 ? (
-                !Cookies.get('userData')?(
+                !Cookies.get('userData') ? (
                     <div className='col-span-1 md:col-span-2 flex items-center justify-center h-[calc(100vh-60px)]'>
                         <button onClick={() => navigate('/login')} className='bg-[#00EA79] rounded-md shadow hover:bg-[#006cd8] transition-all duration-300 '>
                             <h1 className='text-[#000] text-[14px] md:text-[16px] font-[500] font-bold  px-3 py-3'>Login required</h1>
                         </button>
                     </div>
-                ):(<div className='absolute top-1/2 translate-y-[-50%] w-full h-full flex items-center justify-center py-10 col-span-1 /md:col-span-2'><p className='text-center text-[15px] font-[500] text-gray-500'>No cards found</p></div>)
+                ) : (<div className='absolute top-1/2 translate-y-[-50%] w-full h-full flex items-center justify-center py-10 col-span-1 /md:col-span-2'><p className='text-center text-[15px] font-[500] text-gray-500'>No cards found</p></div>)
             ) : (
                 <div className='grid pt-[10px] pb-[20px] grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
                     {cards.map((card, i) => (
@@ -109,7 +112,7 @@ const UserCards = ({ userData }) => {
                                     <Cards
                                         cvc={''}
                                         expiry={formatExpiryDate(card.expiry_date)}
-                                        name={card.is_default ?`${card.cardholder_name}(Default)` : card.cardholder_name }
+                                        name={card.is_default ? `${card.cardholder_name}(Default)` : card.cardholder_name}
                                         number={card.card_number}
                                         issuer={CardTypeFormatter(card.card_type)}
                                         preview={true}

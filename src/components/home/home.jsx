@@ -14,7 +14,7 @@ import UserCards from './subcompos/cards'
 const Home = () => {
   const [userData, setUserData] = useState(null)
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [activeTab, setActiveTab] = useState('cards')
+  const [activeTab, setActiveTab] = useState('dashboard')
   const navigate = useNavigate()
 
   useEffect(() => {
