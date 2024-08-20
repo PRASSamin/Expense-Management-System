@@ -1,0 +1,1 @@
+from CMS.wsgi import application
