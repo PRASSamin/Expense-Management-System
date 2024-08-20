@@ -1,7 +1,8 @@
 import random
 from django.core.management.base import BaseCommand
 from faker import Faker
-from api.models import ExpenseIncome, CustomUser
+from api.models import ExpenseIncome, CustomUser, Card
+from django.shortcuts import get_object_or_404
 
 ExpenseCategory = [
     "Rent", "Utilities", "Groceries", "Transportation",
@@ -45,6 +46,7 @@ class Command(BaseCommand):
                 category = random.choice(income_categories)
 
             ExpenseIncome.objects.create(
+                card=get_object_or_404(Card, card_number='6200000000000005'),
                 user=user,
                 title=title,
                 amount=amount,

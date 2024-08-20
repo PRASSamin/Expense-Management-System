@@ -13,7 +13,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
-    list_display = ['user', 'card_type', 'card_number', 'expiry_date', 'is_active']
+    list_display = ['user', 'card_type', 'card_category', 'card_number', 'expiry_date', 'is_active']
     search_fields = ['user__username', 'card_number']
 
 @admin.register(ExpenseIncome)

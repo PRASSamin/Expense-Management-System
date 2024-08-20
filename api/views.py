@@ -9,13 +9,15 @@ import logging
 from dotenv import load_dotenv
 from django.contrib.auth import authenticate
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 import jwt
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.db import transaction
+from django.utils import timezone
 from decimal import Decimal
+from django.db.models import Q
 
 load_dotenv()
 
@@ -116,13 +118,40 @@ def Register(request):
 def AddExpenseIncome(request):
     try:
         data = json.loads(request.body)
-        if not data:
-            return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+        if not data or 'amount' not in data or Decimal(data['amount']) <= 0:
+            return JsonResponse({"status": "error", "message": "Invalid or missing amount."}, status=400)
 
         user = get_object_or_404(CustomUser, userUID=data['userUID'])
         card = get_object_or_404(Card, card_number=data['card_number'])
 
         with transaction.atomic():
+            balance_record = get_object_or_404(Balance, card=card)
+
+            if card.card_category == 'Debit':
+                if data['type'] == 'Expense':
+                    new_balance = balance_record.balance - Decimal(data['amount'])
+                elif data['type'] == 'Income':
+                    new_balance = balance_record.balance + Decimal(data['amount'])
+                else:
+                    return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
+
+                balance_record.balance = new_balance
+                balance_record.save()
+
+            elif card.card_category == 'Credit':
+                if data['type'] == 'Expense':
+                    if Decimal(data['amount']) > balance_record.available_credit:
+                        return JsonResponse({"status": "error", "message": "Request declined, Not enough credit available"}, status=400)
+
+                    new_credit_used = round(balance_record.credit_used + Decimal(data['amount']), 2)
+                    balance_record.credit_used = new_credit_used
+                    balance_record.available_credit = round(card.credit_limit - new_credit_used, 2)
+                    
+                else:
+                    return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
+
+                balance_record.save()
+
             add = ExpenseIncome.objects.create(
                 user=user,
                 title=data['title'],
@@ -134,22 +163,6 @@ def AddExpenseIncome(request):
                 card=card
             )
 
-            balance_record = Balance.objects.filter(card=card).first()
-            if not balance_record:
-                return JsonResponse({"status": "error", "message": "Balance record not found for the card"}, status=400)
-
-            current_balance = balance_record.balance
-
-            if data['type'] == 'Expense':
-                new_balance = current_balance - Decimal(data['amount'])
-            elif data['type'] == 'Income':
-                new_balance = current_balance + Decimal(data['amount'])
-            else:
-                return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
-
-            balance_record.balance = new_balance
-            balance_record.save()
-
         return JsonResponse({"status": "success", "message": f"{data['type']} added successfully with id: {add.id}", "data": add.id}, status=201)
 
     except json.JSONDecodeError:
@@ -158,6 +171,7 @@ def AddExpenseIncome(request):
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
     
+
 
 @require_http_methods(["GET"])
 def GetExpenseIncome7Days(request):
@@ -235,21 +249,24 @@ def getIncomesOrExpenses(request):
 
     return JsonResponse({"status": "success", "data": serialized_data, "totalEntries": paginator.count}, status=200)
 
-
 @require_http_methods(["GET"])
 def getAllDatas(request):
-    user = request.GET.get('u', None)
+    userUID = request.GET.get('u', None)
 
-    if not user:
+    if not userUID:
         return JsonResponse({"status": "error", "message": "User not specified"}, status=400)
 
+    user = get_object_or_404(CustomUser, userUID=userUID)
+    from django.db.models import Q
+
     incomes = ExpenseIncome.objects.filter(
-        user=get_object_or_404(CustomUser, userUID=user),
-        type='Income'
+        Q(user=user) & (Q(type='Income') | Q(type='Restore Credit'))
     ).order_by('-created_at')
 
+
+
     expenses = ExpenseIncome.objects.filter(
-        user=get_object_or_404(CustomUser, userUID=user),
+        user=user,
         type='Expense'
     ).order_by('-created_at')
 
@@ -265,34 +282,44 @@ def getAllDatas(request):
 @csrf_exempt
 def AddCard(request):
     data = json.loads(request.body)
-
-    uid = request.GET.get('u', None)
+    uid = request.GET.get('u')
 
     if not data:
         return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
-    
+
     if Card.objects.filter(card_number=data['card_number']).exists():
         return JsonResponse({"status": "error", "message": "Card already exists"}, status=400)
+
+    user = get_object_or_404(CustomUser, userUID=uid)
+    current_month_year = datetime.now().strftime("%m/%Y")
     
-    add = Card.objects.create(
-        user=get_object_or_404(CustomUser, userUID=uid),
-        card_type=data['card_type'],
-        card_number=data['card_number'],
-        card_category=data['card_category'],
-        expiry_date=data['expiry_date'],
-        cvv=data['cvv'],
-        cardholder_name=data['cardholder_name'],
-        is_default=data['is_default']
-    )
+    is_active = data['expiry_date'] >= current_month_year
+    is_default = data['is_default'] and is_active
+    
+    card_data = {
+        'user': user,
+        'card_type': data['card_type'],
+        'card_number': data['card_number'],
+        'card_category': data['card_category'],
+        'expiry_date': data['expiry_date'],
+        'cvv': data['cvv'],
+        'cardholder_name': data['cardholder_name'],
+        'is_default': is_default,
+        'is_active': is_active,
+    }
 
-    Balance.objects.create(
-        card=add,
-        balance=0
-    )
+    if data['card_category'] == 'Credit':
+        card_data.update({
+            'interest_rate': data['interest_rate'],
+            'credit_limit': data['credit_limit'],
+        })
 
-    add.save()
-
+    card = Card.objects.create(**card_data)
+    Balance.objects.create(card=card, balance=0)
+    
     return JsonResponse({"status": "success", "message": "Card added successfully"}, status=200)
+
+
 
 @require_http_methods(["GET"])
 def getMyData(request):
@@ -319,7 +346,7 @@ def GetUserCards(request):
 
     user = get_object_or_404(CustomUser, userUID=uid)
 
-    cards = Card.objects.filter(user=user)
+    cards = Card.objects.filter(user=user).order_by('-is_active', '-created_at')
 
     data = CardSerializer(cards, many=True).data
 
@@ -365,7 +392,7 @@ def card_activation_and_defaultation(request):
     actions = {
         'default': lambda: setattr(card, 'is_default', True),
         'activate': lambda: setattr(card, 'is_active', True),
-        'deactivate': lambda: setattr(card, 'is_active', False)
+        'deactivate': lambda: (setattr(card, 'is_active', False), setattr(card, 'is_default', False))
     }
 
     if action in actions:
@@ -391,8 +418,71 @@ def getCardDetails(request):
         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
     
     card = get_object_or_404(Card, card_number=card_number, cvv=cvv, user__userUID=userUID)
+    related_expenses_incomes = ExpenseIncome.objects.filter(card=card)
+    balance = Balance.objects.get(card=card)
+    current_date = timezone.now().date()
 
-    if not card:
+    if card.card_category == 'Credit':
+        if balance.last_interest_update < current_date:
+            day_diff = (current_date - balance.last_interest_update).days
+            daily_interest_rate = card.interest_rate / 100 / 365
+            calc_interest = balance.credit_used * day_diff * daily_interest_rate
+            
+            balance.credit_used += calc_interest
+            balance.interest += calc_interest
+            balance.last_interest_update = current_date
+            balance.save()
+
+    balance_serializer = BalanceSerializer(balance).data
+    card_data = CardSerializer(card).data
+    expenses_incomes_data = ExpenseIncomeSerializer(related_expenses_incomes, many=True).data
+
+    return JsonResponse({
+        "status": "success",
+        "data": {
+            "card": card_data,
+            "expenses_incomes": expenses_incomes_data,
+            "balance": balance_serializer
+        }
+    }, status=200)
+
+
+require_http_methods(["POST"])
+@csrf_exempt
+def PayCredit(request):
+    card_number = request.GET.get('c')
+    cvv = request.GET.get('cvv')
+    userUID = request.GET.get('u')
+
+    if not card_number or not cvv or not userUID:  
         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
+    
+    card = get_object_or_404(Card, card_number=card_number, cvv=cvv, user__userUID=userUID)
+    user = get_object_or_404(CustomUser, userUID=userUID)
+    balance = Balance.objects.get(card=card)
+    current_date = timezone.now().date()
 
-    return JsonResponse({"status": "success", "data": CardSerializer(card).data}, status=200)
+    if card.card_category == 'Credit':
+        if balance.last_payment_date < current_date:
+            ExpenseIncome.objects.create(
+                user=user,
+                title='Credit Payment',
+                amount=balance.credit_used,
+                date=current_date,
+                description=f'Credit payment for card ending in {card.card_number[-4:]} from {user.first_name} {user.last_name} on {current_date}',
+                category='Credit Payment',
+                type='Restore Credit',
+                card=card
+            )
+
+            balance.credit_used = 0
+            balance.interest = 0
+            balance.last_payment_date = current_date
+            balance.available_credit = card.credit_limit
+            balance.save()
+
+            return JsonResponse({"status": "success", "message": "Card updated successfully"}, status=200)
+        else:
+            return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
+
+    return JsonResponse({"status": "error", "message": "Card not found"}, status=404)

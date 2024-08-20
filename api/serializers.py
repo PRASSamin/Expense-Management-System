@@ -6,14 +6,14 @@ class CardSerializer(serializers.ModelSerializer):
         model = Card
         fields = (
             'id', 'card_type', 'card_number', 'card_category', 'expiry_date', 
-            'cardholder_name', 'cvv', 'is_default', 'created_at', 'updated_at', 'is_active'
+            'cardholder_name', 'cvv', 'is_default', 'created_at', 'updated_at', 'is_active', 'credit_limit', 'interest_rate'
         )
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 class CardSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = ('card_number', 'card_type', 'expiry_date', 'is_default', 'is_active')
+        fields = ('card_number', 'card_type', 'expiry_date', 'is_default', 'is_active', 'card_category')
 
 class CustomUserSerializer(serializers.ModelSerializer):
     cards = CardSimpleSerializer(many=True, read_only=True)  
@@ -40,9 +40,15 @@ class CustomUserSimpleSerializer(serializers.ModelSerializer):
 
 class ExpenseIncomeSerializer(serializers.ModelSerializer):
     user = CustomUserSimpleSerializer(read_only=True)
-    card = CardSerializer(read_only=True)
+    card = CardSimpleSerializer(read_only=True)
     class Meta:
         model = ExpenseIncome
         fields = ('id', 'title', 'amount', 'date', 'description', 'category', 'type', 'user', 'card')
 
 
+
+class BalanceSerializer(serializers.ModelSerializer):
+    card = CardSimpleSerializer(read_only=True)
+    class Meta:
+        model = Balance
+        fields = ('id', 'balance', 'credit_used', 'available_credit', 'last_payment_date', 'last_interest_update', 'interest', 'card')

@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/delete/card/', name="Delete Card", view=delete_card),
     path('api/card/activation-defaultation/', name="Card Activation Defaultation", view=card_activation_and_defaultation), 
     path('api/get/card/details/', getCardDetails, name='Get Card Details'),
+    path('api/pay/credit/', PayCredit, name='Pay Credit'),
 ]
 
 
