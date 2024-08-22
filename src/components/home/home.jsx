@@ -9,7 +9,7 @@ import Dashboard from './subcompos/dashboard'
 import Incomes from './subcompos/incomes'
 import Expenses from './subcompos/expenses'
 import Reports from './subcompos/reports'
-import UserCards from './subcompos/cards'
+import BankAccounts from './subcompos/baccounts'
 
 const Home = () => {
   const [userData, setUserData] = useState(null)
@@ -85,16 +85,15 @@ const Home = () => {
             </button>
           </li>
           <li className=''>
-            <button onClick={() => setActiveTab('cards')} type='button' className={`${activeTab === 'cards' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-credit-card-2-front" viewBox="0 0 16 16">
-  <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
-  <path d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
-</svg>
-              <span className={isCollapsed ? "hidden" : "block"}>Cards</span>
+            <button onClick={() => setActiveTab('accounts')} type='button' className={`${activeTab === 'accounts' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bank" viewBox="0 0 16 16">
+                <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z" />
+              </svg>
+              <span className={isCollapsed ? "hidden" : "block"}>Accounts</span>
             </button>
           </li>
-         {Cookies.get('userData') ? <li className='absolute bottom-3 left-1/2 -translate-x-1/2'>
-            <button onClick={() => LogOut()} type='button' className={`bg-[#ffffff] text-[#000000] font-bold hover:bg-[#d8d8d8] transition-all duration-300 flex items-center gap-2 ${isCollapsed ? 'p-2': 'px-3 py-2'} rounded w-full`}>
+          {Cookies.get('userData') ? <li className='absolute bottom-3 left-1/2 -translate-x-1/2'>
+            <button onClick={() => LogOut()} type='button' className={`bg-[#ffffff] text-[#000000] font-bold hover:bg-[#d8d8d8] transition-all duration-300 flex items-center gap-2 ${isCollapsed ? 'p-2' : 'px-3 py-2'} rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
                 <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
@@ -104,12 +103,12 @@ const Home = () => {
           </li> : null}
         </ul>
       </section>
-      <section className={`w-full bg-[#F8F8FA] h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' || activeTab === 'cards' ? "pras-ov" : ""}`}>
+      <section className={`w-full bg-[#F8F8FA] h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' || activeTab === 'accounts' ? "pras-ov" : ""}`}>
         <div className={`w-full h-[60px] bg-[#ffffff] py-3 flex items-center shadow-sm z-10 justify-between absolute top-0 left-0`}>
           <h1 className="sr-only">Top Header</h1>
-          <button  onClick={() => {
-              navigate('/')
-            }} className={`h-full ${isCollapsed ? "min-w-[50px]" : "min-w-[200px]"} transition-all duration-300 flex items-center justify-center border-r-[2px] border-[#f1f1f1]`}>
+          <button onClick={() => {
+            navigate('/')
+          }} className={`h-full ${isCollapsed ? "min-w-[50px]" : "min-w-[200px]"} transition-all duration-300 flex items-center justify-center border-r-[2px] border-[#f1f1f1]`}>
             <img onContextMenu={(e) => e.preventDefault()} src={isCollapsed ? prasmeOBJ : prasme} alt="prasme" className='h-full' />
           </button>
           <div className='flex items-center justify-end md:justify-between w-full'>
@@ -137,7 +136,7 @@ const Home = () => {
           </div>
         </div>
         {
-          activeTab === 'dashboard' ? <Dashboard userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'cards' ? <UserCards userData={userData}/> : <Reports userData={userData} />}
+          activeTab === 'dashboard' ? <Dashboard userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'accounts' ? <BankAccounts userData={userData} /> : <Reports userData={userData} />}
       </section>
     </div>
   )

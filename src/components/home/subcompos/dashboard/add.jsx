@@ -5,22 +5,6 @@ import { ClassNames } from '@emotion/react';
 
 const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh }) => {
 
-    const defaultCard = user?.cards?.find(card => {
-        if (expenseOrIncome === 'Income') {
-            return card?.is_default === true && card?.card_category === 'Debit';
-        } else {
-            return card?.is_default === true;
-        }
-    });
-    const [addData, setAddData] = useState({
-        amount: '',
-        category: '',
-        description: '',
-        title: '',
-        date: new Date().toISOString().split("T")[0],
-        card_number: defaultCard?.card_number || '',
-    });
-
 
     const dropdownRef = useRef(null);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -28,7 +12,55 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
     const [isOtherShow, setIsOtherShow] = useState(false);
     const [categories, setCategories] = useState({ expenses: [], incomes: [] });
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-    const [selectedCardType, setSelectedCardType] = useState(defaultCard?.card_category || 'Debit');
+    const [isAccountsFething, setIsAccountsFething] = useState(false);
+
+
+
+    const [accounts, setAccounts] = useState([]);
+
+    const defaultAccount = accounts?.find(account => {
+        return account?.is_default === true
+    });
+
+
+
+    const [addData, setAddData] = useState({
+        amount: '',
+        category: '',
+        description: '',
+        title: '',
+        date: new Date().toISOString().split("T")[0],
+        account_id: defaultAccount?.id || '',
+        account_label: defaultAccount?.account_type === 'cash' ? (
+            `${(defaultAccount?.account_name)?.split(' ')
+                ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                ?.join(' ')} (Cash)`
+        ) : (
+            `${defaultAccount?.account_number} (${defaultAccount?.account_type === 'mobile' ? `${defaultAccount?.mobile_bank}` :
+                defaultAccount?.account_type === 'debit' ? 'Debit Card' :
+                    defaultAccount?.account_type === 'credit' ? 'Credit Card' :
+                        defaultAccount?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+        )
+    });
+
+
+    useEffect(() => {
+        setAddData({
+            ...addData,
+            account_id: defaultAccount?.id,
+            account_label: defaultAccount?.account_type === 'cash' ? (
+                `${(defaultAccount?.account_name)?.split(' ')
+                    ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    ?.join(' ')} (Cash)`
+            ) : (
+                `${defaultAccount?.account_number} (${defaultAccount?.account_type === 'mobile' ? `${defaultAccount?.mobile_bank}` :
+                    defaultAccount?.account_type === 'debit' ? 'Debit Card' :
+                        defaultAccount?.account_type === 'credit' ? 'Credit Card' :
+                            defaultAccount?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+            )
+        })
+    }, [defaultAccount]);
+
 
 
     useEffect(() => {
@@ -45,6 +77,25 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
             incomes: arrangeCategories(IncomeCategory, storedCategories.income),
         });
     }, [isProcessing]);
+
+
+    const fetchAccounts = async () => {
+        setIsAccountsFething(true);
+
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_USER_BANK_ACCOUNTS_API_EP}?u=${user.userUID}`);
+            setAccounts(res.data.data);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsAccountsFething(false);
+        }
+
+    };
+
+    useEffect(() => {
+        fetchAccounts();
+    }, []);
 
 
     useEffect(() => {
@@ -85,7 +136,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                 title: addData.title,
                 userUID: user.userUID,
                 type: expenseOrIncome,
-                card_number: addData.card_number
+                account_id: addData.account_id
             });
 
             setIsShow(false);
@@ -124,67 +175,88 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                     </style>
                     <div>
                         <label htmlFor="gender"
-                            className={``} >Card<span className='text-red-500'>*</span></label>
+                            className={``} >Account<span className='text-red-500'>*</span></label>
                         <div className=' bg-[#EEF2F5]  rounded-md w-full border border-gray-300 flex items-center justify-center w-full py-2 px-1 gap-5'>
                             <div className='flex flex-col w-full'>
-                            <div ref={dropdownRef} className="z-20 relative">
-    <div className="select-component">
-        <div className="custom-select">
-            <div
-                className={`${addData?.card_number ? "text-[#000000]" : "text-[#a7a7a7]"} selected-option px-1 flex items-center justify-between text-[15px]`}
-                onClick={() => setIsDropDownOpen(!isDropDownOpen)}
-            >
-                {addData?.card_number ? addData.card_number : "Select Card"}
-                <svg
-                    className={`w-4 h-4 ml-2 inline-block transform ${isDropDownOpen ? "rotate-180" : "rotate-0"
-                        }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                >
-                    <path
-                        fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                    />
-                </svg>
-            </div>
-            {isDropDownOpen && (
-                <div className={`${isDropDownOpen ? "max-h-[100px]" : "h-0"} transition-all duration-300 select-none options-container overflow-y-auto absolute mt-1 bg-white border border-gray-400 w-full rounded-b-lg shadow-lg`}>
-                    {(expenseOrIncome === 'Income' ? 
-                        user?.cards.filter(card => card.card_category === 'Debit') : 
-                        user?.cards.filter(card => card.card_category === 'Credit' || card.card_category === 'Debit')
-                    )
-                    .sort((a, b) => a.is_active === b.is_active ? 0 : a.is_active ? -1 : 1)
-                    .map((option, i) => (
-                        <button
-                            type="button"
-                            disabled={!option.is_active}
-                            key={i}
-                            className={`w-full text-left relative font-medium option hover:bg-gray-200 py-[6px] px-[8px] text-[13px] cursor-pointer ${addData.card_number === option.card_number ? "bg-gray-200" : ""}`}
-                            onClick={() => {
-                                setAddData({
-                                    ...addData,
-                                    card_number: option.card_number
-                                });
-                                setIsDropDownOpen(false);
-                                setSelectedCardType(option.card_category);
-                            }}
-                        >
-                            {option.card_number} ({option.card_type})
-                            {!option.is_active && (
-                                <div className="bg-[#000000]/30 absolute inset-0 flex items-center justify-center text-red-500 text-md font-bold">
-                                    Deactivated
+                                <div ref={dropdownRef} className="z-20 relative">
+                                    <div className="select-component">
+                                        <div className="custom-select">
+                                            <div
+                                                className={`${addData?.account_id ? "text-[#000000]" : "text-[#a7a7a7]"} selected-option px-1 flex items-center justify-between text-[15px]`}
+                                                onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+                                            >
+                                                {addData?.account_id ? addData?.account_label : "Select Account"}
+                                                <svg
+                                                    className={`w-4 h-4 ml-2 inline-block transform ${isDropDownOpen ? "rotate-180" : "rotate-0"
+                                                        }`}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            {isDropDownOpen && (
+                                                <div className={`${isDropDownOpen ? "max-h-[100px]" : "h-0"} transition-all duration-300 select-none options-container overflow-y-auto absolute mt-1 bg-white border border-gray-400 w-full rounded-b-lg shadow-lg`}>
+                                                    {accounts?.length === 0 ? (
+                                                        isAccountsFething ? (
+                                                            <div className='flex py-2 items-center justify-center w-full h-full'>
+                                                                <svg className="text-emerald-400 animate-spin w-[20px] h-[20px]" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path>
+                                                                    <path d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-800"></path>
+                                                                </svg>
+                                                            </div>
+                                                        ) : (
+                                                            <p className='text-center w-full text-left relative font-medium option hover:bg-gray-200 py-[6px] px-[8px] text-[13px] cursor-pointer' >No Accounts</p>
+                                                        )
+                                                    ) : accounts
+                                                        .map((option, i) => (
+                                                            <button
+                                                                type="button"
+                                                                key={i}
+                                                                className={`w-full text-left relative font-medium option hover:bg-gray-200 py-[6px] px-[8px] text-[13px] cursor-pointer ${addData.account_id === option.id ? "bg-gray-200" : ""}`}
+                                                                onClick={(e) => {
+                                                                    setAddData({
+                                                                        ...addData,
+                                                                        account_id: option.id,
+                                                                        account_label: option.account_type === 'cash' ? (
+                                                                            `${(option.account_name)?.split(' ')
+                                                                                ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                                                                ?.join(' ')} (Cash)`
+                                                                        ) : (
+                                                                            `${option.account_number} (${option?.account_type === 'mobile' ? `${option?.mobile_bank}` :
+                                                                                option?.account_type === 'debit' ? 'Debit Card' :
+                                                                                    option?.account_type === 'credit' ? 'Credit Card' :
+                                                                                        option?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+                                                                        )
+                                                                    });
+                                                                    setIsDropDownOpen(false);
+
+                                                                }}
+                                                            >
+                                                                {option.account_type === 'cash' ? (
+                                                                    `${(option.account_name)?.split(' ')
+                                                                        ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                                                        ?.join(' ')} (Cash)`
+                                                                ) : (
+                                                                    `${option.account_number} (${option?.account_type === 'mobile' ? `${option?.mobile_bank}` :
+                                                                        option?.account_type === 'debit' ? 'Debit Card' :
+                                                                            option?.account_type === 'credit' ? 'Credit Card' :
+                                                                                option?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+                                                                )}
+
+                                                            </button>
+                                                        ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            )}
-                        </button>
-                    ))}
-                </div>
-            )}
-        </div>
-    </div>
-</div>
 
 
                             </div>
@@ -211,7 +283,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                                 setIsOtherShow(true)
                                 return
                             }
-                            
+
                             setIsOtherShow(false)
                             setAddData({ ...addData, category: (e.target.value).toLowerCase() })
                         }} type="text" name="category" id="category" className='w-full border border-gray-300 rounded px-2 py-1' >

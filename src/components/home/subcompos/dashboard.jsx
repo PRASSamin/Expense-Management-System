@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Add from './dashboard/add'
 import QuickAcc from './dashboard/quickacc'
 import RecentActs from './dashboard/recentact'
-import AddCard from './dashboard/addCard'
+import AddBank from './dashboard/addBank'
 
 const Dashboard = ({userData}) => {
 
@@ -19,7 +19,7 @@ const Dashboard = ({userData}) => {
 
         
         {
-          isAddShow && addExpenseOrIncome !== "Card" ? <Add isShow={isAddShow} user={userData} setIsShow={setIsAddShow} setIsRefresh={setIsRefresh} expenseOrIncome={addExpenseOrIncome} /> : isAddShow && addExpenseOrIncome === "Card" ? <AddCard isShow={isAddShow} user={userData} setIsShow={setIsAddShow} setIsRefresh={setIsRefresh} expenseOrIncome={addExpenseOrIncome} /> : null
+          isAddShow && addExpenseOrIncome !== "Account" ? <Add isShow={isAddShow} user={userData} setIsShow={setIsAddShow} setIsRefresh={setIsRefresh} expenseOrIncome={addExpenseOrIncome} /> : isAddShow && addExpenseOrIncome === "Account" ? <AddBank isShow={isAddShow} user={userData} setIsShow={setIsAddShow} setIsRefresh={setIsRefresh} expenseOrIncome={addExpenseOrIncome} /> : null
         }
         </main>
   )

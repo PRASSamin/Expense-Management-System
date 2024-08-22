@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Breadcrumb } from 'antd';
-import Cards from 'react-credit-cards-2';
-import 'react-credit-cards/es/styles-compiled.css';
 import axios from 'axios';
 import Alert from '../../../global/alert';
 import { getMyData } from '../../../../utils';
@@ -13,12 +11,10 @@ import DataTable from 'react-data-table-component';
 import { calculateBalance } from '../reports';
 import Incomes from '../incomes';
 import { Tooltip } from 'react-tooltip'
-import RestoreCredit from './restoreCredit';
 
-const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData }) => {
-    const [isFlipped, setIsFlipped] = useState(false);
+const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userData }) => {
     const [response, setResponse] = useState(null);
-    const [card, setCard] = useState(null);
+    const [account, setAccount] = useState(null);
     const [isProcessing, setIsProcessing] = useState(true);
     const [isLoading, setIsLoading] = useState(null);
     const { refreshApp } = useAppContext();
@@ -29,19 +25,7 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
     const [isRefresh, setIsRefresh] = useState(false)
     const [totalBalance, setTotalBalance] = useState(0)
     const [balanceData, setBalanceData] = useState([])
-    const [wannaRestore, setWannaRestore] = useState(false)
 
-    const handleMouseEnter = () => {
-        setIsFlipped(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsFlipped(false);
-    };
-    const formatExpiryDate = (expiryDate) => {
-        const [month, year] = expiryDate?.split('-');
-        return `${month}/${year}`;
-    };
 
 
     const reSaveUserData = async (uid) => {
@@ -58,16 +42,16 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
     };
 
 
-    const fetchCardDetails = async () => {
+    const fetchAccountDetails = async () => {
         setSelectedRows([]);
         try {
             const res = await axios.get(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_CARD_DETAILS_API_EP}?c=${card_number}&u=${userUID}&cvv=${cvv}`
+                `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_BANK_ACCOUNT_DETAILS_API_EP}?q=${account_id}&u=${userUID}`
             );
 
             if (res.status === 200) {
                 const data = res.data.data;
-                setCard(data.card);
+                setAccount(data.account);
                 setExpenseIncomes(data.expenses_incomes);
                 setBalanceData(res.data.data.balance)
 
@@ -91,8 +75,8 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
 
 
 
-    const DeleteCard = async () => {
-        const url = `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_DELETE_CARD_API_EP}?c=${card.card_number}`
+    const DeleteAccount = async () => {
+        const url = `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_DELETE_BANK_ACCOUNT_API_EP}?q=${account.id}&u=${userUID}`
         setIsLoading("deleting")
 
         try {
@@ -107,7 +91,7 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
 
 
             if (res.status === 200) {
-                await fetchCards()
+                await fetchAccounts()
                 await reSaveUserData(userUID)
                 await refreshApp()
                 onClose()
@@ -118,39 +102,9 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
             setIsLoading(null)
         }
     }
-    const CardActivation = async (action) => {
-        const url = `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_CARD_ACTIVATION_AND_DEFAULTATION_API_EP}?c=${card.card_number}&a=${action}`
-        setIsLoading(action)
 
-
-        try {
-            const res = await axios.post(url,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-
-                    }
-                }
-            )
-
-            if (res.status === 200) {
-                await fetchCardDetails()
-                await reSaveUserData(userUID)
-                await refreshApp()
-
-                setResponse({
-                    status: 'success',
-                    message: res.data.message
-                })
-            }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setIsLoading(null)
-        }
-    }
-    const DefaultCard = async () => {
-        const url = `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_CARD_ACTIVATION_AND_DEFAULTATION_API_EP}?c=${card.card_number}&a=default`
+    const DefaultAccount = async () => {
+        const url = `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_ACCOUNT_DEFAULTATION_API_EP}?q=${account.id}&u=${userUID}`
 
         setIsLoading("defaulting")
 
@@ -165,7 +119,7 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
             )
 
             if (res.status === 200) {
-                await fetchCardDetails()
+                await fetchAccountDetails()
                 await reSaveUserData(userUID)
                 await refreshApp()
 
@@ -184,7 +138,7 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
 
     const fetch = async () => {
         setIsProcessing(true)
-        await fetchCardDetails()
+        await fetchAccountDetails()
         setIsProcessing(false)
     }
     useEffect(() => {
@@ -243,110 +197,64 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
                 ) : (
 
                     <div className="w-full mt-4">
-                        <Breadcrumb className='mb-10'>
-                            <Breadcrumb.Item onClick={onClose} className="cursor-pointer">Cards</Breadcrumb.Item>
-                            <Breadcrumb.Item>{card?.card_number}</Breadcrumb.Item>
+                        <Breadcrumb className='mb-6'>
+                            <Breadcrumb.Item onClick={onClose} className="cursor-pointer">Accounts</Breadcrumb.Item>
+                            <Breadcrumb.Item>{account?.account_number}</Breadcrumb.Item>
                         </Breadcrumb>
 
                         <Alert className={`mb-10 -mt-7 ${response ? "block" : "hidden"}`} status={response?.status} message={response?.message} onClose={setResponse} />
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10'>
                             <div className='w-full order-last lg:order-first lg:mt-0 mt-6'>
-                                <h1 className='text-2xl font-bold'>{card?.cardholder_name}</h1>
-                                <p className='text-lg'>{card?.card_number} ({card?.card_category})</p>
+                                <h1 className='text-2xl font-bold'>{account?.account_type === 'cash' ? `${account?.account_name}` : `
+                                    ${(account?.account_name).toUpperCase()}(${account?.account_number})
+                                `}</h1>
+                                <p className='text-[14px]'>{account?.account_type === 'mobile' ? `${'Mobile Wallet'} - ${account?.mobile_bank}` :
+                                        account?.account_type === 'debit' ? 'Debit Card' :
+                                            account?.account_type === 'credit' ? 'Credit Card' :
+                                                account?.account_type === 'genaral' ? 'Bank Account' : 'Cash'}</p>
 
 
                                 <div className='flex gap-2 lg:gap-3 flex-wrap mt-4'>
                                     <ActionButton
                                         buttonClass={'bg-red-300 text-red-800 hover:bg-red-200'}
-                                        onClick={DeleteCard}
+                                        onClick={DeleteAccount}
                                         isLoading={isLoading}
                                         loadingState='deleting'
                                         buttonText='Delete'
                                     />
-                                    <ActionButton
-                                        onClick={() => CardActivation(card?.is_active ? 'deactivate' : 'activate')}
-                                        isLoading={isLoading}
-                                        loadingState={card?.is_active ? 'deactivate' : 'activate'}
-                                        buttonText={card?.is_active ? 'Deactivate' : 'Activate'}
-                                        buttonClass={'bg-emerald-300 text-emerald-800 hover:bg-emerald-200'}
-                                    />
+                                
                                     <ActionButton
                                         onClick={() => {
-                                            if (card?.is_default) {
-                                                setResponse({ status: 'info', message: 'Card is already default' });
+                                            if (account?.is_default) {
+                                                setResponse({ status: 'info', message: 'Account is already default' });
                                                 return;
                                             }
-                                            if (!card?.is_active) {
-                                                setResponse({ status: 'info', message: 'Card is not active' });
-                                                return;
-                                            }
-                                            DefaultCard();
+                                            
+                                            DefaultAccount();
                                         }}
                                         isLoading={isLoading}
                                         loadingState='defaulting'
-                                        buttonText={card?.is_default ? 'Default' : 'Set as default'}
+                                        buttonText={account?.is_default ? 'Default' : 'Set as default'}
                                         buttonClass={'bg-blue-300 text-blue-800 hover:bg-blue-200'}
                                     />
-                                    {card?.card_category === 'Credit' && <ActionButton
-                                        onClick={() => {
-                                            if (!card?.is_active) {
-                                                setResponse({ status: 'info', message: 'Card is not active' });
-                                                return;
-                                            }
-                                            setWannaRestore(true)
-                                        }}
-                                        isLoading={isLoading}
-                                        loadingState='restoring'
-                                        buttonText={'Restore Credits'}
-                                        buttonClass={'bg-purple-300 text-purple-800 hover:bg-purple-200'}
-                                    />}
+                                   
                                 </div>
 
                             </div>
-                            <div className=' flex items-center justify-center lg:justify-end'>
-                                <div
-                                    className='relative'
-                                    onMouseEnter={() => handleMouseEnter()}
-                                    onMouseLeave={handleMouseLeave}
-
-                                >
-                                    <div className={`card-inner ${isFlipped ? 'flipped' : ''}`}>
-                                        <div className="card-front">
-                                            <Cards
-                                                cvc={''}
-                                                expiry={formatExpiryDate(card?.expiry_date)}
-                                                name={card?.cardholder_name}
-                                                number={card?.card_number}
-                                                issuer={card?.card_type.toLowerCase()}
-                                                preview={true}
-                                            />
-                                        </div>
-                                        <div className="card-back">
-                                            <Cards
-                                                cvc={`${card?.cvv}`}
-                                                expiry={formatExpiryDate(card?.expiry_date)}
-                                                name={card?.cardholder_name}
-                                                number={card?.card_number}
-                                                issuer={card?.card_type.toLowerCase()}
-                                                preview={true}
-                                                focused="cvc"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
 
-                        {card?.card_category === "Debit" ? (
+                         
                             <div className='flex flex-col gap-2 my-5'>
                                 <div className='flex flex-col mt-3 lg:mt-0'>
-                                    <h1 className='text-2xl font-medium'>Card Balance</h1>
+                                    <h1 className='text-2xl font-medium'>Account Balance</h1>
                                     <h1 className={`text-3xl font-bold ${parseInt(totalBalance?.totalBalance) > 0 ? 'text-green-500' : 'text-red-500'}`}>{totalBalance?.totalBalance} {userData?.currency_type}</h1>
                                 </div>
                                 <div className='w-full py-3 bg-white shadow rounded grid grid-cols-1 sm:grid-cols-2 place-items-center'>
                                     <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-r border-b sm:border-b-0 py-5'>
                                         <h1 className='text-lg md:text-xl font-bold'>Incomes</h1>
                                         <h1 className='text-green-500 text-sm  md:text-md'>{(totalBalance?.totalIncomes).toFixed(2)} {userData?.currency_type}</h1>
+                                      
                                     </div>
                                     <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-l border-t sm:border-t-0 py-5'>
                                         <h1 className=' text-lg md:text-xl font-bold'>Expenses</h1>
@@ -356,29 +264,7 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
 
                                 </div>
                             </div>
-                        ) : (
-                            <div className='flex flex-col gap-2 my-5'>
-                                <div className='w-full py-14 bg-white shadow rounded grid grid-cols-1 place-items-center relative'>
-                                    <h1 className='text-[12px] absolute top-1 right-2 text-gray-500 font-bold'>Interest Rate: {card?.interest_rate}%</h1>
-                                    <div className='flex  gap-1 items-center justify-center rotate-45'>
-                                        <div className='flex w-full flex-col gap-1 items-center justify-center pt-5 -rotate-45'>
-
-                                            <h1 data-tooltip-id="credit_used" data-tooltip-content="Credit Used" className=' flex items-start justify-start text-green-500 font-bold text-lg  md:text-xl cursor-pointer'> {(balanceData?.credit_used)}</h1><Tooltip id='credit_used' placement='top'></Tooltip>
-                                        </div>
-                                        <div className='w-1 h-20 bg-gray-400 rounded mx-2' />
-
-                                        <div className='flex w-full flex-col gap-1 items-center justify-center pb-5 -rotate-45'>
-                                            <h1
-                                                data-tooltip-id="credit_limit" data-tooltip-content="Credit Limit"
-                                                className='text-green-500 font-bold  text-lg  md:text-xl'>{parseInt(card?.credit_limit)}</h1>
-                                            <Tooltip id='credit_limit' placement='top'></Tooltip>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        )}
+                        
                         <div className=''>
                             <Alert onClose={setRemoveResponse} className={removeResponse ? "block" : "hidden"} message={removeResponse && removeResponse.message} status={removeResponse && removeResponse.type} />
                             <div className=' bg-[white] rounded shadow'>
@@ -450,18 +336,11 @@ const DetailedCard = ({ card_number, onClose, userUID, cvv, fetchCards, userData
                 )
             }
 
-            <RestoreCredit data={{
-                card: card,
-                balanceData: balanceData,
-                userData: userData
-            }} isOpen={wannaRestore} fetchCardDetails={fetchCardDetails} onClose={() => {
-                setWannaRestore(false)
-            }} />
         </div>
     );
 };
 
-export default DetailedCard;
+export default DetailedBAccount;
 
 
 export const Spinner = () => (

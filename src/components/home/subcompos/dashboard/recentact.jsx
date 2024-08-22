@@ -184,8 +184,13 @@ export const ExpandedComponent = ({ data }) => {
                 <input type="text" readOnly value={data.amount + " " + data.user.currency_type} />
             </div>
             <div >
-                <label htmlFor="Date">Card: </label>
-                <input type="text" readOnly value={`${data?.card?.card_number} (${data?.card?.card_type})`} />
+                <label htmlFor="Date">Account: </label>
+                <input type="text" readOnly value={`${(data.account.account_name)?.split(' ')
+                    ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    ?.join(' ')} (${data.account?.account_type === 'debit' ? 'Debit Card' :
+                        data.account?.account_type === 'credit' ? 'Credit Card' :
+                            data.account?.account_type === 'genaral' ? 'Bank Account' : 
+                            data.account?.account_type === 'mobile' ? data.account?.mobile_bank : 'Cash'})`} />
             </div>
             <div className='flex gap-2'>
                 <label htmlFor="Date">Description: </label>
@@ -246,8 +251,8 @@ export const columns = [
         selector: row => row.amount,
     },
     {
-        name: 'Card',
-        selector: row => row?.card?.card_number
+        name: 'Account',
+        selector: row => row?.account?.account_type === 'cash' ? 'Cash' : row?.account?.account_number
     }
 ]
 
