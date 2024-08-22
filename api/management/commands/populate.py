@@ -1,7 +1,7 @@
 import random
 from django.core.management.base import BaseCommand
 from faker import Faker
-from api.models import ExpenseIncome, CustomUser, Card
+from api.models import ExpenseIncome, CustomUser, BankAccount
 from django.shortcuts import get_object_or_404
 
 ExpenseCategory = [
@@ -20,14 +20,22 @@ IncomeCategory = [
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
-        user = CustomUser.objects.get(username='prassamin')
+        user = CustomUser.objects.get(username='pras')
 
         expense_categories = ExpenseCategory
         income_categories = IncomeCategory
         types = ['Expense', 'Income']
+        # types = ['genaral', 'credit', 'debit', 'cash']
+
 
         years = list(range(2010, 2025)) 
         months = list(range(1, 13)) 
+        id = []
+
+        all = BankAccount.objects.all()
+        for i in all:
+            id.append(i.id)
+
 
         for _ in range(200):
             year = random.choice(years)
@@ -46,7 +54,7 @@ class Command(BaseCommand):
                 category = random.choice(income_categories)
 
             ExpenseIncome.objects.create(
-                card=get_object_or_404(Card, card_number='6200000000000005'),
+                account=get_object_or_404(BankAccount, id=random.choice(id)),
                 user=user,
                 title=title,
                 amount=amount,

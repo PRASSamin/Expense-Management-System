@@ -122,35 +122,22 @@ def AddExpenseIncome(request):
             return JsonResponse({"status": "error", "message": "Invalid or missing amount."}, status=400)
 
         user = get_object_or_404(CustomUser, userUID=data['userUID'])
-        card = get_object_or_404(Card, card_number=data['card_number'])
+        account = get_object_or_404(BankAccount, id=data['account_id'])
 
         with transaction.atomic():
-            balance_record = get_object_or_404(Balance, card=card)
+            balance_record = get_object_or_404(Balance, account=account)
 
-            if card.card_category == 'Debit':
-                if data['type'] == 'Expense':
-                    new_balance = balance_record.balance - Decimal(data['amount'])
-                elif data['type'] == 'Income':
-                    new_balance = balance_record.balance + Decimal(data['amount'])
-                else:
-                    return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
+            
+            if data['type'] == 'Expense':
+                new_balance = balance_record.balance - Decimal(data['amount'])
+            elif data['type'] == 'Income':
+                new_balance = balance_record.balance + Decimal(data['amount'])
+            else:
+                return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
 
-                balance_record.balance = new_balance
-                balance_record.save()
+            balance_record.balance = new_balance
+            balance_record.save()
 
-            elif card.card_category == 'Credit':
-                if data['type'] == 'Expense':
-                    if Decimal(data['amount']) > balance_record.available_credit:
-                        return JsonResponse({"status": "error", "message": "Request declined, Not enough credit available"}, status=400)
-
-                    new_credit_used = round(balance_record.credit_used + Decimal(data['amount']), 2)
-                    balance_record.credit_used = new_credit_used
-                    balance_record.available_credit = round(card.credit_limit - new_credit_used, 2)
-                    
-                else:
-                    return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
-
-                balance_record.save()
 
             add = ExpenseIncome.objects.create(
                 user=user,
@@ -160,7 +147,7 @@ def AddExpenseIncome(request):
                 description=data['description'],
                 category=data['category'],
                 type=data['type'],
-                card=card
+                account=account
             )
 
         return JsonResponse({"status": "success", "message": f"{data['type']} added successfully with id: {add.id}", "data": add.id}, status=201)
@@ -280,44 +267,35 @@ def getAllDatas(request):
 
 @require_http_methods(["POST"])
 @csrf_exempt
-def AddCard(request):
+def AddBankAccount(request):
     data = json.loads(request.body)
     uid = request.GET.get('u')
 
     if not data:
         return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
 
-    if Card.objects.filter(card_number=data['card_number']).exists():
+    if BankAccount.objects.filter(account_number=data['account_number']).exists():
         return JsonResponse({"status": "error", "message": "Card already exists"}, status=400)
 
     user = get_object_or_404(CustomUser, userUID=uid)
-    current_month_year = datetime.now().strftime("%m/%Y")
-    
-    is_active = data['expiry_date'] >= current_month_year
-    is_default = data['is_default'] and is_active
     
     card_data = {
         'user': user,
-        'card_type': data['card_type'],
-        'card_number': data['card_number'],
-        'card_category': data['card_category'],
-        'expiry_date': data['expiry_date'],
-        'cvv': data['cvv'],
-        'cardholder_name': data['cardholder_name'],
-        'is_default': is_default,
-        'is_active': is_active,
+        'account_type': data['account_type'],
+        'account_number': data['account_number'],
+        'account_name': data['account_name'],
+        'is_default': data['is_default'],
     }
 
-    if data['card_category'] == 'Credit':
+    if data['account_type'] == 'mobile':
         card_data.update({
-            'interest_rate': data['interest_rate'],
-            'credit_limit': data['credit_limit'],
+            'mobile_bank': data['mobile_bank'],
         })
 
-    card = Card.objects.create(**card_data)
-    Balance.objects.create(card=card, balance=0)
+    account = BankAccount.objects.create(**card_data)
+    Balance.objects.create(account=account, balance=0)
     
-    return JsonResponse({"status": "success", "message": "Card added successfully"}, status=200)
+    return JsonResponse({"status": "success", "message": "Account added successfully"}, status=200)
 
 
 
@@ -338,7 +316,7 @@ def getMyData(request):
 
 
 @require_http_methods(["GET"])
-def GetUserCards(request):
+def GetUserBankAccounts(request):
     uid = request.GET.get('u', None)
 
     if not uid:
@@ -346,32 +324,37 @@ def GetUserCards(request):
 
     user = get_object_or_404(CustomUser, userUID=uid)
 
-    cards = Card.objects.filter(user=user).order_by('-is_active', '-created_at')
+    accounts = BankAccount.objects.filter(user=user).order_by('is_default' ,'-created_at')
 
-    data = CardSerializer(cards, many=True).data
+    data = BankAccountSerializer(accounts, many=True).data
 
     return JsonResponse({"status": "success", "data": data}, status=200)
 
 
 @require_http_methods(["DELETE"])
 @csrf_exempt
-def delete_card(request):
-    card_number = request.GET.get('c')
+def delete_account(request):
+    id = request.GET.get('q')
+    uid = request.GET.get('u')
 
-    if not card_number:
-        return JsonResponse({"status": "error", "message": "Card not specified"}, status=400)
-
-    card = get_object_or_404(Card, card_number=card_number)
+    if not id:
+        return JsonResponse({"status": "error", "message": "Account not specified"}, status=400)
+    
+    if not uid:
+        return JsonResponse({"status": "error", "message": "User not specified"}, status=400)
+    
+    user = get_object_or_404(CustomUser, userUID=uid)
+    account = get_object_or_404(BankAccount, id=id, user=user)
 
     try:
         with transaction.atomic():
-            ExpenseIncome.objects.filter(card=card).delete()
+            ExpenseIncome.objects.filter(account=account).delete()
 
-            Balance.objects.filter(card=card).delete()
+            Balance.objects.filter(account=account).delete()
 
-            card.delete()
+            account.delete()
 
-        return JsonResponse({"status": "success", "message": "Card deleted successfully"}, status=200)
+        return JsonResponse({"status": "success", "message": "Account deleted successfully"}, status=200)
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
     
@@ -379,110 +362,136 @@ def delete_card(request):
 
 @require_http_methods(["POST"])
 @csrf_exempt
-def card_activation_and_defaultation(request):
-    card_number = request.GET.get('c')
-    action = request.GET.get('a')
+def account_defaultation(request):
+    id = request.GET.get('q')
+    uid = request.GET.get('u')
 
-    if not card_number or not action:
-        print(card_number, action)
-        return JsonResponse({"status": "error", "message": "Card number or action not specified"}, status=400)
 
-    card = get_object_or_404(Card, card_number=card_number)
+    if not id or not uid:
+        return JsonResponse({"status": "error", "message": "access denied"}, status=400)
 
-    actions = {
-        'default': lambda: setattr(card, 'is_default', True),
-        'activate': lambda: setattr(card, 'is_active', True),
-        'deactivate': lambda: (setattr(card, 'is_active', False), setattr(card, 'is_default', False))
-    }
+    account = get_object_or_404(BankAccount, id=id, user__userUID=uid)
 
-    if action in actions:
-        actions[action]()
-        card.save()
-        if action == 'activate':
-            return JsonResponse({"status": "success", "message": "Card activated successfully"}, status=200)
-        elif action == 'deactivate':
-            return JsonResponse({"status": "success", "message": "Card deactivated successfully"}, status=200)
-        elif action == 'default':
-            return JsonResponse({"status": "success", "message": "Card set as default successfully"}, status=200)
+
+    if account.is_default == True:
+        return JsonResponse({"status": "error", "message": "Account is already default"}, status=400)
+    else:
+        account.is_default = True
+        account.save()
+        return JsonResponse({"status": "success", "message": "Account set as default"}, status=200)
     
-    return JsonResponse({"status": "error", "message": "Invalid action"}, status=400)
 
 
 @require_http_methods(["GET"])
-def getCardDetails(request):
-    card_number = request.GET.get('c')
-    cvv = request.GET.get('cvv')
+def getBankAccountsDetails(request):
+    id = request.GET.get('q')
     userUID = request.GET.get('u')
 
-    if not card_number or not cvv or not userUID:
+    if not id or not userUID:
         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
     
-    card = get_object_or_404(Card, card_number=card_number, cvv=cvv, user__userUID=userUID)
-    related_expenses_incomes = ExpenseIncome.objects.filter(card=card)
-    balance = Balance.objects.get(card=card)
-    current_date = timezone.now().date()
+    account = get_object_or_404(BankAccount, id=id, user__userUID=userUID)
+    related_expenses_incomes = ExpenseIncome.objects.filter(account=account)
+    balance = Balance.objects.get(account=account)
 
-    if card.card_category == 'Credit':
-        if balance.last_interest_update < current_date:
-            day_diff = (current_date - balance.last_interest_update).days
-            daily_interest_rate = card.interest_rate / 100 / 365
-            calc_interest = balance.credit_used * day_diff * daily_interest_rate
-            
-            balance.credit_used += calc_interest
-            balance.interest += calc_interest
-            balance.last_interest_update = current_date
-            balance.save()
+    
 
     balance_serializer = BalanceSerializer(balance).data
-    card_data = CardSerializer(card).data
+    account_data = BankAccountSerializer(account).data
     expenses_incomes_data = ExpenseIncomeSerializer(related_expenses_incomes, many=True).data
 
     return JsonResponse({
         "status": "success",
         "data": {
-            "card": card_data,
+            "account": account_data,
             "expenses_incomes": expenses_incomes_data,
             "balance": balance_serializer
         }
     }, status=200)
 
 
-require_http_methods(["POST"])
-@csrf_exempt
-def PayCredit(request):
-    card_number = request.GET.get('c')
-    cvv = request.GET.get('cvv')
-    userUID = request.GET.get('u')
 
-    if not card_number or not cvv or not userUID:  
-        return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
+
+
+# @require_http_methods(["GET"])
+# def getCardDetails(request):
+#     card_number = request.GET.get('c')
+#     cvv = request.GET.get('cvv')
+#     userUID = request.GET.get('u')
+
+#     if not card_number or not cvv or not userUID:
+#         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
     
-    card = get_object_or_404(Card, card_number=card_number, cvv=cvv, user__userUID=userUID)
-    user = get_object_or_404(CustomUser, userUID=userUID)
-    balance = Balance.objects.get(card=card)
-    current_date = timezone.now().date()
+#     card = get_object_or_404(BankAccount, account_number=card_number, user__userUID=userUID)
+#     related_expenses_incomes = ExpenseIncome.objects.filter(card=card)
+#     balance = Balance.objects.get(card=card)
+#     current_date = timezone.now().date()
 
-    if card.card_category == 'Credit':
-        if balance.last_payment_date < current_date:
-            ExpenseIncome.objects.create(
-                user=user,
-                title='Credit Payment',
-                amount=balance.credit_used,
-                date=current_date,
-                description=f'Credit payment for card ending in {card.card_number[-4:]} from {user.first_name} {user.last_name} on {current_date}',
-                category='Credit Payment',
-                type='Restore Credit',
-                card=card
-            )
+#     if card.card_category == 'Credit':
+#         if balance.last_interest_update < current_date:
+#             day_diff = (current_date - balance.last_interest_update).days
+#             daily_interest_rate = card.interest_rate / 100 / 365
+#             calc_interest = balance.credit_used * day_diff * daily_interest_rate
+            
+#             balance.credit_used += calc_interest
+#             balance.interest += calc_interest
+#             balance.last_interest_update = current_date
+#             balance.save()
 
-            balance.credit_used = 0
-            balance.interest = 0
-            balance.last_payment_date = current_date
-            balance.available_credit = card.credit_limit
-            balance.save()
+#     balance_serializer = BalanceSerializer(balance).data
+#     card_data = CardSerializer(card).data
+#     expenses_incomes_data = ExpenseIncomeSerializer(related_expenses_incomes, many=True).data
 
-            return JsonResponse({"status": "success", "message": "Card updated successfully"}, status=200)
-        else:
-            return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
+#     return JsonResponse({
+#         "status": "success",
+#         "data": {
+#             "card": card_data,
+#             "expenses_incomes": expenses_incomes_data,
+#             "balance": balance_serializer
+#         }
+#     }, status=200)
 
-    return JsonResponse({"status": "error", "message": "Card not found"}, status=404)
+
+# require_http_methods(["POST"])
+# @csrf_exempt
+# def PayCredit(request):
+#     card_number = request.GET.get('c')
+#     cvv = request.GET.get('cvv')
+#     userUID = request.GET.get('u')
+
+#     if not card_number or not cvv or not userUID:  
+#         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
+    
+#     card = get_object_or_404(BankAccount, account_number=card_number, user__userUID=userUID)
+#     user = get_object_or_404(CustomUser, userUID=userUID)
+#     balance = Balance.objects.get(card=card)
+#     current_date = timezone.now().date()
+
+#     if card.card_category == 'Credit':
+#         if balance.last_payment_date < current_date:
+#             ExpenseIncome.objects.create(
+#                 user=user,
+#                 title='Credit Payment',
+#                 amount=balance.credit_used,
+#                 date=current_date,
+#                 description=f'Credit payment for card ending in {card.card_number[-4:]} from {user.first_name} {user.last_name} on {current_date}',
+#                 category='Credit Payment',
+#                 type='Restore Credit',
+#                 card=card
+#             )
+
+#             balance.credit_used = 0
+#             balance.interest = 0
+#             balance.last_payment_date = current_date
+#             balance.available_credit = card.credit_limit
+#             balance.save()
+
+#             return JsonResponse({"status": "success", "message": "Card updated successfully"}, status=200)
+#         else:
+#             return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
+
+#     return JsonResponse({"status": "error", "message": "Card not found"}, status=404)
+
+
+# @require_http_methods(["GET"])
+# def getBankAccounts(request):

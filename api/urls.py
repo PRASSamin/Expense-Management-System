@@ -10,13 +10,13 @@ urlpatterns = [
     path('api/delete/expense-income/7days/', name="Delete Expense Income", view=deleteExpenseIncome7Days),
     path('api/get/data/', name="Get Incomes or Expenses", view=getIncomesOrExpenses),
     path('api/get/all/data/', name="Get Incomes And Expenses", view=getAllDatas),
-    path('api/add/card/', name="Add Card", view=AddCard),
+    path('api/add/bank-account/', name="Add Bank Account", view=AddBankAccount),
     path('api/get/my/data/', name="Get My Data", view=getMyData),
-    path('api/get/user/cards/', name="Get User Cards", view=GetUserCards),
-    path('api/delete/card/', name="Delete Card", view=delete_card),
-    path('api/card/activation-defaultation/', name="Card Activation Defaultation", view=card_activation_and_defaultation), 
-    path('api/get/card/details/', getCardDetails, name='Get Card Details'),
-    path('api/pay/credit/', PayCredit, name='Pay Credit'),
+    path('api/get/user/bank-accounts/', name="Get User Bank Accounts", view=GetUserBankAccounts),
+    path('api/delete/bank-account/', name="Delete Bank Account", view=delete_account),
+    path('api/card/defaultation/', name="Card Defaultation", view=account_defaultation), 
+    path('api/get/bank-account/details/', getBankAccountsDetails, name='Get Bank Account Details'),
+    # path('api/pay/credit/', PayCredit, name='Pay Credit'),
 ]
 
 

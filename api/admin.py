@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 class CardInline(admin.TabularInline):
-    model = Card
+    model = BankAccount
     extra = 0
 
 @admin.register(CustomUser)
@@ -11,10 +11,10 @@ class CustomUserAdmin(admin.ModelAdmin):
     search_fields = ['username', 'email']
     inlines = [CardInline] 
 
-@admin.register(Card)
-class CardAdmin(admin.ModelAdmin):
-    list_display = ['user', 'card_type', 'card_category', 'card_number', 'expiry_date', 'is_active']
-    search_fields = ['user__username', 'card_number']
+@admin.register(BankAccount)
+class BankAccountAdmin(admin.ModelAdmin):
+    list_display = ['user', 'account_name', 'account_type', 'account_number', 'is_default']
+    search_fields = ['user__username', 'account_number']
 
 @admin.register(ExpenseIncome)
 class ExpenseIncomeAdmin(admin.ModelAdmin):
@@ -23,5 +23,5 @@ class ExpenseIncomeAdmin(admin.ModelAdmin):
 
 @admin.register(Balance)
 class BalanceAdmin(admin.ModelAdmin):
-    list_display = ['card', 'balance']
-    search_fields = ['card__user__username', 'card__card_number']
+    list_display = [ 'balance']
+    search_fields = ['card__card_number']
