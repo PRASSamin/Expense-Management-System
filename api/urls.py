@@ -16,7 +16,9 @@ urlpatterns = [
     path('api/delete/bank-account/', name="Delete Bank Account", view=delete_account),
     path('api/card/defaultation/', name="Card Defaultation", view=account_defaultation), 
     path('api/get/bank-account/details/', getBankAccountsDetails, name='Get Bank Account Details'),
-    # path('api/pay/credit/', PayCredit, name='Pay Credit'),
+    path('api/pay/credit/', PayCredit, name='Pay Credit'),
+    path('api/get/account/balance/', GetAccountBalance, name='Get Account Balance'),
+    path('api/transfer/balance/', BalanceTransfer, name='Balance Transfer'),
 ]
 
 

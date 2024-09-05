@@ -56,17 +56,17 @@ class ExpenseIncome(models.Model):
 
 
 class BankAccount(models.Model):
-    ACCOUNT_TYPE_CHOICES = [
-        ('genaral', 'General Account'),
-        ('credit', 'Credit Card'),
-        ('debit', 'Debit Card'),
-        ('mobile', 'Mobile Wallet'),
-        ('cash', 'Cash'),
-    ]
+    # ACCOUNT_TYPE_CHOICES = [
+    #     ('genaral', 'General Account'),
+    #     ('credit', 'Credit Card'),
+    #     ('debit', 'Debit Card'),
+    #     ('mobile', 'Mobile Wallet'),
+    #     ('cash', 'Cash'),
+    # ]
     
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='bank_accounts')
     account_number = models.CharField(max_length=16, unique=True, null=True, blank=True)
-    account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPE_CHOICES)
+    account_type = models.CharField(max_length=10)
     mobile_bank = models.CharField(max_length=100, null=True, blank=True)
     account_name = models.CharField(max_length=100) 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -83,17 +83,39 @@ class BankAccount(models.Model):
         super().save(*args, **kwargs)
 
 
+
+class LoanAccount(BankAccount):
+    interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    loan_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    loan_remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    last_interest_update = models.DateField(default=timezone.now)
+    last_payment_date = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return f"Loan Account for {self.account_name} with amount {self.loan_amount}"
+    
+    def save(self, *args, **kwargs):
+        if not self.loan_remaining:
+            self.loan_remaining = self.loan_amount
+        super().save(*args, **kwargs)
+
+
+class CreditCard(BankAccount):
+    interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    last_payment_date = models.DateField(default=timezone.now)
+    last_interest_update = models.DateField(default=timezone.now)
+    interest = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
 class Balance(models.Model):
     account = models.OneToOneField(BankAccount, on_delete=models.CASCADE)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    credit_used = models.DecimalField(max_digits=12, decimal_places=2, default=0.00, null=True, blank=True)
-    available_credit = models.DecimalField(max_digits=12, decimal_places=2, default=0.00, null=True, blank=True)
-    last_payment_date = models.DateField(null=True, blank=True, default=timezone.now)
-    last_interest_update = models.DateField(null=True, blank=True, default=timezone.now)
-    interest = models.DecimalField(max_digits=12, decimal_places=2, default=0.00, null=True, blank=True)
-    
+
     def __str__(self):
-        return f"{self.card.card_category} {self.card.card_type} ending in {self.card.card_number[-4:]}"
+        return f"{self.account.account_name} {self.account.account_type} ending in {self.account.account_number[-4:]}"
 
 
 # class InterestCalculation(models.Model):

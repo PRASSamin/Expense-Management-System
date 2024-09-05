@@ -25,3 +25,7 @@ class ExpenseIncomeAdmin(admin.ModelAdmin):
 class BalanceAdmin(admin.ModelAdmin):
     list_display = [ 'balance']
     search_fields = ['card__card_number']
+
+
+admin.site.register(CreditCard)
+admin.site.register(LoanAccount)

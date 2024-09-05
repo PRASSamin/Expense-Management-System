@@ -99,7 +99,6 @@ def Register(request):
 
 
         user_data = CustomUserSerializer(user).data
-                   
 
 
         encoded_data = jwt.encode(user_data, "your_secret_key", algorithm='HS256')
@@ -111,53 +110,6 @@ def Register(request):
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
-
-
-@csrf_exempt
-@require_http_methods(["POST"])
-def AddExpenseIncome(request):
-    try:
-        data = json.loads(request.body)
-        if not data or 'amount' not in data or Decimal(data['amount']) <= 0:
-            return JsonResponse({"status": "error", "message": "Invalid or missing amount."}, status=400)
-
-        user = get_object_or_404(CustomUser, userUID=data['userUID'])
-        account = get_object_or_404(BankAccount, id=data['account_id'])
-
-        with transaction.atomic():
-            balance_record = get_object_or_404(Balance, account=account)
-
-            
-            if data['type'] == 'Expense':
-                new_balance = balance_record.balance - Decimal(data['amount'])
-            elif data['type'] == 'Income':
-                new_balance = balance_record.balance + Decimal(data['amount'])
-            else:
-                return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
-
-            balance_record.balance = new_balance
-            balance_record.save()
-
-
-            add = ExpenseIncome.objects.create(
-                user=user,
-                title=data['title'],
-                amount=Decimal(data['amount']),
-                date=data['date'],
-                description=data['description'],
-                category=data['category'],
-                type=data['type'],
-                account=account
-            )
-
-        return JsonResponse({"status": "success", "message": f"{data['type']} added successfully with id: {add.id}", "data": add.id}, status=201)
-
-    except json.JSONDecodeError:
-        return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
-
-    except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)}, status=500)
-    
 
 
 @require_http_methods(["GET"])
@@ -236,6 +188,7 @@ def getIncomesOrExpenses(request):
 
     return JsonResponse({"status": "success", "data": serialized_data, "totalEntries": paginator.count}, status=200)
 
+
 @require_http_methods(["GET"])
 def getAllDatas(request):
     userUID = request.GET.get('u', None)
@@ -291,8 +244,22 @@ def AddBankAccount(request):
         card_data.update({
             'mobile_bank': data['mobile_bank'],
         })
+    elif data['account_type'] == 'credit':
+        card_data.update({
+            'interest_rate': data['interest_rate'],
+        })
+    elif data['account_type'] == 'loan':
+        card_data.update({
+            'loan_amount': data['loan_amount'],
+            'interest_rate': data['interest_rate'],
+        })
 
-    account = BankAccount.objects.create(**card_data)
+    if data['account_type'] == 'credit':
+        account = CreditCard.objects.create(**card_data)
+    elif data['account_type'] == 'loan':
+        account = LoanAccount.objects.create(**card_data)
+    else:
+        account = BankAccount.objects.create(**card_data)
     Balance.objects.create(account=account, balance=0)
     
     return JsonResponse({"status": "success", "message": "Account added successfully"}, status=200)
@@ -325,6 +292,9 @@ def GetUserBankAccounts(request):
     user = get_object_or_404(CustomUser, userUID=uid)
 
     accounts = BankAccount.objects.filter(user=user).order_by('is_default' ,'-created_at')
+
+    if not accounts:
+        return JsonResponse({"status": "error", "message": "No accounts found", "data": []}, status=400)
 
     data = BankAccountSerializer(accounts, many=True).data
 
@@ -386,19 +356,61 @@ def account_defaultation(request):
 def getBankAccountsDetails(request):
     id = request.GET.get('q')
     userUID = request.GET.get('u')
+    type = request.GET.get('type')
 
-    if not id or not userUID:
+    if not id or not userUID or not type:
         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
     
-    account = get_object_or_404(BankAccount, id=id, user__userUID=userUID)
+    account = None
+
+    if type == 'credit':
+        account = get_object_or_404(CreditCard, id=id, user__userUID=userUID)
+    elif type == 'loan':
+        account = get_object_or_404(LoanAccount, id=id, user__userUID=userUID)
+    else:
+        account = get_object_or_404(BankAccount, id=id, user__userUID=userUID)
+
     related_expenses_incomes = ExpenseIncome.objects.filter(account=account)
     balance = Balance.objects.get(account=account)
 
-    
-
-    balance_serializer = BalanceSerializer(balance).data
     account_data = BankAccountSerializer(account).data
+
+
+    current_date = timezone.now().date()
+    if type == 'credit':
+        if account.last_interest_update < current_date:
+            day_diff = (current_date - account.last_interest_update).days
+            daily_interest_rate = account.interest_rate / 100 / 365
+            calc_interest = balance.balance * day_diff * daily_interest_rate
+            
+            balance.balance += calc_interest
+            account.interest += calc_interest
+            account.last_interest_update = current_date
+            print(balance.balance)
+            account.save()
+            balance.save()  
+
+        
+        account_data = CreditCardSerializer(account).data
+
+    elif type == 'loan':
+        if account.last_interest_update < current_date:
+            day_diff = (current_date - account.last_interest_update).days
+            daily_interest_rate = account.interest_rate / 100 / 365
+            calc_interest = account.loan_remaining * day_diff * daily_interest_rate
+
+            account.loan_remaining += calc_interest
+            account.last_interest_update = current_date
+            account.save()
+
+        account_data = LoanAccountSerializer(account).data
+
+
+
+
     expenses_incomes_data = ExpenseIncomeSerializer(related_expenses_incomes, many=True).data
+    balance_serializer = SimpleBalanceSerializer(balance).data
+
 
     return JsonResponse({
         "status": "success",
@@ -416,7 +428,6 @@ def getBankAccountsDetails(request):
 # @require_http_methods(["GET"])
 # def getCardDetails(request):
 #     card_number = request.GET.get('c')
-#     cvv = request.GET.get('cvv')
 #     userUID = request.GET.get('u')
 
 #     if not card_number or not cvv or not userUID:
@@ -452,46 +463,208 @@ def getBankAccountsDetails(request):
 #     }, status=200)
 
 
-# require_http_methods(["POST"])
-# @csrf_exempt
-# def PayCredit(request):
-#     card_number = request.GET.get('c')
-#     cvv = request.GET.get('cvv')
-#     userUID = request.GET.get('u')
+@require_http_methods(["POST"])
+@csrf_exempt
+def PayCredit(request):
+    id = request.GET.get('q')
+    userUID = request.GET.get('u')
+    type = request.GET.get('type')
+    data = json.loads(request.body or '{}')
 
-#     if not card_number or not cvv or not userUID:  
-#         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
+    if not id or not userUID:  
+        return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
     
-#     card = get_object_or_404(BankAccount, account_number=card_number, user__userUID=userUID)
-#     user = get_object_or_404(CustomUser, userUID=userUID)
-#     balance = Balance.objects.get(card=card)
-#     current_date = timezone.now().date()
+    account = None
+    if type == 'credit':
+        account = get_object_or_404(CreditCard, id=id, user__userUID=userUID)
+    else:
+        account = get_object_or_404(LoanAccount, id=id, user__userUID=userUID)
 
-#     if card.card_category == 'Credit':
-#         if balance.last_payment_date < current_date:
-#             ExpenseIncome.objects.create(
-#                 user=user,
-#                 title='Credit Payment',
-#                 amount=balance.credit_used,
-#                 date=current_date,
-#                 description=f'Credit payment for card ending in {card.card_number[-4:]} from {user.first_name} {user.last_name} on {current_date}',
-#                 category='Credit Payment',
-#                 type='Restore Credit',
-#                 card=card
-#             )
+    user = get_object_or_404(CustomUser, userUID=userUID)
+    balance = Balance.objects.get(account=account)
+    current_date = timezone.now().date()
 
-#             balance.credit_used = 0
-#             balance.interest = 0
-#             balance.last_payment_date = current_date
-#             balance.available_credit = card.credit_limit
-#             balance.save()
+    if type == 'credit':
+        if account.last_payment_date < current_date:
+            ExpenseIncome.objects.create(
+                user=user,
+                title='Credit Payment',
+                amount=balance.balance,
+                date=current_date,
+                description=f'Credit payment for card ending in {account.account_number[-4:]} from {user.first_name} {user.last_name} on {current_date}',
+                category='Credit Payment',
+                type='Credit Payment',
+                account=account
+            )
 
-#             return JsonResponse({"status": "success", "message": "Card updated successfully"}, status=200)
-#         else:
-#             return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
+            balance.balance = 0
+            account.interest = 0
+            account.last_payment_date = current_date
+            balance.save()
+            account.save()
 
-#     return JsonResponse({"status": "error", "message": "Card not found"}, status=404)
+            return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
+        
+        else:
+            return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
+        
 
 
-# @require_http_methods(["GET"])
-# def getBankAccounts(request):
+    elif type == 'loan':
+        amount = Decimal(data['amount'])
+        
+        if amount > account.loan_remaining:
+            return JsonResponse({"status": "error", "message": "Loan payment amount is greater than loan"}, status=400)
+        if account.last_payment_date >= current_date:
+            return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
+
+        ExpenseIncome.objects.create(
+            user=user,
+            title='Loan Payment',
+            amount=amount,
+            date=current_date,
+            description=f'Loan payment for account {account.account_name} from {user.first_name} {user.last_name} on {current_date}',
+            category='Loan Payment',
+            type='Loan Payment',
+            account=account
+        )
+
+        account.loan_remaining -= amount
+        if account.loan_remaining < 0:
+            account.loan_remaining = 0
+
+        account.last_payment_date = current_date
+        account.save()
+        
+        return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
+    
+
+
+    return JsonResponse({"status": "error", "message": "Card not found"}, status=404)
+
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def AddExpenseIncome(request):
+    try:
+        data = json.loads(request.body)
+        if not data or 'amount' not in data or Decimal(data['amount']) <= 0:
+            return JsonResponse({"status": "error", "message": "Invalid or missing amount."}, status=400)
+
+        user = get_object_or_404(CustomUser, userUID=data['userUID'])
+        account = get_object_or_404(BankAccount, id=data['account_id'])
+
+        with transaction.atomic():
+            balance_record = get_object_or_404(Balance, account=account)
+
+            
+            if data['type'] == 'Expense':
+                new_balance = balance_record.balance - Decimal(data['amount'])
+            elif data['type'] == 'Income':
+                new_balance = balance_record.balance + Decimal(data['amount'])
+            else:
+                return JsonResponse({"status": "error", "message": "Invalid type value"}, status=400)
+
+            if account.account_type != 'credit' and new_balance < 0 and data['type'] == 'Expense':
+                return JsonResponse({"status": "error", "message": "Insufficient balance"}, status=400)
+            
+            if account.account_type == 'credit' and new_balance > 0 and data['type'] == 'Income':
+                return JsonResponse({"status": "error", "message": "You can't pay more than your unused credit"}, status=400)
+
+            balance_record.balance = new_balance
+            balance_record.save()
+
+
+            add = ExpenseIncome.objects.create(
+                user=user,
+                title=data['title'],
+                amount=Decimal(data['amount']),
+                date=data['date'],
+                description=data['description'],
+                category=data['category'],
+                type=data['type'],
+                account=account
+            )
+
+        return JsonResponse({"status": "success", "message": f"{data['type']} added successfully with id: {add.id}", "data": add.id}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+
+@require_http_methods(["GET"])
+def GetAccountBalance(request):
+    id = request.GET.get('q')
+    if not id:
+        return JsonResponse({"status": "error", "message": "Account not specified"}, status=400)
+    account = get_object_or_404(BankAccount, id=id)
+    balance = Balance.objects.get(account=account)
+    balance_serializer = BalanceSerializer(balance).data
+    return JsonResponse({"status": "success", "data": balance_serializer}, status=200)
+
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def BalanceTransfer(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+
+    uid = request.GET.get('u')
+    if not uid:
+        return JsonResponse({"status": "error", "message": "User not specified"}, status=400)
+
+    from_account = get_object_or_404(BankAccount, id=data.get('from_account_id'), user__userUID=uid)
+    to_account = get_object_or_404(BankAccount, id=data.get('to_account_id'), user__userUID=uid)
+
+    from_balance = get_object_or_404(Balance, account=from_account)
+    to_balance = get_object_or_404(Balance, account=to_account)
+
+    if from_account.account_type == 'credit' or to_account.account_type == 'credit':
+        return JsonResponse({"status": "error", "message": "Cannot transfer from or to a credit account"}, status=400)
+
+    try:
+        amount = Decimal(data.get('amount'))
+        if amount <= 0:
+            raise ValueError("Amount must be greater than zero")
+    except (TypeError, ValueError, Decimal.InvalidOperation):
+        return JsonResponse({"status": "error", "message": "Invalid amount"}, status=400)
+
+    if from_balance.balance < amount:
+        return JsonResponse({"status": "error", "message": "Insufficient balance"}, status=400)
+
+    from_balance.balance -= amount
+    from_balance.save()
+
+    to_balance.balance += amount
+    to_balance.save()
+
+    ExpenseIncome.objects.bulk_create([
+        ExpenseIncome(
+            user=from_account.user,
+            title="Balance Transferred",
+            amount=amount,
+            date=data.get('date'),
+            description=f"Balance transferred to {to_account.account_name}",
+            category="Transfer",
+            type="Expense",
+            account=from_account
+        ),
+        ExpenseIncome(
+            user=to_account.user,
+            title="Balance Received",
+            amount=amount,
+            date=data.get('date'),
+            description=f"Balance received from {from_account.account_name}",
+            category="Receive",
+            type="Income",
+            account=to_account
+        )
+    ])
+
+    return JsonResponse({"status": "success", "message": "Balance transferred successfully"}, status=200)

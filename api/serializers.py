@@ -1,11 +1,18 @@
 from rest_framework import serializers
 from .models import *
 
+
+class SimpleBalanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Balance
+        fields = ('balance',)
+
 class BankAccountSerializer(serializers.ModelSerializer):
+    balance = SimpleBalanceSerializer(read_only=True)
     class Meta:
         model = BankAccount
         fields = (
-            '__all__'
+            'user', 'account_number', 'account_type', 'mobile_bank', 'account_name', 'balance', 'is_default', 'id', 'created_at', 'updated_at'
         )
         read_only_fields = ('id', 'created_at', 'updated_at')
 
@@ -44,4 +51,18 @@ class BalanceSerializer(serializers.ModelSerializer):
     account = BankAccountSerializer(read_only=True)
     class Meta:
         model = Balance
-        fields = ('id', 'balance', 'credit_used', 'available_credit', 'last_payment_date', 'last_interest_update', 'interest', 'account')
+        fields = ('id', 'balance', 'account')
+
+
+
+class CreditCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreditCard
+        fields = '__all__'
+
+
+
+class LoanAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoanAccount
+        fields = '__all__'
