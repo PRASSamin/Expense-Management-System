@@ -50,7 +50,7 @@ const Reports = ({ userData }) => {
                 !Cookies.get('userData') ? (
                     <div className='col-span-1 md:col-span-2 flex items-center justify-center'>
                         <button onClick={() => navigate('/login')} className='bg-[#00EA79] rounded-md shadow hover:bg-[#006cd8] transition-all duration-300 '>
-                            <h1 className='text-[#000] text-[14px] md:text-[16px] font-[500] font-bold  px-3 py-3'>Login required</h1>
+                            <h1 className='text-[#000] text-[14px] md:text-[16px] font-bold  px-3 py-3'>Login required</h1>
                         </button>
                     </div>
                 ) : (isLoading ? (
@@ -76,11 +76,11 @@ const Reports = ({ userData }) => {
                             <div className='w-full py-3 bg-white shadow rounded grid grid-cols-1 sm:grid-cols-2 place-items-center'>
                                 <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-r border-b sm:border-b-0 py-5'>
                                     <h1 className='text-lg md:text-xl font-bold'>Incomes</h1>
-                                    <h1 className='text-green-500 text-sm  md:text-md'>{(totalData?.totalIncomes).toFixed(2)} {userData?.currency_type}</h1>
+                                    <h1 className='text-green-500 text-sm  md:text-md'>{(totalData?.totalIncomes)} {userData?.currency_type}</h1>
                                 </div>
                                 <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-l border-t sm:border-t-0 py-5'>
                                     <h1 className=' text-lg md:text-xl font-bold'>Expenses</h1>
-                                    <h1 className='text-red-500  text-sm  md:text-md'>{(totalData?.totalExpenses).toFixed(2)} {userData?.currency_type}</h1>
+                                    <h1 className='text-red-500  text-sm  md:text-md'>{(totalData?.totalExpenses)} {userData?.currency_type}</h1>
                                 </div>
 
 
@@ -128,16 +128,18 @@ const Reports = ({ userData }) => {
 export default Reports
 
 
-
 export const calculateBalance = ({ incomes = [], expenses = [] }) => {
-    const totalIncomes = incomes.reduce((total, { amount }) => total + parseFloat(amount), 0);
-    const totalExpenses = expenses.reduce((total, { amount }) => total + parseFloat(amount), 0);
+    const validIncomes = incomes.filter(({ category }) => category !== 'Receive');
+    const totalIncomes = validIncomes.reduce((total, { amount }) => total + parseFloat(amount), 0);
 
-    const balance = totalIncomes - totalExpenses;
+    const validExpenses = expenses.filter(({ category }) => category !== 'Transfer');
+    const totalExpenses = validExpenses.reduce((total, { amount }) => total + parseFloat(amount), 0);
+
+    const balance = incomes.reduce((total, { amount }) => total + parseFloat(amount), 0) - expenses.reduce((total, { amount }) => total + parseFloat(amount), 0);
 
     const balanceData = {
-        totalIncomes: totalIncomes,
-        totalExpenses: totalExpenses,
+        totalIncomes: totalIncomes === 0 ? 0 : totalIncomes.toFixed(2),
+        totalExpenses: totalExpenses === 0 ? 0 : totalExpenses.toFixed(2),
         totalBalance: balance === 0 ? 0 : balance.toFixed(2)
     }
 

@@ -143,3 +143,18 @@ export const getMyData = async (uid) => {
         console.log(err);
     }
 }
+
+
+
+export const fetchData = async (url) => {
+    try {
+        const res = await axios.get(url, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    return res.data;
+    } catch (err) {
+        console.log(err);
+    }
+}

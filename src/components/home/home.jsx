@@ -11,10 +11,9 @@ import Expenses from './subcompos/expenses'
 import Reports from './subcompos/reports'
 import BankAccounts from './subcompos/baccounts'
 
-const Home = () => {
+const Home = ({ activeTab }) => {
   const [userData, setUserData] = useState(null)
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [activeTab, setActiveTab] = useState('dashboard')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const Home = () => {
         <h1 className="sr-only">Sidebar</h1>
         <ul className='flex flex-col gap-1 text-[14px] '>
           <li>
-            <button onClick={() => setActiveTab('dashboard')} type='button' className={`${activeTab === 'dashboard' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2  p-2 rounded w-full`}>
+            <button onClick={() => navigate('/dashboard')} type='button' className={`${activeTab === 'dashboard' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2  p-2 rounded w-full`}>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-boxes" viewBox="0 0 16 16">
                   <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
@@ -60,7 +59,7 @@ const Home = () => {
           </li>
 
           <li className='flex items-center gap-2'>
-            <button onClick={() => setActiveTab('incomes')} type='button' className={`${activeTab === 'incomes' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8] '} flex items-center gap-2 p-2 rounded w-full`}>
+            <button onClick={() => navigate('/incomes')} type='button' className={`${activeTab === 'incomes' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8] '} flex items-center gap-2 p-2 rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-credit-card" viewBox="0 0 16 16">
                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
                 <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
@@ -69,7 +68,7 @@ const Home = () => {
             </button>
           </li>
           <li className='flex items-center gap-2'>
-            <button onClick={() => setActiveTab('expenses')} type='button' className={`${activeTab === 'expenses' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
+            <button onClick={() => navigate('/expenses')} type='button' className={`${activeTab === 'expenses' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cart" viewBox="0 0 16 16">
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
               </svg>
@@ -77,7 +76,7 @@ const Home = () => {
             </button>
           </li>
           <li className=''>
-            <button onClick={() => setActiveTab('reports')} type='button' className={`${activeTab === 'reports' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
+            <button onClick={() => navigate('/reports')} type='button' className={`${activeTab === 'reports' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bar-chart-line" viewBox="0 0 16 16">
                 <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z" />
               </svg>
@@ -85,7 +84,14 @@ const Home = () => {
             </button>
           </li>
           <li className=''>
-            <button onClick={() => setActiveTab('accounts')} type='button' className={`${activeTab === 'accounts' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
+            <button id='accountsTab' onClick={() =>{
+              if (window.location.pathname !== '/accounts') {
+                navigate('/accounts')
+
+              }
+            } 
+          } 
+            type='button' className={`${activeTab === 'accounts' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bank" viewBox="0 0 16 16">
                 <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z" />
               </svg>
@@ -103,8 +109,8 @@ const Home = () => {
           </li> : null}
         </ul>
       </section>
-      <section className={`w-full bg-[#F8F8FA] h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' || activeTab === 'accounts' ? "pras-ov" : ""}`}>
-        <div className={`w-full h-[60px] bg-[#ffffff] py-3 flex items-center shadow-sm z-10 justify-between absolute top-0 left-0`}>
+      <section className={`w-full bg-[#F8F8FA] main h-screen overflow-auto ${activeTab === 'incomes' || activeTab === 'expenses' || activeTab === 'accounts' ? "pras-ov" : ""}`}>
+        <div className={`w-full h-[60px] bg-[#ffffff] py-3 flex items-center shadow-sm z-30 justify-between absolute top-0 left-0`}>
           <h1 className="sr-only">Top Header</h1>
           <button onClick={() => {
             navigate('/')
@@ -121,7 +127,7 @@ const Home = () => {
             {
               Cookies.get('userData') ? (
                 <div className='px-7 flex flex-col '>
-                  <h1 className='text-[#000] text-[12px] md:text-[14px] font-[500] font-bold'>
+                  <h1 className='text-[#000] text-[12px] md:text-[14px] fzfont-bold'>
                     {userData?.first_name} {userData?.last_name}</h1>
                   <h2 className='text-right text-[#6E6E6E] text-[12px] md:text-[14px]'>@{userData?.username}</h2>
                 </div>

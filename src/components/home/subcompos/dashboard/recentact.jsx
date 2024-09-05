@@ -61,7 +61,7 @@ const RecentActs = ({ isRefresh, setIsRefresh, userData }) => {
         <div className=''>
             <Alert onClose={setRemoveResponse} className={removeResponse ? "block" : "hidden"} message={removeResponse && removeResponse.message} status={removeResponse && removeResponse.type} />
             <div className=' bg-[white] rounded shadow'>
-                <div className='flex items-center justify-between border-b'>  <h1 className='w-full text-left text-[#000] text-[12px] md:text-[14px] font-[500] font-bold  px-3 py-4'>Recent Activities</h1>
+                <div className='flex items-center justify-between border-b'>  <h1 className='w-full text-left text-[#000] text-[12px] md:text-[14px] font-bold  px-3 py-4'>Recent Activities</h1>
                     <select className='bg-gray-300 px-2 py-1 rounded border-none opacity-50 mx-3 text-[13px]' defaultValue={"last7days"} disabled name="last7days" id="last7days">
                         <option value="last7days">Last 7 days</option>
                     </select>
@@ -157,7 +157,7 @@ export default RecentActs
 
 export const ExpandedComponent = ({ data }) => {
     return (
-        <div className={`${data.type === 'Expense' ? 'bg-[#f8d7da]' : 'bg-[#d4edda]'}  px-2 py-1 text-sm`}>
+        <div className={`${data.type === 'Expense' ? 'bg-[#f8d7da]' : data.type === 'Income' ? 'bg-[#d1e7dd]' : 'bg-[#f8d7da]'}  px-2 py-1 text-sm`}>
             <style>{`
           input {
           background-color: transparent !important; border: none !important; font-weight: bold !important;
@@ -189,8 +189,8 @@ export const ExpandedComponent = ({ data }) => {
                     ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                     ?.join(' ')} (${data.account?.account_type === 'debit' ? 'Debit Card' :
                         data.account?.account_type === 'credit' ? 'Credit Card' :
-                            data.account?.account_type === 'genaral' ? 'Bank Account' : 
-                            data.account?.account_type === 'mobile' ? data.account?.mobile_bank : 'Cash'})`} />
+                            data.account?.account_type === 'genaral' ? 'Bank Account' :
+                                data.account?.account_type === 'mobile' ? data.account?.mobile_bank : data.account?.account_type === 'cash' ? 'Cash' : data?.account?.account_type})`} />
             </div>
             <div className='flex gap-2'>
                 <label htmlFor="Date">Description: </label>
@@ -273,7 +273,14 @@ export const conditionalRowStyles = [
         }
     },
     {
-        when: row => row.type === 'Restore Credit',
+        when: row => row.type === 'Credit Payment',
+        style: {
+            backgroundColor: '#f8d7da',
+            color: '#721c24',
+        }
+    },
+    {
+        when: row => row.type === 'Loan Payment',
         style: {
             backgroundColor: '#d4edda',
             color: '#155724',

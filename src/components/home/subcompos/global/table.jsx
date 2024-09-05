@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import DataTable from 'react-data-table-component';
 import Cookies from 'js-cookie'
@@ -122,7 +121,7 @@ const Table = ({ isRefresh, setIsRefresh, userData, type }) => {
         <div className=''>
             <Alert onClose={setRemoveResponse} className={removeResponse ? "block" : "hidden"} message={removeResponse && removeResponse.message} status={removeResponse && removeResponse.type} />
             <div className=' bg-[white] rounded shadow'>
-                <div className='flex items-center justify-between border-b'>  <h1 className='w-full text-left text-[#000] text-[14px] md:text-[16px] font-[500] font-bold  px-3 py-3'>{type}</h1>
+                <div className='flex items-center justify-between border-b'>  <h1 className='w-full text-left text-[#000] text-[14px] md:text-[16px]  font-bold  px-3 py-3'>{type}</h1>
                     <div className='flex items-center gap-1 mr-2'>
                         {Cookies.get("userData") && <ExportAsExcel data={excelData} buttonName={"Export"} fileName={`${type}-${new Date().toLocaleDateString(
                             "en-US",

@@ -36,10 +36,10 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                 ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                 ?.join(' ')} (Cash)`
         ) : (
-            `${defaultAccount?.account_number} (${defaultAccount?.account_type === 'mobile' ? `${defaultAccount?.mobile_bank}` :
+            `${defaultAccount?.account_name + "-" + defaultAccount?.account_number} (${defaultAccount?.account_type === 'mobile' ? `${defaultAccount?.mobile_bank}` :
                 defaultAccount?.account_type === 'debit' ? 'Debit Card' :
                     defaultAccount?.account_type === 'credit' ? 'Credit Card' :
-                        defaultAccount?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+                        defaultAccount?.account_type === 'genaral' ? 'Bank Account' : defaultAccount?.account_type === 'cash' ? 'Cash' : defaultAccount?.account_type})`
         )
     });
 
@@ -53,10 +53,10 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                     ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                     ?.join(' ')} (Cash)`
             ) : (
-                `${defaultAccount?.account_number} (${defaultAccount?.account_type === 'mobile' ? `${defaultAccount?.mobile_bank}` :
+                `${defaultAccount?.account_name + "-" + defaultAccount?.account_number} (${defaultAccount?.account_type === 'mobile' ? `${defaultAccount?.mobile_bank}` :
                     defaultAccount?.account_type === 'debit' ? 'Debit Card' :
                         defaultAccount?.account_type === 'credit' ? 'Credit Card' :
-                            defaultAccount?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+                            defaultAccount?.account_type === 'genaral' ? 'Bank Account' : defaultAccount?.account_type === 'cash' ? 'Cash' : defaultAccount?.account_type})`
             )
         })
     }, [defaultAccount]);
@@ -84,14 +84,34 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
 
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_USER_BANK_ACCOUNTS_API_EP}?u=${user.userUID}`);
-            setAccounts(res.data.data);
+            if (res?.data?.data?.length === 0) {
+                setResponse({ type: "error", message: "You don't have any accounts. Please add one." });
+                document.getElementById("submit").disabled = true;
+            } else {
+
+                let filteredAccounts = res.data.data;
+
+                if ((expenseOrIncome === "Income")) {
+                    filteredAccounts = res.data.data.filter(account => account.account_type !== "credit" && account.account_type !== "loan");
+                } else if ((expenseOrIncome === "Expense")) {
+                    filteredAccounts = res.data.data.filter(account => account.account_type !== "loan");
+                }
+
+                setAccounts(filteredAccounts);
+
+            }
         } catch (err) {
+            if (err?.response?.data?.data?.length === 0) {
+                setResponse({ type: "error", message: "You don't have any accounts. Please add one." });
+                document.getElementById("submit").disabled = true;
+            }
             console.log(err);
         } finally {
             setIsAccountsFething(false);
         }
 
     };
+
 
     useEffect(() => {
         fetchAccounts();
@@ -156,8 +176,8 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
         <div onClick={() => setIsShow(!isShow)} className={`w-full h-screen z-50 flex justify-center items-center fixed top-0 left-0 bg-black bg-opacity-50 ${isShow ? "block" : "hidden"}`}>
             <div onClick={(e) => e.stopPropagation()} className='w-[calc(100%-32px)] md:w-[70%] p-3 z-50 bg-white rounded shadow-lg'>
                 <div className='flex justify-between items-center border-b pb-3 border-gray-300'><h1 className='text-3xl font-bold text-black'>New {expenseOrIncome}</h1>
-                    <button onClick={() => setIsShow(!isShow)} className='mr-2 p-1 rounded border border-emerald-600 bg-emerald-100 hover:bg-emerald-200 cursor-pointer'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="text-emerald-600" viewBox="0 0 16 16">
+                    <button onClick={() => setIsShow(!isShow)} className={`mr-2 p-1 rounded border ${expenseOrIncome === "Expense" ? "border-red-600 bg-red-200 hover:bg-red-300" : "border-emerald-600 bg-emerald-100 hover:bg-emerald-200"} cursor-pointer`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={`${expenseOrIncome === "Expense" ? "text-red-600" : "text-emerald-600"}`} viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
                     </button></div>
@@ -165,18 +185,25 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                     <style>
                         {`
                             label {
-                            font-weight: bold;
-                            }
-                            input, textarea, select {
-                            outline: none;
-                            background-color: #EEF2F5;
-                            }
+        font-weight: 500;
+        font-size: 14px;
+        }
+        input, select, textarea {
+        outline: none;
+        border: 1px solid #EEF2F5;
+        background-color: #EEF2F5;
+        cursor: pointer;
+        }
+
+        [data-lastpass-icon-root] {
+        display: none;
+        }
                         `}
                     </style>
                     <div>
-                        <label htmlFor="gender"
+                        <label htmlFor="account"
                             className={``} >Account<span className='text-red-500'>*</span></label>
-                        <div className=' bg-[#EEF2F5]  rounded-md w-full border border-gray-300 flex items-center justify-center w-full py-2 px-1 gap-5'>
+                        <div className=' bg-[#EEF2F5]  rounded-md border border-gray-300 flex items-center justify-center w-full py-2 px-1 gap-5'>
                             <div className='flex flex-col w-full'>
                                 <div ref={dropdownRef} className="z-20 relative">
                                     <div className="select-component">
@@ -212,7 +239,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                                                                 </svg>
                                                             </div>
                                                         ) : (
-                                                            <p className='text-center w-full text-left relative font-medium option hover:bg-gray-200 py-[6px] px-[8px] text-[13px] cursor-pointer' >No Accounts</p>
+                                                            <p className=' w-full text-left relative font-medium option hover:bg-gray-200 py-[6px] px-[8px] text-[13px] cursor-pointer' >No Accounts</p>
                                                         )
                                                     ) : accounts
                                                         .map((option, i) => (
@@ -229,10 +256,10 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                                                                                 ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                                                                                 ?.join(' ')} (Cash)`
                                                                         ) : (
-                                                                            `${option.account_number} (${option?.account_type === 'mobile' ? `${option?.mobile_bank}` :
+                                                                            `${option.account_name + "-" + option.account_number} (${option?.account_type === 'mobile' ? `${option?.mobile_bank}` :
                                                                                 option?.account_type === 'debit' ? 'Debit Card' :
                                                                                     option?.account_type === 'credit' ? 'Credit Card' :
-                                                                                        option?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+                                                                                        option?.account_type === 'genaral' ? 'Bank Account' : option?.account_type === 'cash' ? 'Cash' : option?.account_type})`
                                                                         )
                                                                     });
                                                                     setIsDropDownOpen(false);
@@ -244,10 +271,10 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                                                                         ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                                                                         ?.join(' ')} (Cash)`
                                                                 ) : (
-                                                                    `${option.account_number} (${option?.account_type === 'mobile' ? `${option?.mobile_bank}` :
+                                                                    `${option.account_name + "-" + option.account_number} (${option?.account_type === 'mobile' ? `${option?.mobile_bank}` :
                                                                         option?.account_type === 'debit' ? 'Debit Card' :
                                                                             option?.account_type === 'credit' ? 'Credit Card' :
-                                                                                option?.account_type === 'genaral' ? 'Bank Account' : 'Cash'})`
+                                                                                option?.account_type === 'genaral' ? 'Bank Account' : option?.account_type === 'cash' ? 'Cash' : option?.account_type})`
                                                                 )}
 
                                                             </button>
@@ -266,7 +293,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
 
                     <div>
                         <label htmlFor="title">Title<span className='text-red-500'>*</span></label>
-                        <input onChange={(e) => setAddData({ ...addData, title: e.target.value })} type="text" name="title" id="title" className='w-full border border-gray-300 rounded px-2 py-1' />
+                        <input placeholder='eg. Salary' onChange={(e) => setAddData({ ...addData, title: e.target.value })} type="text" name="title" id="title" className=' placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
                     </div>
                     <div>
                         <label htmlFor="description">Description</label>
@@ -274,7 +301,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                     </div>
                     <div>
                         <label htmlFor="amount">Amount<span className='text-red-500'>*</span></label>
-                        <input onChange={(e) => setAddData({ ...addData, amount: e.target.value })} type="number" name="amount" id="amount" className='w-full border border-gray-300 rounded px-2 py-1' />
+                        <input placeholder='eg. 5000' onChange={(e) => setAddData({ ...addData, amount: e.target.value })} type="number" name="amount" id="amount" className='placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
                     </div>
                     <div>
                         <label htmlFor="category">Category<span className='text-red-500'>*</span></label>
@@ -313,7 +340,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                     {response?.message ? (
                         <p className={`${response.type === "success" ? "text-emerald-500" : "text-red-500"} text-sm`}>{response.message}</p>
                     ) : null}
-                    <button type="submit" className='bg-blue-500 text-white px-3 py-2 mt-2 rounded flex items-center justify-center'>{isProcessing ? (
+                    <button id='submit' type="submit" className={`disabled:cursor-not-allowed ${expenseOrIncome === "Income" ? 'bg-green-500 hover:bg-green-600' : 'bg-[#ff4040] hover:bg-[#ff1c1c]'}  transition-all duration-300 text-white px-3 py-2 mt-2 rounded flex items-center justify-center`}>{isProcessing ? (
                         <div>
                             <svg className="text-gray-100 animate-spin w-[24px] h-[24px]" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
                             >

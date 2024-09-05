@@ -5,14 +5,14 @@ import Alert from '../../../global/alert';
 import { getMyData } from '../../../../utils';
 import Cookies from 'js-cookie';
 import { useAppContext } from '../../../../root';
-import Table from '../global/table';
 import { columns, conditionalRowStyles, customStyles, deleteRows, ExpandedComponent } from '../dashboard/recentact';
 import DataTable from 'react-data-table-component';
 import { calculateBalance } from '../reports';
-import Incomes from '../incomes';
+import RestoreCredit from './restoreCredit';
+import PayLoan from './payLoan';
 import { Tooltip } from 'react-tooltip'
 
-const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userData }) => {
+const DetailedBAccount = ({ account_id, account_type, onClose, userUID, fetchAccounts, userData }) => {
     const [response, setResponse] = useState(null);
     const [account, setAccount] = useState(null);
     const [isProcessing, setIsProcessing] = useState(true);
@@ -25,8 +25,7 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
     const [isRefresh, setIsRefresh] = useState(false)
     const [totalBalance, setTotalBalance] = useState(0)
     const [balanceData, setBalanceData] = useState([])
-
-
+    const [wannaPay, setWannaPay] = useState(null)
 
     const reSaveUserData = async (uid) => {
         try {
@@ -46,8 +45,9 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
         setSelectedRows([]);
         try {
             const res = await axios.get(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_BANK_ACCOUNT_DETAILS_API_EP}?q=${account_id}&u=${userUID}`
+                `${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_BANK_ACCOUNT_DETAILS_API_EP}?q=${account_id}&u=${userUID}&type=${account_type}`
             );
+
 
             if (res.status === 200) {
                 const data = res.data.data;
@@ -72,6 +72,14 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
             console.log(err);
         }
     };
+
+    useEffect(() => {
+        if (window.location.pathname === '/accounts') {
+            document.querySelector('#accountsTab').addEventListener('click', () => {
+                onClose()
+            })
+        }
+    }, [])
 
 
 
@@ -161,6 +169,8 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
     }, [isRefresh])
 
 
+
+
     const ActionButton = ({ onClick, isLoading, loadingState, buttonText, buttonClass }) => {
         const getButtonClass = () => {
             return isLoading === loadingState ? "px-5" : "px-2.5";
@@ -180,7 +190,6 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
             </button>
         );
     };
-
 
 
 
@@ -206,12 +215,12 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10'>
                             <div className='w-full order-last lg:order-first lg:mt-0 mt-6'>
                                 <h1 className='text-2xl font-bold'>{account?.account_type === 'cash' ? `${account?.account_name}` : `
-                                    ${(account?.account_name).toUpperCase()}(${account?.account_number})
+                                    ${(account?.account_name)?.toUpperCase()}(${account?.account_number})
                                 `}</h1>
                                 <p className='text-[14px]'>{account?.account_type === 'mobile' ? `${'Mobile Wallet'} - ${account?.mobile_bank}` :
-                                        account?.account_type === 'debit' ? 'Debit Card' :
-                                            account?.account_type === 'credit' ? 'Credit Card' :
-                                                account?.account_type === 'genaral' ? 'Bank Account' : 'Cash'}</p>
+                                    account?.account_type === 'debit' ? 'Debit Card' :
+                                        account?.account_type === 'credit' ? 'Credit Card' :
+                                            account?.account_type === 'genaral' ? 'Bank Account' : account?.account_type === 'cash' ? 'Cash' : account?.account_type === 'loan' ? 'Loan Account' : account?.account_type.toUpperCase()}</p>
 
 
                                 <div className='flex gap-2 lg:gap-3 flex-wrap mt-4'>
@@ -222,53 +231,103 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
                                         loadingState='deleting'
                                         buttonText='Delete'
                                     />
-                                
-                                    <ActionButton
+
+                                    {account?.account_type !== 'loan' && <ActionButton
                                         onClick={() => {
                                             if (account?.is_default) {
                                                 setResponse({ status: 'info', message: 'Account is already default' });
                                                 return;
                                             }
-                                            
+
                                             DefaultAccount();
                                         }}
                                         isLoading={isLoading}
                                         loadingState='defaulting'
                                         buttonText={account?.is_default ? 'Default' : 'Set as default'}
                                         buttonClass={'bg-blue-300 text-blue-800 hover:bg-blue-200'}
-                                    />
-                                   
+                                    />}
+
+
+                                    {account?.account_type === 'credit' || account?.account_type === 'loan' ? <ActionButton
+                                        onClick={() => {
+
+                                            setWannaPay(account?.account_type);
+                                        }}
+                                        isLoading={isLoading}
+                                        loadingState='paying'
+                                        buttonText={account?.account_type === 'credit' ? 'Pay Credit' : 'Pay Loan'}
+                                        buttonClass={'bg-purple-300 text-purple-800 hover:bg-purple-200'}
+                                    /> : null}
+
                                 </div>
 
                             </div>
-                           
+
                         </div>
 
-                         
-                            <div className='flex flex-col gap-2 my-5'>
-                                <div className='flex flex-col mt-3 lg:mt-0'>
-                                    <h1 className='text-2xl font-medium'>Account Balance</h1>
-                                    <h1 className={`text-3xl font-bold ${parseInt(totalBalance?.totalBalance) > 0 ? 'text-green-500' : 'text-red-500'}`}>{totalBalance?.totalBalance} {userData?.currency_type}</h1>
+
+                        {account?.account_type !== 'credit' && account?.account_type !== 'loan' ? <div className='flex flex-col gap-2 my-5'>
+                            <div className='flex flex-col mt-3 lg:mt-0'>
+                                <h1 className='text-2xl font-medium'>{account?.account_type === 'cash' ? "Cash" : account?.account_type === 'debit' ? "Card" : "Account"} Balance</h1>
+                                <h1 className={`text-3xl font-bold ${parseInt(totalBalance?.totalBalance) > 0 ? 'text-green-500' : 'text-red-500'}`}>{totalBalance?.totalBalance} {userData?.currency_type}</h1>
+                            </div>
+                            <div className='w-full py-3 bg-white shadow rounded grid grid-cols-1 sm:grid-cols-2 place-items-center'>
+                                <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-r border-b sm:border-b-0 py-5'>
+                                    <h1 className='text-lg md:text-xl font-bold'>Incomes</h1>
+                                    <h1 className='text-green-500 text-sm  md:text-md'>{(totalBalance?.totalIncomes)} {userData?.currency_type}</h1>
+
                                 </div>
-                                <div className='w-full py-3 bg-white shadow rounded grid grid-cols-1 sm:grid-cols-2 place-items-center'>
-                                    <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-r border-b sm:border-b-0 py-5'>
-                                        <h1 className='text-lg md:text-xl font-bold'>Incomes</h1>
-                                        <h1 className='text-green-500 text-sm  md:text-md'>{(totalBalance?.totalIncomes).toFixed(2)} {userData?.currency_type}</h1>
-                                      
-                                    </div>
-                                    <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-l border-t sm:border-t-0 py-5'>
-                                        <h1 className=' text-lg md:text-xl font-bold'>Expenses</h1>
-                                        <h1 className='text-red-500  text-sm  md:text-md'>{(totalBalance?.totalExpenses).toFixed(2)} {userData?.currency_type}</h1>
+                                <div className='flex w-full flex-col gap-1 items-center justify-center sm:border-l border-t sm:border-t-0 py-5'>
+                                    <h1 className=' text-lg md:text-xl font-bold'>Expenses</h1>
+                                    <h1 className='text-red-500  text-sm  md:text-md'>{(totalBalance?.totalExpenses)} {userData?.currency_type}</h1>
+                                </div>
+
+
+                            </div>
+                        </div> : account?.account_type === 'credit' ? (
+                            <div className='flex flex-col gap-2 my-5'>
+                                <div className='w-full py-14 bg-white shadow rounded grid grid-cols-1 place-items-center relative'>
+                                    <div className='flex flex-col  gap-1 items-center justify-center'>
+                                        <div className='flex w-full flex-col gap-1 items-center justify-center pb-5'>
+                                            <h1
+                                                data-tooltip-id="credit_limit" data-tooltip-content="Credit Used"
+                                                className={`${balanceData?.balance >= 0 ? 'text-green-500' : 'text-red-500'} font-bold  text-lg  md:text-xl`}>{(balanceData?.balance)} {userData?.currency_type}</h1>
+                                            <Tooltip id='credit_limit' placement='top'></Tooltip>
+                                        </div>
+                                        <h1 className='text-lg md:text-xl font-bold'>Credit Used</h1>
                                     </div>
 
 
                                 </div>
                             </div>
-                        
+                        ) : (
+                            <div className='flex flex-col gap-2 my-5'>
+                                <div className='w-full py-14 bg-white shadow rounded grid grid-cols-1 place-items-center relative'>
+                                    <h1 className='text-[12px] absolute top-1 right-2 text-gray-500 font-bold'>Interest Rate: {account?.interest_rate}%</h1>
+                                    <div className='flex  gap-1 items-center justify-center rotate-45'>
+                                        <div className='flex w-full flex-col gap-1 items-center justify-center pt-5 -rotate-45'>
+
+                                            <h1 data-tooltip-id="loan_remaining" data-tooltip-content="Loan Remaining" className=' flex items-start justify-start text-green-500 font-bold text-lg  md:text-xl cursor-pointer'> {account?.loan_remaining}</h1><Tooltip id='loan_remaining' placement='top'></Tooltip>
+                                        </div>
+                                        <div className='w-1 h-20 bg-gray-400 rounded mx-2' />
+
+                                        <div className='flex w-full flex-col gap-1 items-center justify-center pb-5 -rotate-45'>
+                                            <h1
+                                                data-tooltip-id="loan_amount" data-tooltip-content="Loan Amount"
+                                                className='text-green-500 font-bold  text-lg  md:text-xl'>{parseInt(account?.loan_amount)}</h1>
+                                            <Tooltip id='loan_amount' placement='top'></Tooltip>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        )}
+
                         <div className=''>
                             <Alert onClose={setRemoveResponse} className={removeResponse ? "block" : "hidden"} message={removeResponse && removeResponse.message} status={removeResponse && removeResponse.type} />
                             <div className=' bg-[white] rounded shadow'>
-                                <div className='flex items-center justify-between border-b'>  <h1 className='w-full text-left text-[#000] text-[12px] md:text-[14px] font-[500] font-bold  px-3 py-4'>Recent Activities</h1>
+                                <div className='flex items-center justify-between border-b'>  <h1 className='w-full text-left text-[#000] text-[12px] md:text-[14px]  font-bold  px-3 py-4'>Recent Activities</h1>
 
                                 </div>
                                 <style>
@@ -302,7 +361,7 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
                                         pagination
                                         paginationServer
                                         expandableRows={true}
-                                        paginationPerPage={ExpenseIncomes.length}
+                                        paginationPerPage={ExpenseIncomes?.length}
                                         paginationRowsPerPageOptions={[
                                             ExpenseIncomes.length
                                         ]}
@@ -335,7 +394,19 @@ const DetailedBAccount = ({ account_id, onClose, userUID, fetchAccounts, userDat
                     </div>
                 )
             }
-
+            {wannaPay === 'credit' ? <RestoreCredit data={{
+                account: account,
+                balanceData: balanceData,
+                userData: userData
+            }} isOpen={wannaPay ? true : false} fetchAccountDetails={fetchAccountDetails} onClose={() => {
+                setWannaPay(null)
+            }} /> : <PayLoan data={{
+                account: account,
+                balanceData: balanceData,
+                userData: userData
+            }} isOpen={wannaPay ? true : false} fetchAccountDetails={fetchAccountDetails} onClose={() => {
+                setWannaPay(null)
+            }} />}
         </div>
     );
 };
