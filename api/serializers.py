@@ -56,6 +56,7 @@ class BalanceSerializer(serializers.ModelSerializer):
 
 
 class CreditCardSerializer(serializers.ModelSerializer):
+    balance = SimpleBalanceSerializer(read_only=True)
     class Meta:
         model = CreditCard
         fields = '__all__'
@@ -63,6 +64,8 @@ class CreditCardSerializer(serializers.ModelSerializer):
 
 
 class LoanAccountSerializer(serializers.ModelSerializer):
+    balance = SimpleBalanceSerializer(read_only=True)
+
     class Meta:
         model = LoanAccount
         fields = '__all__'

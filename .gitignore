@@ -1,3 +1,4 @@
 EMS_Frontend
 venv
 *.env
+.idea

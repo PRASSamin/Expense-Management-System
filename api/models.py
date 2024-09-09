@@ -87,7 +87,7 @@ class BankAccount(models.Model):
 class LoanAccount(BankAccount):
     interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     loan_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    loan_remaining = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    loan_remaining = models.DecimalField(max_digits=10, null=True, blank=True, decimal_places=2, )
     last_interest_update = models.DateField(default=timezone.now)
     last_payment_date = models.DateField(default=timezone.now)
 
@@ -95,7 +95,7 @@ class LoanAccount(BankAccount):
         return f"Loan Account for {self.account_name} with amount {self.loan_amount}"
     
     def save(self, *args, **kwargs):
-        if not self.loan_remaining:
+        if self.loan_remaining is None:
             self.loan_remaining = self.loan_amount
         super().save(*args, **kwargs)
 

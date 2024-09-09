@@ -1,47 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="449d94a8-4957-4b64-aa89-4abc15eb7694" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Expense_Management_System.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Expense_Management_System.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expense_Management_System/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expense_Management_System/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expense_Management_System/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expense_Management_System/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expense_Management_System/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/management/commands/populate.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/management/commands/populate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/0002_remove_bankaccount_is_active_and_more.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/migrations/0002_remove_bankaccount_is_active_and_more.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/0003_bankaccount_mobile_bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/migrations/0003_bankaccount_mobile_bank.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/0004_alter_bankaccount_account_number_and_more.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/migrations/0004_alter_bankaccount_account_number_and_more.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/migrations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/detailedAccount.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/detailedAccount.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/app.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_files.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build_files.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/passenger_wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/passenger_wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vercel.json" beforeDir="false" afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/exportToHTML" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,18 +42,40 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Node.js.baccounts.jsx.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.codeium.enabled": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "BackEnd",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "ts.external.directory.path": "/snap/pycharm-professional/412/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PY-242.21829.153" />
+        <option value="bundled-python-sdk-464836ebc622-b74155a9e76b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.21829.153" />
       </set>
     </attachedChunks>
   </component>
@@ -81,7 +88,32 @@
       <option name="presentableId" value="Default" />
       <updated>1723967964034</updated>
       <workItem from="1723967966744" duration="32000" />
+      <workItem from="1725795066861" duration="371000" />
+      <workItem from="1725795461652" duration="314000" />
+      <workItem from="1725795798032" duration="29000" />
+      <workItem from="1725796124874" duration="248000" />
+      <workItem from="1725796403676" duration="4187000" />
+      <workItem from="1725803343243" duration="5655000" />
+      <workItem from="1725855582781" duration="619000" />
+      <workItem from="1725856228502" duration="2655000" />
+      <workItem from="1725858912386" duration="1738000" />
+      <workItem from="1725860674345" duration="259000" />
+      <workItem from="1725860950741" duration="9206000" />
+      <workItem from="1725872613512" duration="1365000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Expense_Management_System/urls.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

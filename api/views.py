@@ -291,14 +291,22 @@ def GetUserBankAccounts(request):
 
     user = get_object_or_404(CustomUser, userUID=uid)
 
-    accounts = BankAccount.objects.filter(user=user).order_by('is_default' ,'-created_at')
+    accounts = BankAccount.objects.filter(user=user).select_related('creditcard', 'loanaccount').order_by('is_default', '-created_at')
 
-    if not accounts:
+    if not accounts.exists():
         return JsonResponse({"status": "error", "message": "No accounts found", "data": []}, status=400)
 
-    data = BankAccountSerializer(accounts, many=True).data
+    account_data = []
 
-    return JsonResponse({"status": "success", "data": data}, status=200)
+    for account in accounts:
+        if hasattr(account, 'creditcard'):
+            account_data.append(CreditCardSerializer(account.creditcard).data)
+        elif hasattr(account, 'loanaccount'):
+            account_data.append(LoanAccountSerializer(account.loanaccount).data)
+        else:
+            account_data.append(BankAccountSerializer(account).data)
+
+    return JsonResponse({"status": "success", "data": account_data}, status=200)
 
 
 @require_http_methods(["DELETE"])
@@ -386,7 +394,6 @@ def getBankAccountsDetails(request):
             balance.balance += calc_interest
             account.interest += calc_interest
             account.last_interest_update = current_date
-            print(balance.balance)
             account.save()
             balance.save()  
 
@@ -530,14 +537,12 @@ def PayCredit(request):
         )
 
         account.loan_remaining -= amount
-        if account.loan_remaining < 0:
-            account.loan_remaining = 0
 
         account.last_payment_date = current_date
         account.save()
         
         return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
-    
+
 
 
     return JsonResponse({"status": "error", "message": "Card not found"}, status=404)
