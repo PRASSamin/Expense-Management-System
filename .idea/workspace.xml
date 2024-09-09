@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="449d94a8-4957-4b64-aa89-4abc15eb7694" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Expense_Management_System.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Expense_Management_System.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/detailedAccount.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/detailedAccount.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +42,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "/snap/pycharm-professional/412/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   },
@@ -99,7 +89,8 @@
       <workItem from="1725858912386" duration="1738000" />
       <workItem from="1725860674345" duration="259000" />
       <workItem from="1725860950741" duration="9206000" />
-      <workItem from="1725872613512" duration="1365000" />
+      <workItem from="1725872613512" duration="2520000" />
+      <workItem from="1725875485055" duration="2392000" />
     </task>
     <servers />
   </component>

@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
 
     # last_password_reset = models.DateTimeField(null=True, blank=True)
     gender = models.CharField(max_length=10, null=True, choices=GENDER_CHOICES, default="O")
-    userUID = models.CharField(max_length=100, blank=True, null=True, editable=False, unique=False)
+    userUID = models.CharField(max_length=100, blank=True, null=True, editable=True, unique=True)
     account_type = models.CharField(max_length=50, blank=False, null=False, default="classic", choices=TYPE_CHOICES)
     # session_code = models.CharField(max_length=3000, blank=True, null=True, default="")
     currency_type = models.CharField(max_length=50, blank=True, null=True, default="USD")
