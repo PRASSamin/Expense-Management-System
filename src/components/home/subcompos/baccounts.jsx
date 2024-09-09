@@ -209,96 +209,99 @@ useEffect(() => {
 
 
 
-                            {!selectedAccount ? (<div className="circular-menu circular-menu-left">
+
+
+
+                </div>
+            )}
+
+            {Cookies.get('userData') ? (
+              <>
+                  {  !selectedAccount ? (<div className="circular-menu circular-menu-left">
 
                 <a className="floating-btn"
-                   onClick={(e) => {
-                       e.preventDefault();
-                       e.stopPropagation();
-                       document.querySelector('.circular-menu').classList.toggle('active')
-                   }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
-                         fill={'currentColor'}
-                         viewBox="0 0 72 72">
-                        <path
-                            d="M56 48c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 48 54.798 48 56 48zM56 32c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 32 54.798 32 56 32zM56 16c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 16 54.798 16 56 16z"></path>
-                    </svg>
-                </a>
+                onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                document.querySelector('.circular-menu').classList.toggle('active')
+            }}>
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                 fill={'currentColor'}
+                 viewBox="0 0 72 72">
+                <path
+                    d="M56 48c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 48 54.798 48 56 48zM56 32c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 32 54.798 32 56 32zM56 16c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 16 54.798 16 56 16z"></path>
+            </svg>
+        </a>
 
-                <menu className="items-wrapper">
-                        <button
-                            data-tooltip-id="add_baccount" data-tooltip-content="Add Account"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setIsAddBank(true)
-                            }} type={'button'} className={'menu-item hover:bg-purple-700'}>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 width={'20'} height={'20'}
-                                 fill="currentColor"
-                                 className="bi bi-bank" viewBox="0 0 16 16">
-                                <path
-                                    d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
-                            </svg>
-                                <Tooltip
-                            delayShow={200}
-                            id='add_baccount'
-                            placement='top'>
+    <menu className="items-wrapper">
+        <button
+            data-tooltip-id="add_baccount" data-tooltip-content="Add Account"
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsAddBank(true)
+            }} type={'button'} className={'menu-item hover:bg-purple-700'}>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width={'20'} height={'20'}
+                 fill="currentColor"
+                 className="bi bi-bank" viewBox="0 0 16 16">
+                <path
+                    d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
+            </svg>
+            <Tooltip
+                delayShow={200}
+                id='add_baccount'
+                placement='top'>
 
-                        </Tooltip>
-                        </button>
+            </Tooltip>
+        </button>
 
-                    <button
-                         data-tooltip-id="interest_calc" data-tooltip-content="Interest Calculation"
-                        onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsAddBank(true)
-                    }} type={'button'} className={'menu-item hover:bg-yellow-400'}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             className="bi bi-calculator" viewBox="0 0 16 16">
-                            <path
-                                d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                            <path
-                                d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
-                        </svg>
-                      <Tooltip delayShow={200} id='interest_calc' placement='top'></Tooltip>
-                    </button>
+        <button
+            data-tooltip-id="interest_calc" data-tooltip-content="Interest Calculation"
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsAddBank(true)
+            }} type={'button'} className={'menu-item hover:bg-yellow-400'}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 className="bi bi-calculator" viewBox="0 0 16 16">
+                <path
+                    d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                <path
+                    d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            <Tooltip delayShow={200} id='interest_calc' placement='top'></Tooltip>
+        </button>
 
-                </menu>
+    </menu>
 
-            </div>) : null
-            }
-
-
-
-             {isDragging && (
-                <div
-                    className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                    onDragEnter={() => {
-                        setIsCompoOnTrash(true)
-                    }}
-                    onDragLeave={() => {
-                        setIsCompoOnTrash(false)
-                    }}
-                >
-                    Remove
-                </div>
-            )}
+</div>) :
+    null
+}
 
 
+    {
+        isDragging && (
+            <div
+                className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleDrop}
+                onDragEnter={() => {
+                    setIsCompoOnTrash(true)
+                }}
+                onDragLeave={() => {
+                    setIsCompoOnTrash(false)
+                }}
+            >
+                Remove
+            </div>
+        )
+    }
 
-            <AddBank isShow={isAddBank} user={userData} setIsShow={setIsAddBank} setIsRefresh={setIsRefresh}
-                     expenseOrIncome={'Account'}/>
 
-
-
-                </div>
-            )}
-
-
+    <AddBank isShow={isAddBank} user={userData} setIsShow={setIsAddBank} setIsRefresh={setIsRefresh}
+             expenseOrIncome={'Account'}/></>) : null
+}
         </main>
     );
 };
