@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import DataTable from 'react-data-table-component';
-import Cookies from 'js-cookie'
 import spinner from '../../../global/spinner'
 import Alert from '../../../global/alert';
 
@@ -15,9 +13,6 @@ const RecentActs = ({ isRefresh, setIsRefresh, userData }) => {
     const [isDeleting, setIsDeleting] = useState(false)
     const [removeResponse, setRemoveResponse] = useState(null)
     const [selectedRows, setSelectedRows] = useState([]);
-
-    const navigate = useNavigate()
-
 
     const handleChange = ({ selectedRows }) => {
         const ids = selectedRows.map((row) => row.id);
@@ -157,7 +152,7 @@ export default RecentActs
 
 export const ExpandedComponent = ({ data }) => {
     return (
-        <div className={`${data.type === 'Expense' ? 'bg-[#f8d7da]' : data.type === 'Income' ? 'bg-[#d1e7dd]' : 'bg-[#f8d7da]'}  px-2 py-1 text-sm`}>
+        <div className={`${data.type === 'Expense' ? 'bg-[#f8d7da]' : data.type === 'Income' ? 'bg-[#d1e7dd]' : data.type === 'Loan Payment' ? 'bg-[#d1e7dd]' : 'bg-[#f8d7da]'}  px-2 py-1 text-sm`}>
             <style>{`
           input {
           background-color: transparent !important; border: none !important; font-weight: bold !important;
@@ -179,10 +174,10 @@ export const ExpandedComponent = ({ data }) => {
                 <label htmlFor="Date">Category: </label>
                 <input type="text" readOnly value={data.category} />
             </div>
-            <div >
+            <di >
                 <label htmlFor="Date">Amount: </label>
                 <input type="text" readOnly value={data.amount + " " + data.user.currency_type} />
-            </div>
+            </di>
             <div >
                 <label htmlFor="Date">Account: </label>
                 <input type="text" readOnly value={`${(data.account.account_name)?.split(' ')

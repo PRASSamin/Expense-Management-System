@@ -31,10 +31,17 @@ const PayLoan = ({ data, isOpen, onClose, fetchAccountDetails }) => {
             })
 
             if (res.status === 200) {
+                setResponse({
+                    status: 'success',
+                    message: res.data.message
+                })
                 fetchAccountDetails()
             }
         } catch (err) {
-            console.log(err)
+            setResponse({
+                status: 'error',
+                message: err.response.data.message
+            })
         }
     }
 

@@ -194,7 +194,7 @@ const DetailedBAccount = ({ account_id, account_type, onClose, userUID, fetchAcc
 
 
     return (
-        <div className=" flex items-center justify-center mx-2">
+        <div className="z-50 flex items-center justify-center mx-2">
             {
                 isProcessing ? (
                     <div className='absolute top-1/2 translate-y-[-50%] w-full h-full flex items-center justify-center py-10 col-span-1 /md:col-span-2'>

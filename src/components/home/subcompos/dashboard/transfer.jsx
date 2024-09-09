@@ -322,7 +322,8 @@ const Transfer = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) =>
                         </div>
 
                         <div className='flex justify-between items-center gap-3'>
-                            <PrettoSlider
+                            <div className={'w-full flex justify-center items-center relative'}>
+                                <PrettoSlider
                                 defaultValue={0}
                                 valueLabelDisplay="auto"
                                 getAriaValueText={valuetext}
@@ -331,6 +332,10 @@ const Transfer = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) =>
                                 onChange={handleSliderChange}
                                 max={fromAccBalance}
                             />
+                                <span className={'absolute top-1/2 -translate-y-1/2 right-2 text-[13px] text-gray-600 '}>
+                                    {fromAccBalance}
+                                </span>
+                            </div>
                             <input
                                 className='max-w-20 outline-none border-[1.5px] border-[#FF8A54] bg-[#FFD2BE] p-1 rounded'
                                 value={transferData.amount}
