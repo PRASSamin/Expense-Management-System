@@ -206,26 +206,10 @@ useEffect(() => {
                         </div>
 
                     ))}
-                </div>
-            )}
 
-            {isDragging && (
-                <div
-                    className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                    onDragEnter={() => {
-                        setIsCompoOnTrash(true)
-                    }}
-                    onDragLeave={() => {
-                        setIsCompoOnTrash(false)
-                    }}
-                >
-                    Remove
-                </div>
-            )}
 
-            {!selectedAccount ? (<div className="circular-menu circular-menu-left">
+
+                            {!selectedAccount ? (<div className="circular-menu circular-menu-left">
 
                 <a className="floating-btn"
                    onClick={(e) => {
@@ -286,8 +270,35 @@ useEffect(() => {
             </div>) : null
             }
 
+
+
+             {isDragging && (
+                <div
+                    className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={handleDrop}
+                    onDragEnter={() => {
+                        setIsCompoOnTrash(true)
+                    }}
+                    onDragLeave={() => {
+                        setIsCompoOnTrash(false)
+                    }}
+                >
+                    Remove
+                </div>
+            )}
+
+
+
             <AddBank isShow={isAddBank} user={userData} setIsShow={setIsAddBank} setIsRefresh={setIsRefresh}
                      expenseOrIncome={'Account'}/>
+
+
+
+                </div>
+            )}
+
+
         </main>
     );
 };
