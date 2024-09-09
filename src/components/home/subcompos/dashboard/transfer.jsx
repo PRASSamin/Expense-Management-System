@@ -6,7 +6,7 @@ import { fetchData } from '../../../../utils';
 import { Spinner } from '../baccount/detailedAccount';
 
 function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
 const PrettoSlider = styled(Slider)({
@@ -75,7 +75,7 @@ const Transfer = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) =>
                 setIsShow(false);
                 setResponse({ type: "error", message: "You don't have any accounts. Please add one." });
             } else {
-                const filteredAccounts = res.data.data.filter(account => account?.account_type !== "credit");
+                const filteredAccounts = res.data.data.filter(account => account?.account_type !== "credit" && account?.account_type !== 'loan');
                 setAccounts(filteredAccounts);
             }
         } catch (err) {
@@ -329,7 +329,6 @@ const Transfer = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) =>
                                 min={0}
                                 value={typeof transferData.amount === 'number' ? transferData.amount : 0}
                                 onChange={handleSliderChange}
-
                                 max={fromAccBalance}
                             />
                             <input
