@@ -492,6 +492,12 @@ def PayCredit(request):
     current_date = timezone.now().date()
 
     if type == 'credit':
+        if account.last_payment_date == account.created_at.date():
+            return JsonResponse({
+                "status": "error",
+                "message": "Credit payment is not allowed on the first day of account creation."
+            }, status=400)
+
         if account.last_payment_date < current_date:
             ExpenseIncome.objects.create(
                 user=user,
@@ -522,6 +528,10 @@ def PayCredit(request):
         
         if amount > account.loan_remaining:
             return JsonResponse({"status": "error", "message": "Loan payment amount is greater than loan"}, status=400)
+        if account.last_payment_date == account.created_at.date():
+            return JsonResponse(
+                {"status": "error", "message": "Loan payment is not allowed on the first day of account creation."},
+                status=400)
         if account.last_payment_date >= current_date:
             return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
 

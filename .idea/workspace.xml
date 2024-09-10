@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="449d94a8-4957-4b64-aa89-4abc15eb7694" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/restoreCredit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/restoreCredit.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +23,7 @@
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/exportToHTML" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/EMS_Frontend" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -36,7 +40,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.codeium.enabled": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "BackEnd",
+    "git-widget-placeholder": "FrontEnd",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -90,12 +94,24 @@
       <workItem from="1725860674345" duration="259000" />
       <workItem from="1725860950741" duration="9206000" />
       <workItem from="1725872613512" duration="2520000" />
-      <workItem from="1725875485055" duration="2392000" />
+      <workItem from="1725875485055" duration="6466000" />
+      <workItem from="1725941214969" duration="1394000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
