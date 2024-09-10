@@ -15,13 +15,23 @@ const RestoreCredit = ({ data, isOpen, onClose, fetchAccountDetails }) => {
             return
         }
 
-        if (data.balanceData?.last_payment_date === CurrentDate) {
+          if (data.account?.last_payment_date === new Date(data.account?.created_at).toISOString().split('T')[0]) {
             setResponse({
                 status: 'error',
-                message: 'Card payment already made for today.'
+                message: 'Credit payment is not allowed on the first day of account creation.'
+            })
+            return
+          }
+
+
+        if (data.account?.last_payment_date === CurrentDate) {
+            setResponse({
+                status: 'error',
+                message: 'Credit payment already made for today.'
             })
             return
         }
+
         try {
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_PAY_CREDIT_API_EP}?q=${data.account.id}&u=${data.userData.userUID}&type=credit`,)
 
@@ -36,7 +46,7 @@ const RestoreCredit = ({ data, isOpen, onClose, fetchAccountDetails }) => {
         } catch (err) {
             setResponse({
                 status: 'error',
-                message: "Something went wrong."
+                message: err.response.data.message
             })
         }
     }

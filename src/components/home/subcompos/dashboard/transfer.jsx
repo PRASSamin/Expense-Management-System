@@ -80,7 +80,6 @@ const Transfer = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) =>
             }
         } catch (err) {
             console.error(err);
-            setIsShow(false);
         } finally {
             setIsAccountsFetching(false);
         }

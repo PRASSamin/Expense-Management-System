@@ -7,6 +7,7 @@ import { Icon } from '@mui/material';
 import { CreditCardIcon, BankAccountIcon, CashIcon, DebitCardIcon, LoanIcon, MobileIcon, Other } from './baccount/Icons'
 import AddBank from "./dashboard/addBank.jsx";
 import {Tooltip} from "react-tooltip";
+import {useNavigation} from "react-router-dom";
 
 const BankAccounts = ({ userData }) => {
     const [accounts, setAccounts] = useState([]);
@@ -66,14 +67,18 @@ const BankAccounts = ({ userData }) => {
         setIsDragging(false);
     };
 
-    const handleDrop = async (e) => {
+    const handleDrop = async (e, l) => {
         const account = JSON.parse(e.dataTransfer.getData('account'));
 
         try {
             const res = await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_DELETE_BANK_ACCOUNT_API_EP}?q=${account.id}&u=${userData.userUID}`)
 
             if (res.status === 200) {
-                await fetchAccounts();
+                if (l > 1) {
+                    await fetchAccounts();
+                } else {
+                    window.location.reload();
+                }
                 setIsDragging(false);
                 setIsCompoOnTrash(false);
             }
@@ -285,7 +290,9 @@ useEffect(() => {
             <div
                 className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
                 onDragOver={(e) => e.preventDefault()}
-                onDrop={handleDrop}
+                onDrop={(e) => {
+                    handleDrop(e,accounts.length)
+                }}
                 onDragEnter={() => {
                     setIsCompoOnTrash(true)
                 }}

@@ -246,6 +246,10 @@ export const columns = [
         selector: row => row.amount,
     },
     {
+        name: 'Balance',
+        selector: row => row?.account?.balance?.balance,
+    },
+    {
         name: 'Account',
         selector: row => row?.account?.account_type === 'cash' ? 'Cash' : row?.account?.account_number
     }

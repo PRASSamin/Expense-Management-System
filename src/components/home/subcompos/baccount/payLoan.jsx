@@ -8,10 +8,26 @@ const PayLoan = ({ data, isOpen, onClose, fetchAccountDetails }) => {
 
 
     const PayCredit = async () => {
-        if (data.account?.credit_used === 0) {
+        if (paymentAmount <= 0) {
             setResponse({
                 status: 'error',
-                message: 'No credit used yet.'
+                message: 'Invalid payment amount.'
+            })
+            return
+        }
+
+        if (data.account?.loan_remaining <= 0) {
+            setResponse({
+                status: 'error',
+                message: 'No loan remaining.'
+            })
+            return
+        }
+
+        if (data?.account?.last_payment_date === new Date(data?.account?.created_at).toISOString().split('T')[0]) {
+            setResponse({
+                status: 'error',
+                message: 'Loan payment is not allowed on the first day of account creation.'
             })
             return
         }
