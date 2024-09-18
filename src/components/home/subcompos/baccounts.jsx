@@ -6,8 +6,9 @@ import DetailedBAccount from './baccount/detailedAccount';
 import { Icon } from '@mui/material';
 import { CreditCardIcon, BankAccountIcon, CashIcon, DebitCardIcon, LoanIcon, MobileIcon, Other } from './baccount/Icons'
 import AddBank from "./dashboard/addBank.jsx";
-import {Tooltip} from "react-tooltip";
-import {useNavigation} from "react-router-dom";
+import { Tooltip } from "react-tooltip";
+import { useNavigation } from "react-router-dom";
+import InterestCalculation from './dashboard/instcalc.jsx';
 
 const BankAccounts = ({ userData }) => {
     const [accounts, setAccounts] = useState([]);
@@ -16,7 +17,7 @@ const BankAccounts = ({ userData }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [isCompoOnTrash, setIsCompoOnTrash] = useState(false);
     const [draggingAccount, setDraggingAccount] = useState(null);
-    const [isAddBank, setIsAddBank] = useState(false)
+    const [isPopup, setIsPopup] = useState(null)
     const [isRefresh, setIsRefresh] = useState(false)
 
     const navigate = useNavigate();
@@ -88,7 +89,7 @@ const BankAccounts = ({ userData }) => {
 
     };
 
-    
+
 
     const maskCardNumber = (cardNumber) => {
         if (cardNumber?.length <= 4) {
@@ -122,11 +123,11 @@ const BankAccounts = ({ userData }) => {
         )
     }
 
-useEffect(() => {
-    document.querySelector('body').addEventListener('click', () => {
-        document.querySelector('.circular-menu').classList.remove('active')
-    });
-}, [])
+    useEffect(() => {
+        document.querySelector('body').addEventListener('click', () => {
+            document.querySelector('.circular-menu').classList.remove('active')
+        });
+    }, [])
 
 
     return (
@@ -146,7 +147,7 @@ useEffect(() => {
                 <div
                     className='absolute top-1/2 translate-y-[-50%] w-full h-full flex items-center justify-center py-10 col-span-1 /md:col-span-2 pras-ov'>
                     <svg className="text-emerald-400 animate-spin w-[24px] h-[24px]" viewBox="0 0 64 64" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                        xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
                             stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path>
@@ -160,7 +161,7 @@ useEffect(() => {
                 !Cookies.get('userData') ? (
                     <div className='col-span-1 md:col-span-2 flex items-center justify-center h-[calc(100vh-60px)]'>
                         <button onClick={() => navigate('/login')}
-                                className='bg-[#00EA79] rounded-md shadow hover:bg-[#006cd8] transition-all duration-300'>
+                            className='bg-[#00EA79] rounded-md shadow hover:bg-[#006cd8] transition-all duration-300'>
                             <h1 className='text-[#000] text-[14px] md:text-[16px] font-bold px-3 py-3'>Login
                                 required</h1>
                         </button>
@@ -208,107 +209,109 @@ useEffect(() => {
                                     <p className='uppercase text-gray-700 '>{account?.account_name}</p>
                                 </div>
                             </div>
+                            {account.is_default ?
+                                <div className="wrap w-full h-[188px] absolute -top-[8px] left-[8px] overflow-hidden text-white font-light  before:content-[''] after:content-[''] before:absolute after:absolute before:w-[40px] before:h-[8px] before:right-[100px] before:bg-[#4D6530] before:rounded-t-lg after:w-[8px] after:h-[40px] after:right-0 after:top-[100px] after:bg-[#4D6530] after:rounded-r-lg">
+                                    <span className="w-[200px] h-[40px] leading-[40px] absolute top-[30px] right-[-50px] z-[2] overflow-hidden rotate-[45deg] border border-dashed border-white shadow-[0_0_0_3px_#57DD43,0_21px_5px_-18px_rgba(0,0,0,0.6)] bg-[#57DD43] text-center">Default</span>
+                                </div>
+                                : null}
                         </div>
 
                     ))}
-
-
-
-
 
 
                 </div>
             )}
 
             {Cookies.get('userData') ? (
-              <>
-                  {  !selectedAccount ? (<div className="circular-menu circular-menu-left">
+                <>
+                    {!selectedAccount ? (<div className="circular-menu circular-menu-left">
 
-                <a className="floating-btn"
-                onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                document.querySelector('.circular-menu').classList.toggle('active')
-            }}>
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
-                 fill={'currentColor'}
-                 viewBox="0 0 72 72">
-                <path
-                    d="M56 48c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 48 54.798 48 56 48zM56 32c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 32 54.798 32 56 32zM56 16c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 16 54.798 16 56 16z"></path>
-            </svg>
-        </a>
+                        <a className="floating-btn"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                document.querySelector('.circular-menu').classList.toggle('active')
+                            }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                fill={'currentColor'}
+                                viewBox="0 0 72 72">
+                                <path
+                                    d="M56 48c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 48 54.798 48 56 48zM56 32c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 32 54.798 32 56 32zM56 16c2.209 0 4 1.791 4 4 0 2.209-1.791 4-4 4-1.202 0-38.798 0-40 0-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4C17.202 16 54.798 16 56 16z"></path>
+                            </svg>
+                        </a>
 
-    <menu className="items-wrapper">
-        <button
-            data-tooltip-id="add_baccount" data-tooltip-content="Add Account"
-            onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsAddBank(true)
-            }} type={'button'} className={'menu-item hover:bg-purple-700'}>
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width={'20'} height={'20'}
-                 fill="currentColor"
-                 className="bi bi-bank" viewBox="0 0 16 16">
-                <path
-                    d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
-            </svg>
-            <Tooltip
-                delayShow={200}
-                id='add_baccount'
-                placement='top'>
+                        <menu className="items-wrapper">
+                            <button
+                                data-tooltip-id="add_baccount" data-tooltip-content="Add Account"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setIsPopup('bank')
+                                }} type={'button'} className={'menu-item hover:bg-purple-700'}>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    width={'20'} height={'20'}
+                                    fill="currentColor"
+                                    className="bi bi-bank" viewBox="0 0 16 16">
+                                    <path
+                                        d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z" />
+                                </svg>
+                                <Tooltip
+                                    delayShow={200}
+                                    id='add_baccount'
+                                    placement='top'>
 
-            </Tooltip>
-        </button>
+                                </Tooltip>
+                            </button>
 
-        <button
-            data-tooltip-id="interest_calc" data-tooltip-content="Interest Calculation"
-            onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsAddBank(true)
-            }} type={'button'} className={'menu-item hover:bg-yellow-400'}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                 className="bi bi-calculator" viewBox="0 0 16 16">
-                <path
-                    d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                <path
-                    d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
-            </svg>
-            <Tooltip delayShow={200} id='interest_calc' placement='top'></Tooltip>
-        </button>
+                            <button
+                                data-tooltip-id="interest_calc" data-tooltip-content="Interest Calculation"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setIsPopup('calc')
+                                }} type={'button'} className={'menu-item hover:bg-yellow-400'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    className="bi bi-calculator" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                    <path
+                                        d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                                <Tooltip delayShow={200} id='interest_calc' placement='top'></Tooltip>
+                            </button>
 
-    </menu>
+                        </menu>
 
-</div>) :
-    null
-}
-
-
-    {
-        isDragging && (
-            <div
-                className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                    handleDrop(e,accounts.length)
-                }}
-                onDragEnter={() => {
-                    setIsCompoOnTrash(true)
-                }}
-                onDragLeave={() => {
-                    setIsCompoOnTrash(false)
-                }}
-            >
-                Remove
-            </div>
-        )
-    }
+                    </div>) :
+                        null
+                    }
 
 
-    <AddBank isShow={isAddBank} user={userData} setIsShow={setIsAddBank} setIsRefresh={setIsRefresh}
-             expenseOrIncome={'Account'}/></>) : null
-}
+                    {
+                        isDragging && (
+                            <div
+                                className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white p-5 z-30 rounded-full ${isCompoOnTrash ? 'bg-red-500 border border-red-800 shadow scale-110' : 'bg-gray-500/80 border border-gray-800'} transition-all duration-300`}
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) => {
+                                    handleDrop(e, accounts.length)
+                                }}
+                                onDragEnter={() => {
+                                    setIsCompoOnTrash(true)
+                                }}
+                                onDragLeave={() => {
+                                    setIsCompoOnTrash(false)
+                                }}
+                            >
+                                Remove
+                            </div>
+                        )
+                    }
+
+
+                    {isPopup === 'bank' ? <AddBank isShow={isPopup} user={userData} setIsShow={setIsPopup} setIsRefresh={setIsRefresh}
+                        expenseOrIncome={'Account'} /> : isPopup === 'calc' ? <InterestCalculation isShow={isPopup} user={userData} setIsShow={setIsPopup} setIsRefresh={setIsRefresh}
+                            expenseOrIncome={'Account'} /> : null}</>) : null
+            }
         </main>
     );
 };

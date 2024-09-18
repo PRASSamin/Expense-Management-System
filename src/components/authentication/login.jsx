@@ -5,7 +5,6 @@ import prasme from '../../assets/prasme-b.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { DecodeJWT } from '../../utils'
 import { useNavigate } from 'react-router-dom'
 const Login = () => {
     const [activeFeild, setActiveFeild] = useState(null)
@@ -93,7 +92,7 @@ const Login = () => {
                                     </svg>
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="email"
-                                            className={`text-[#6E6E6E] cursor-pointer text-[13px] transition-all duration-300 select-none ${activeFeild === 'email' || credentials.email.length !== 0 ? 'mt-0 mb-1' : '-mb-6'} z-10`} >Email Address</label>
+                                            className={`text-[#6E6E6E] cursor-text text-[13px] transition-all duration-300 select-none ${activeFeild === 'email' || credentials.email.length !== 0 ? 'mt-0 mb-1' : '-mb-6'} z-10`} >Email Address</label>
                                         <input onFocus={() => setActiveFeild('email')}
                                             autoComplete='off'
                                             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
@@ -108,7 +107,7 @@ const Login = () => {
                                     </svg>
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="password"
-                                            className={`text-[#6E6E6E] cursor-pointer text-[13px] transition-all duration-300 select-none ${activeFeild === 'password' || credentials.password.length !== 0 ? 'mt-0 mb-1' : '-mb-6'} z-10`} >Password</label>
+                                            className={`text-[#6E6E6E] cursor-text text-[13px] transition-all duration-300 select-none ${activeFeild === 'password' || credentials.password.length !== 0 ? 'mt-0 mb-1' : '-mb-6'} z-10`} >Password</label>
                                         <input onFocus={() => setActiveFeild('password')}
                                             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                                             onBlur={() => setActiveFeild(null)} className='w-full outline-none bg-transparent' type="password" name="password" id="password" />
@@ -119,7 +118,7 @@ const Login = () => {
                                 response && <p className={` font-bold ${response.type === 'success' ? 'text-[#5ed0c6]' : response.type === 'errorInfo' ? 'text-[#9d9500]' : 'text-[#f00]'} text-[13px]`}>{response.message}</p>
                             }
                             <button
-                                type='submit' disabled={isLoginProcessing} className={`w-24 flex justify-center bg-[#5ed0c6] text-[#ffffff] font-bold hover:bg-[#5fa7a1] transition-all duration-300 text-white py-2 rounded-full text-[13px] md:text-[14px] `}>
+                                type='submit' disabled={isLoginProcessing} className={`w-24 flex justify-center bg-[#5ed0c6]  font-bold hover:bg-[#5fa7a1] transition-all duration-300 text-white py-2 rounded-full text-[13px] md:text-[14px] `}>
                                 {isLoginProcessing ? (
                                     <div>
                                         <svg className="text-gray-100 animate-spin w-[19.5px] h-[19.5px] md:w-[21px] md:h-[21px]" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"

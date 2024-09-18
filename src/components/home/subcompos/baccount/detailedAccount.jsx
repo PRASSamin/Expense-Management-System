@@ -287,14 +287,20 @@ const DetailedBAccount = ({ account_id, account_type, onClose, userUID, fetchAcc
                         </div> : account?.account_type === 'credit' ? (
                             <div className='flex flex-col gap-2 my-5'>
                                 <div className='w-full py-14 bg-white shadow rounded grid grid-cols-1 place-items-center relative'>
-                                    <div className='flex flex-col  gap-1 items-center justify-center'>
-                                        <div className='flex w-full flex-col gap-1 items-center justify-center pb-5'>
+                                    <h1 className='text-[12px] absolute top-1 right-2 text-gray-500 font-bold'>Interest Rate: {account?.interest_rate}%</h1>
+                                    <div className='flex  gap-1 items-center justify-center rotate-45'>
+                                        <div className='flex w-full flex-col gap-1 items-center justify-center pt-5 -rotate-45'>
+
+                                            <h1 data-tooltip-id="credit_used" data-tooltip-content="Credit Used" className=' flex items-start justify-start text-green-500 font-bold text-lg  md:text-xl cursor-pointer'>{Math.abs(balanceData?.balance)}</h1><Tooltip id='credit_used' placement='top'></Tooltip>
+                                        </div>
+                                        <div className='w-1 h-20 bg-gray-400 rounded mx-2' />
+
+                                        <div className='flex w-full flex-col gap-1 items-center justify-center pb-5 -rotate-45'>
                                             <h1
-                                                data-tooltip-id="credit_limit" data-tooltip-content="Credit Used"
-                                                className={`${balanceData?.balance >= 0 ? 'text-green-500' : 'text-red-500'} font-bold  text-lg  md:text-xl`}>{(balanceData?.balance)} {userData?.currency_type}</h1>
+                                                data-tooltip-id="credit_limit" data-tooltip-content="Credit Limit"
+                                                className='cursor-pointer text-green-500 font-bold  text-lg  md:text-xl'>{parseInt(account?.credit_limit)}</h1>
                                             <Tooltip id='credit_limit' placement='top'></Tooltip>
                                         </div>
-                                        <h1 className='text-lg md:text-xl font-bold'>Credit Used</h1>
                                     </div>
 
 

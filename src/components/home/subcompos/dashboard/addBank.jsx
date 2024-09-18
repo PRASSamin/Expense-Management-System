@@ -1,9 +1,13 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import cookies from 'js-cookie';
 import { getMyData } from '../../../../utils';
 import { Spinner } from '../baccount/detailedAccount';
 import { useAppContext } from '../../../../root';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Select from 'react-select';
+
 
 const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => {
     const [addData, setAddData] = useState({
@@ -12,10 +16,9 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
         account_name: '',
         mobile_bank: '',
         is_default: false,
+        transfer_rate: 0,
     });
-    const [errors, setErrors] = useState({});
     const [isProcessing, setIsProcessing] = useState(false);
-    const [response, setResponse] = useState(null);
     const { refreshApp } = useAppContext();
     const [isOther, setIsOther] = useState(false);
 
@@ -23,12 +26,15 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
         let validationErrors = {};
 
         if (!addData.account_number && addData.account_type !== 'cash') {
-            validationErrors.card_number = 'Invalid account number';
+            validationErrors = 'Invalid account number';
         }
-        if (!addData.account_type) validationErrors.account_type = 'Account type is required';
-        if (!addData.account_name) validationErrors.account_name = 'Account title is required';
+        if (!addData.account_type) validationErrors = 'Account type is required';
+        if (!addData.account_name) validationErrors = 'Account title is required';
+        if (['credit', 'loan'].includes(addData.account_type) && !addData.interest_rate) validationErrors = 'Interest rate is required';
+        if (['credit'].includes(addData.account_type) && !addData.credit_limit) validationErrors = 'Credit limit is required';
+        if (['loan'].includes(addData.account_type) && !addData.loan_amount) validationErrors = 'Loan amount is required';
 
-        setErrors(validationErrors);
+        toast.error(validationErrors);
         return Object.keys(validationErrors).length === 0;
     };
 
@@ -39,18 +45,19 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
         if (!validate()) return;
 
         setIsProcessing(true);
-        setResponse(null);
         try {
             const requestData = {
                 account_number: addData.account_type === 'cash' ? '' : addData.account_number,
                 account_type: addData.account_type,
                 account_name: addData.account_name,
                 mobile_bank: addData.mobile_bank,
-                is_default: addData.is_default
+                is_default: addData.is_default,
+                transfer_rate: addData.transfer_rate,
             };
 
             if (addData.account_type === 'credit') {
                 requestData.interest_rate = addData.interest_rate;
+                requestData.credit_limit = addData.credit_limit;
             } else if (addData.account_type === 'loan') {
                 requestData.loan_amount = addData.loan_amount;
                 requestData.interest_rate = addData.interest_rate;
@@ -67,11 +74,10 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
             setIsShow(false);
             setIsRefresh(true);
             setAddData(null);
-            setResponse(null);
             refreshApp();
             e.target.reset();
         } catch (err) {
-            setResponse({ type: "error", message: err?.response?.data?.message });
+            toast.error(err?.response?.data?.message);
         } finally {
             setIsProcessing(false);
         }
@@ -89,45 +95,50 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
                 <form onSubmit={submitData} className='flex flex-col justify-between h-[calc(100%-49px)] pt-3'>
                     <style>
                         {`
-        label {
+                            label {
         font-weight: 500;
         font-size: 14px;
         }
-        input, select {
+        input, select, textarea {
         outline: none;
-        border: 1px solid #EEF2F5;
-        background-color: #EEF2F5;
+        border: 1px solid hsl(0, 0%, 80%);
+        background-color: hsl(0, 0%, 100%);
         cursor: pointer;
+        transition: all 100ms;
+        -webkit-transition: all 100ms;
+        }
+        input:hover , select:hover , textarea:hover {
+        border: 1px solid hsl(0, 0%, 70%);
         }
 
         [data-lastpass-icon-root] {
         display: none;
         }
-        `}
+                        `}
                     </style>
 
                     <div className='flex flex-col gap-3'>
                         <div>
                             <label htmlFor="account_type">Account Type<span className='text-red-500'>*</span></label>
-                            <select onChange={(e) => {
-                                if (e.target.value === 'other') {
-                                    setIsOther(true)
-                                } else {
-                                    setAddData({ ...addData, account_type: e.target.value })
-                                }
-
-                            }}
-                                defaultValue={'genaral'}
-                                name="account_type" id="account_type"
-                                className='w-full border border-gray-300 rounded px-2 py-1' required>
-                                <option value="genaral">Bank Account</option>
-                                <option value="credit">Credit Card</option>
-                                <option value="debit">Debit Card</option>
-                                <option value="mobile">Mobile Wallet</option>
-                                <option value="loan">Loan Account</option>
-                                <option value={'cash'}>Cash</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <Select
+                                options={[
+                                    { value: 'genaral', label: 'Bank Account' },
+                                    { value: 'credit', label: 'Credit Card' },
+                                    { value: 'debit', label: 'Debit Card' },
+                                    { value: 'mobile', label: 'Mobile Wallet' },
+                                    { value: 'loan', label: 'Loan Account' },
+                                    { value: 'cash', label: 'Cash' },
+                                    { value: 'other', label: 'Other' }
+                                ]}
+                                onChange={(selectedOption) => {
+                                    if (selectedOption.value === 'other') {
+                                        setIsOther(true)
+                                    } else {
+                                        setAddData({ ...addData, account_type: selectedOption.value })
+                                    }
+                                }}
+                                isDisabled={false}
+                            />
                         </div>
                         {isOther && <div>
                             <label htmlFor="account_type">Custom Account<span className='text-red-500'>*</span></label>
@@ -159,20 +170,27 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
                             <input onChange={(e) => {
                                 setAddData({ ...addData, account_number: e.target.value });
                             }}
-                                autoComplete='off' type="text" name="account_number" id="account_number"
+                                autoComplete='off' type="number" name="account_number" id="account_number"
                                 placeholder='eg. 1234567890'
                                 className='placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' required />
-                            {errors.card_number && <p className="text-red-500 text-sm">{errors.card_number}</p>}
                         </div>}
                         {
                             addData.account_type === 'credit' && (
 
-                                <div>
-                                    <label htmlFor="interest_rate">Interest Rate {"(% per annum)"}<span className='text-red-500'>*</span></label>
-                                    <input onChange={(e) => setAddData({ ...addData, interest_rate: e.target.value })}
-                                        type="text" placeholder='eg. 10' name="interest_rate" id="interest_rate"
-                                        className=' placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
-                                </div>
+                                <>
+                                    <div>
+                                        <label htmlFor="interest_rate">Interest Rate {"(% per annum)"}<span className='text-red-500'>*</span></label>
+                                        <input onChange={(e) => setAddData({ ...addData, interest_rate: e.target.value })}
+                                            type="number" placeholder='eg. 10' name="interest_rate" id="interest_rate"
+                                            className=' placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="credit_limit">Credit Limit<span className='text-red-500'>*</span></label>
+                                        <input onChange={(e) => setAddData({ ...addData, credit_limit: e.target.value })}
+                                            type="number" placeholder='eg. 10000' name="credit_limit" id="credit_limit"
+                                            className=' placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
+                                    </div>
+                                </>
 
 
                             )
@@ -184,14 +202,14 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
                                     <div>
                                         <label htmlFor="interest_rate">Interest Rate {"(% per annum)"}<span className='text-red-500'>*</span></label>
                                         <input onChange={(e) => setAddData({ ...addData, interest_rate: e.target.value })}
-                                            type="text" name="interest_rate" id="interest_rate"
+                                            type="number" name="interest_rate" id="interest_rate"
                                             placeholder='eg. 10'
                                             className=' placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
                                     </div>
                                     <div>
                                         <label htmlFor="loan_amount">Loan Amount<span className='text-red-500'>*</span></label>
                                         <input onChange={(e) => setAddData({ ...addData, loan_amount: e.target.value })}
-                                            type="text" name="loan_amount" id="loan_amount"
+                                            type="number" name="loan_amount" id="loan_amount"
                                             placeholder='eg. 10000'
                                             className=' placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
                                     </div>
@@ -203,6 +221,12 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
 
 
                         <div>
+                            <label htmlFor="transfer_rate">Transfer Rate<span className='text-red-500'>*</span></label>
+                            <input placeholder='eg. 1' autoComplete='off' onChange={(e) => setAddData({ ...addData, transfer_rate: e.target.value })}
+                                type="number" name="transfer_rate" id="transfer_rate"
+                                className='placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
+                        </div>
+                        <div>
                             <label htmlFor="account_name">Account Title<span className='text-red-500'>*</span></label>
                             <input placeholder='eg. My Bank Account' onChange={(e) => setAddData({ ...addData, account_name: e.target.value })}
                                 type="text" name="account_name" id="account_name"
@@ -212,7 +236,7 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
 
 
                     <div className={`flex ${addData.account_type === 'loan' ? 'justify-end' : 'justify-between'}`}>
-                      {addData.account_type !== 'loan' &&  <div className="flex justify-between col-span-1 lg:col-span-2">
+                        {addData.account_type !== 'loan' && <div className="flex justify-between col-span-1 lg:col-span-2">
                             <div className="flex flex-col sm:flex-row gap-1 sm:items-center">
                                 <div className="w-full">
                                     <label
@@ -238,13 +262,21 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
                         </div>
 
                     </div>
-                    {response && (
-                        <div className={`py-2 px-3 rounded ${response.type === "error" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
-                            {response.message}
-                        </div>
-                    )}
                 </form>
             </div>
+            <ToastContainer
+                stacked={true}
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     );
 };

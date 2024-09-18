@@ -50,14 +50,35 @@ const Home = ({ activeTab }) => {
         <h1 className="sr-only">Sidebar</h1>
         <ul className='flex flex-col gap-1 text-[14px] '>
           <li>
-            <button onClick={() => navigate('/dashboard')} type='button' className={`${activeTab === 'dashboard' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2  p-2 rounded w-full`}>
+            <button onClick={(e) => {
+              if (e.ctrlKey) {
+                window.open('/dashboard', '_blank');
+              } else {
+                navigate('/dashboard')
+
+              }
+            }} type='button' className={`${activeTab === 'dashboard' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2  p-2 rounded w-full`}>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-boxes" viewBox="0 0 16 16">
                   <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
                 </svg></div><span className={isCollapsed ? "hidden" : "block"}>Dashboard</span>
             </button>
           </li>
+          <li className=''>
+            <button id='accountsTab' onClick={() => {
+              if (window.location.pathname !== '/accounts') {
+                navigate('/accounts')
 
+              }
+            }
+            }
+              type='button' className={`${activeTab === 'accounts' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bank" viewBox="0 0 16 16">
+                <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z" />
+              </svg>
+              <span className={isCollapsed ? "hidden" : "block"}>Accounts</span>
+            </button>
+          </li>
           <li className='flex items-center gap-2'>
             <button onClick={() => navigate('/incomes')} type='button' className={`${activeTab === 'incomes' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8] '} flex items-center gap-2 p-2 rounded w-full`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-credit-card" viewBox="0 0 16 16">
@@ -81,21 +102,6 @@ const Home = ({ activeTab }) => {
                 <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z" />
               </svg>
               <span className={isCollapsed ? "hidden" : "block"}>Reports</span>
-            </button>
-          </li>
-          <li className=''>
-            <button id='accountsTab' onClick={() =>{
-              if (window.location.pathname !== '/accounts') {
-                navigate('/accounts')
-
-              }
-            } 
-          } 
-            type='button' className={`${activeTab === 'accounts' ? 'bg-[#D6EBFE] text-[#4495DE] font-bold hover:bg-[#a4d3ff]' : 'hover:bg-[#d8d8d8]'} flex items-center gap-2 p-2 rounded w-full`}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bank" viewBox="0 0 16 16">
-                <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z" />
-              </svg>
-              <span className={isCollapsed ? "hidden" : "block"}>Accounts</span>
             </button>
           </li>
           {Cookies.get('userData') ? <li className='absolute bottom-3 left-1/2 -translate-x-1/2'>
@@ -142,7 +148,7 @@ const Home = ({ activeTab }) => {
           </div>
         </div>
         {
-          activeTab === 'dashboard' ? <Dashboard userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'accounts' ? <BankAccounts userData={userData} /> : <Reports userData={userData} />}
+          activeTab === 'dashboard' ? <Reports userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'accounts' ? <BankAccounts userData={userData} /> : <Dashboard userData={userData} />}
       </section>
     </div>
   )

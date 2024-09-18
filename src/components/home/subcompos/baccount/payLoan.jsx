@@ -1,42 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PayLoan = ({ data, isOpen, onClose, fetchAccountDetails }) => {
-    const [response, setResponse] = useState(null);
     const CurrentDate = new Date().toISOString().split('T')[0];
     const [paymentAmount, setPaymentAmount] = useState(0);
 
 
     const PayCredit = async () => {
         if (paymentAmount <= 0) {
-            setResponse({
-                status: 'error',
-                message: 'Invalid payment amount.'
-            })
+            toast.error('Invalid payment amount.')
             return
         }
 
         if (data.account?.loan_remaining <= 0) {
-            setResponse({
-                status: 'error',
-                message: 'No loan remaining.'
-            })
+            toast.error('No loan remaining.')
             return
         }
 
         if (data?.account?.last_payment_date === new Date(data?.account?.created_at).toISOString().split('T')[0]) {
-            setResponse({
-                status: 'error',
-                message: 'Loan payment is not allowed on the first day of account creation.'
-            })
+            toast.error('Loan payment is not allowed on the first day of account creation.')
             return
         }
 
         if (data.account?.last_payment_date === CurrentDate) {
-            setResponse({
-                status: 'error',
-                message: 'Card payment already made for today.'
-            })
+            toast.error('Card payment already made for today.')
             return
         }
         try {
@@ -47,17 +36,11 @@ const PayLoan = ({ data, isOpen, onClose, fetchAccountDetails }) => {
             })
 
             if (res.status === 200) {
-                setResponse({
-                    status: 'success',
-                    message: res.data.message
-                })
+                toast.success(res.data.message)
                 fetchAccountDetails()
             }
         } catch (err) {
-            setResponse({
-                status: 'error',
-                message: err.response.data.message
-            })
+            toast.error(err.response.data.message)
         }
     }
 
@@ -94,11 +77,6 @@ const PayLoan = ({ data, isOpen, onClose, fetchAccountDetails }) => {
                         <label htmlFor="payment_amount">Amount</label>
                         <input type='number' onChange={(e) => setPaymentAmount(e.target.value)} name="payment_amount" id="payment_amount" className='w-full border border-gray-300 rounded px-2 py-1.5 outline-none bg-slate-100' />
                     </div>
-                    {
-                        response ? (
-                            <div className={`text-[13px] ${response?.status === 'error' ? 'text-red-500' : 'text-green-500'}`}>{response?.message}</div>
-                        ) : null
-                    }
                     <div className='flex justify-center gap-1'><button type='button' onClick={() => PayCredit()} className='w-full bg-black text-white rounded py-1.5 transition-all duration-300 hover:bg-black/90'>Pay</button>
                         <button type='button' onClick={() => { onClose() }} className='px-2 border transition-all duration-300 border-black bg-transparent hover:text-white rounded py-1.5 hover:bg-black'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
@@ -108,7 +86,19 @@ const PayLoan = ({ data, isOpen, onClose, fetchAccountDetails }) => {
                     </div>
                 </div>
             </div>
-
+            <ToastContainer
+                stacked={true}
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     )
 }

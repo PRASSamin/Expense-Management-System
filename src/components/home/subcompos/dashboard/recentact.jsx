@@ -149,52 +149,56 @@ const RecentActs = ({ isRefresh, setIsRefresh, userData }) => {
 export default RecentActs
 
 
-
 export const ExpandedComponent = ({ data }) => {
     return (
-        <div className={`${data.type === 'Expense' ? 'bg-[#f8d7da]' : data.type === 'Income' ? 'bg-[#d1e7dd]' : data.type === 'Loan Payment' ? 'bg-[#d1e7dd]' : 'bg-[#f8d7da]'}  px-2 py-1 text-sm`}>
-            <style>{`
-          input {
-          background-color: transparent !important; border: none !important; font-weight: bold !important;
-          outline: none !important;
-          border: none !important;
-          }
-          label {
-            font-weight: normal !important;}
-          `}</style>
-            <div >
-                <label htmlFor="title">Title: </label>
-                <input type="text" readOnly value={data.title} />
-            </div>
-            <div >
-                <label htmlFor="Date">Date: </label>
-                <input type="text" readOnly value={data.date} />
-            </div>
-            <div >
-                <label htmlFor="Date">Category: </label>
-                <input type="text" readOnly value={data.category} />
-            </div>
-            <di >
-                <label htmlFor="Date">Amount: </label>
-                <input type="text" readOnly value={data.amount + " " + data.user.currency_type} />
-            </di>
-            <div >
-                <label htmlFor="Date">Account: </label>
-                <input type="text" readOnly value={`${(data.account.account_name)?.split(' ')
-                    ?.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                    ?.join(' ')} (${data.account?.account_type === 'debit' ? 'Debit Card' :
-                        data.account?.account_type === 'credit' ? 'Credit Card' :
-                            data.account?.account_type === 'genaral' ? 'Bank Account' :
-                                data.account?.account_type === 'mobile' ? data.account?.mobile_bank : data.account?.account_type === 'cash' ? 'Cash' : data?.account?.account_type})`} />
-            </div>
-            <div className='flex gap-2'>
-                <label htmlFor="Date">Description: </label>
-                <p className='bg-transparent border-none w-full resize-none font-bold'>{data.description ? data.description : "N/A"}</p>
+        <div className={`border-l-4 ${['Income', 'Credit Payment'].some(type => data.type.includes(type)) ? "border-green-500 bg-green-50" : "border-red-400 bg-red-50"}  px-4 py-3 `}>
+            <div className="flex flex-col gap-8">
+                <div className='flex flex-col gap-3'>
+                    <div>
+                        <span className={`${['Income', 'Credit Payment'].some(type => data.type.includes(type)) ? " bg-green-500" : "bg-red-500"} rounded-full text-white text-sm px-2 py-1  font-bold`}>
+                            {data.category}
+                        </span>
+                    </div>
+                    <div className='flex flex-col'>
+                        <p className="font-bold text-2xl">{data.title}</p>
+                        <p className='font-medium text-sm text-gray-800'>
+                            {data.description}
+                        </p>
+                    </div>
+                </div>
+
+                <div className='bg-white px-3 py-8 rounded-md border border-gray-400 flex justify-between'>
+                    <p className="text-gray-800 font-bold uppercase">
+                        {data.account.account_name} ({getAccountType(data.account.account_type)})
+                    </p>
+                    <p className={`${['Income', 'Credit Payment'].some(type => data.type.includes(type)) ? 'text-green-600' : 'text-red-600'} font-bold`}>
+                        {['Income', 'Credit Payment'].some(type => data.type.includes(type)) ? `+${data.amount}` : `-${data.amount}`}
+                    </p>
+                </div>
+
             </div>
         </div>
+    );
+};
 
-    )
-}
+const getAccountType = (type) => {
+    switch (type) {
+        case 'debit':
+            return 'Debit Card';
+        case 'credit':
+            return 'Credit Card';
+        case 'genaral':
+            return 'Bank Account';
+        case 'mobile':
+            return 'Mobile Bank';
+        case 'cash':
+            return 'Cash';
+        case 'loan':
+            return 'Loan Account';
+        default:
+            return '';
+    }
+};
 
 
 export const deleteRows = async (selectedRows, setIsRefresh, setSelectedRows, setIsDeleting, userData, setRemoveResponse) => {
@@ -224,6 +228,10 @@ export const deleteRows = async (selectedRows, setIsRefresh, setSelectedRows, se
 
 export const columns = [
     {
+        name: 'Account',
+        selector: row => row?.account?.account_type === 'cash' ? 'Cash' : row?.account?.account_number
+    },
+    {
         name: 'Title',
         selector: row => row.title,
     },
@@ -234,14 +242,6 @@ export const columns = [
         reorder: true,
     },
     {
-        name: 'Type',
-        selector: row => row.type,
-    },
-    {
-        name: 'Category',
-        selector: row => row.category,
-    },
-    {
         name: 'Amount',
         selector: row => row.amount,
     },
@@ -250,9 +250,13 @@ export const columns = [
         selector: row => row?.account?.balance?.balance,
     },
     {
-        name: 'Account',
-        selector: row => row?.account?.account_type === 'cash' ? 'Cash' : row?.account?.account_number
-    }
+        name: 'Type',
+        selector: row => row.type,
+    },
+    {
+        name: 'Category',
+        selector: row => row.category,
+    },
 ]
 
 
@@ -274,15 +278,15 @@ export const conditionalRowStyles = [
     {
         when: row => row.type === 'Credit Payment',
         style: {
-            backgroundColor: '#f8d7da',
-            color: '#721c24',
+            backgroundColor: '#d4edda',
+            color: '#155724',
         }
     },
     {
         when: row => row.type === 'Loan Payment',
         style: {
-            backgroundColor: '#d4edda',
-            color: '#155724',
+            backgroundColor: '#f8d7da',
+            color: '#721c24',
         }
     }
 ]

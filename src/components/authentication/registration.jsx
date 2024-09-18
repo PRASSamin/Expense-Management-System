@@ -5,7 +5,6 @@ import prasme from '../../assets/prasme-b.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import cookies from 'js-cookie'
-import { DecodeJWT } from '../../utils'
 import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
@@ -186,7 +185,7 @@ const Register = () => {
 
                                     </div>
                                 </div>
-                                <div className=' bg-[#EEF2F5] px-3 rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5'>
+                                <div className=' bg-[#EEF2F5] px-3 rounded-md border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="last_name"
@@ -196,7 +195,7 @@ const Register = () => {
                                             className='w-full placeholder:text-[#a7a7a7] outline-none bg-transparent placeholder:text-[15px]' type="text" name="last_name" id="last_name" placeholder='Last Name' />
                                     </div>
                                 </div>
-                                <div className=' bg-[#EEF2F5] px-3 rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5'>
+                                <div className=' bg-[#EEF2F5] px-3 rounded-md border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="last_name"
@@ -206,7 +205,7 @@ const Register = () => {
                                             className='w-full placeholder:text-[15px] placeholder:text-[#a7a7a7] outline-none bg-transparent' type="text" name="username" id="username" placeholder='Username' />
                                     </div>
                                 </div>
-                                <div className=' bg-[#EEF2F5]  rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5'>
+                                <div className=' bg-[#EEF2F5]  rounded-md border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="gender"
@@ -255,7 +254,7 @@ const Register = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className=' bg-[#EEF2F5] px-3 rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
+                                <div className=' bg-[#EEF2F5] px-3 rounded-md border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="email"
@@ -265,7 +264,7 @@ const Register = () => {
                                             className='w-full placeholder:text-[15px] placeholder:text-[#a7a7a7] outline-none bg-transparent' type="email" name="email" id="email" placeholder='Email Address' />
                                     </div>
                                 </div>
-                                <div className=' bg-[#EEF2F5] px-3 rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
+                                <div className=' bg-[#EEF2F5] px-3 rounded-md border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="password"
@@ -279,7 +278,7 @@ const Register = () => {
                                     </button>
 
                                 </div>
-                                <div className=' bg-[#EEF2F5] px-3 rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
+                                <div className=' bg-[#EEF2F5] px-3 rounded-md border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="confirmPassword"
@@ -292,7 +291,7 @@ const Register = () => {
                                         {showConfirmPassword ? <EyeClose /> : <Eye />}
                                     </button>
                                 </div>
-                                <div className=' bg-[#EEF2F5]  rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center w-full py-3 gap-5 col-span-1 lg:col-span-2'>
+                                <div className=' bg-[#EEF2F5]  rounded-md w-full border-b border-[#cfcfcf] flex items-center justify-center py-3 gap-5 col-span-1 lg:col-span-2'>
 
                                     <div className='flex flex-col w-full'>
                                         <label htmlFor="gender"
@@ -346,7 +345,7 @@ const Register = () => {
                                 response && <p className={` font-bold ${response.type === 'success' ? 'text-[#5ed0c6]' : response.type === 'error' ? 'text-[#f00]' : 'text-[#9d9500]'} text-[13px]`}>{response.message}</p>
                             }
                             <button
-                                type='submit' disabled={isLoginProcessing} className={`w-24 flex justify-center bg-[#5ed0c6] text-[#ffffff] font-bold hover:bg-[#5fa7a1] transition-all duration-300 text-white py-2 rounded-full text-[13px] md:text-[14px] `}>
+                                type='submit' disabled={isLoginProcessing} className={`w-24 flex justify-center bg-[#5ed0c6] font-bold hover:bg-[#5fa7a1] transition-all duration-300 text-white py-2 rounded-full text-[13px] md:text-[14px] `}>
                                 {isLoginProcessing ? (
                                     <div>
                                         <svg className="text-gray-100 animate-spin w-[19.5px] h-[19.5px] md:w-[21px] md:h-[21px]" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
