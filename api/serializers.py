@@ -12,7 +12,7 @@ class BankAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankAccount
         fields = (
-            'user', 'account_number', 'account_type', 'mobile_bank', 'account_name', 'balance', 'is_default', 'id', 'created_at', 'updated_at'
+            'user', 'account_number', 'account_type', 'mobile_bank', 'account_name', 'balance', 'is_default', 'id', 'created_at', 'updated_at', 'transfer_rate'
         )
         read_only_fields = ('id', 'created_at', 'updated_at')
 

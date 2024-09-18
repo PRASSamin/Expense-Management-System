@@ -13,7 +13,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(BankAccount)
 class BankAccountAdmin(admin.ModelAdmin):
-    list_display = ['user', 'account_name', 'account_type', 'account_number', 'is_default']
+    list_display = ['id', 'user', 'account_name', 'account_type', 'account_number', 'is_default']
     search_fields = ['user__username', 'account_number']
 
 @admin.register(ExpenseIncome)
@@ -26,6 +26,13 @@ class BalanceAdmin(admin.ModelAdmin):
     list_display = [ 'balance']
     search_fields = ['card__card_number']
 
+@admin.register(CreditCard)
+class CreditCardAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'account_name', 'account_type', 'account_number', 'is_default']
+    search_fields = ['user__username', 'account_number']
 
-admin.site.register(CreditCard)
-admin.site.register(LoanAccount)
+
+@admin.register(LoanAccount)
+class LoanAccountAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'account_name', 'account_type', 'account_number', 'is_default']
+    search_fields = ['user__username', 'account_number']

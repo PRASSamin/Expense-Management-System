@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
 class ExpenseIncome(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     date = models.DateField()
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -63,12 +63,13 @@ class BankAccount(models.Model):
     #     ('mobile', 'Mobile Wallet'),
     #     ('cash', 'Cash'),
     # ]
-    
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='bank_accounts')
-    account_number = models.CharField(max_length=16, unique=True, null=True, blank=True)
+    account_number = models.CharField(max_length=16, unique=False, null=True, blank=True)
     account_type = models.CharField(max_length=10)
     mobile_bank = models.CharField(max_length=100, null=True, blank=True)
     account_name = models.CharField(max_length=100) 
+    transfer_rate = models.IntegerField(default=0, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_default = models.BooleanField(default=False)
@@ -85,11 +86,12 @@ class BankAccount(models.Model):
 
 
 class LoanAccount(BankAccount):
-    interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    loan_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    loan_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     loan_remaining = models.DecimalField(max_digits=10, null=True, blank=True, decimal_places=2, )
     last_interest_update = models.DateField(default=timezone.now)
     last_payment_date = models.DateField(default=timezone.now)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Loan Account for {self.account_name} with amount {self.loan_amount}"
@@ -101,10 +103,11 @@ class LoanAccount(BankAccount):
 
 
 class CreditCard(BankAccount):
-    interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    interest_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    credit_limit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     last_payment_date = models.DateField(default=timezone.now)
     last_interest_update = models.DateField(default=timezone.now)
-    interest = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    interest = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -112,7 +115,7 @@ class CreditCard(BankAccount):
 
 class Balance(models.Model):
     account = models.OneToOneField(BankAccount, on_delete=models.CASCADE)
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
 
     def __str__(self):
         return f"{self.account.account_name} {self.account.account_type} ending in {self.account.account_number[-4:]}"

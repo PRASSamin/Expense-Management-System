@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="449d94a8-4957-4b64-aa89-4abc15eb7694" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/payLoan.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/restoreCredit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/restoreCredit.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccounts.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/home.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/recentact.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/dashboard/transfer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Expense_Management_System/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Expense_Management_System/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expense_Management_System/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/app.log" afterDir="false" />
     </list>
@@ -23,7 +23,10 @@
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/exportToHTML" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/EMS_Frontend" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/api/views.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -34,28 +37,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.baccounts.jsx.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.codeium.enabled": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "FrontEnd",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/snap/pycharm-professional/412/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.baccounts.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;BackEnd&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/snap/pycharm-professional/412/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -95,7 +98,8 @@
       <workItem from="1725860950741" duration="9206000" />
       <workItem from="1725872613512" duration="2520000" />
       <workItem from="1725875485055" duration="6466000" />
-      <workItem from="1725941214969" duration="1394000" />
+      <workItem from="1725941214969" duration="3618000" />
+      <workItem from="1725984491275" duration="4000" />
     </task>
     <servers />
   </component>
@@ -119,6 +123,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Expense_Management_System/urls.py</url>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/EMS_Frontend/src/components/home/subcompos/baccount/restoreCredit.jsx</url>
+          <line>35</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

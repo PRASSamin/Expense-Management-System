@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add Tailwind CSS styles -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>Index - Testing</title>
+  </head>
+  <body class="bg-gray-100">
+    {% if id %}
+    <div class="container mx-auto mt-8">
+      <p class="text-lg font-bold mb-4">ID: {{ id }}</p>
+      <a href="/status?id={{ id }}" class="text-blue-500 underline"
+        >Go to Status Page</a
+      >
+    </div>
+    {% endif %}
+  </body>
+</html>
