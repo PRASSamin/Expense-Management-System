@@ -1,21 +1,19 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios';
-import PayLoan from '../baccount/payLoan';
-import RestoreCredit from '../baccount/restoreCredit';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
+import { Spinner } from '../baccount/detailedAccount';
 
 const Payment = ({ isShow, setIsShow, user, setIsRefresh }) => {
     const [accounts, setAccounts] = useState([]);
-    const [isProcessing, setIsProcessing] = useState(true);
+    const [isProcessing, setIsProcessing] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);
     const [data, setData] = useState(null)
     const [paymentAmount, setPaymentAmount] = useState(0)
 
 
     const fetchAccounts = async () => {
-        setIsProcessing(true);
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_USER_BANK_ACCOUNTS_API_EP}?u=${user.userUID}`);
             setAccounts((res.data.data).filter(acc => acc.account_type === 'credit' || acc.account_type === 'loan'));
@@ -23,8 +21,6 @@ const Payment = ({ isShow, setIsShow, user, setIsRefresh }) => {
 
         } catch (err) {
             console.log(err);
-        } finally {
-            setIsProcessing(false);
         }
     };
 
@@ -33,6 +29,7 @@ const Payment = ({ isShow, setIsShow, user, setIsRefresh }) => {
     }, []);
 
     const fetchAccountDetails = async () => {
+        setIsProcessing(true);
         try {
             const selectedAccountData = accounts.find(acc => parseInt(acc.id) === parseInt(selectedAccount.value));
             console.log(selectedAccount.value)
@@ -61,6 +58,8 @@ const Payment = ({ isShow, setIsShow, user, setIsRefresh }) => {
             }
         } catch (err) {
             console.log(err);
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -127,14 +126,14 @@ const Payment = ({ isShow, setIsShow, user, setIsRefresh }) => {
             <div onClick={(e) => {
                 e.stopPropagation();
             }} className='w-[calc(100%-32px)] md:w-auto aspect-[3/4] h-[75%] p-3 z-50 bg-white rounded shadow-lg'>
-               <div className='w-full text-xl font-bold text-center border-b mb-3 pb-2 relative'>
+                <div className='w-full text-xl font-bold text-center border-b mb-3 pb-2 relative'>
                     <h1 >Make Payment</h1>
                     <button onClick={() => setIsShow(!isShow)} className='mr-2 p-1 rounded border border-teal-600 bg-teal-400 hover:bg-teal-500 cursor-pointer absolute top-0 right-0'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="text-teal-600" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
                     </button>
-               </div>
+                </div>
                 <div>
 
                     <div className='flex flex-col w-full'>
@@ -159,7 +158,11 @@ const Payment = ({ isShow, setIsShow, user, setIsRefresh }) => {
                     </div>
                 </div>
 
-                {!data ? (
+                {isProcessing ? (
+                    <div className='relative h-[calc(100%-73px)] w-full flex items-center justify-center'>
+                        <Spinner />
+                    </div>
+                ) : !data ? (
                     <div className='relative h-[calc(100%-73px)] w-full flex items-center justify-center'>
                         <p className='font-bold text-gray-600 text-sm'>Select a account</p>
                     </div>
