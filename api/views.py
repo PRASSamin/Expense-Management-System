@@ -821,141 +821,152 @@ def getBankAccountsDetails(request):
 #     }, status=200)
 
 
-
 @require_http_methods(["POST"])
 @csrf_exempt
 def PayCredit(request):
     """
     Handles payments for credit cards and loans.
-
-    This view processes POST requests to make payments for credit cards or loans based on the account type.
-    It updates the account's balance and records the payment in the `ExpenseIncome` model. It also validates
-    payment conditions such as preventing payments on the first day of account creation and ensuring
-    payments are not made more than once a day.
-
-    Query Parameters:
-    - q (str): The ID of the credit card or loan account.
-    - u (str): The user UID associated with the account.
-    - type (str): The type of account. Expected values are 'credit' for credit card payments and 'loan' for loan payments.
-
-    Request Body:
-    - For loan payments: A JSON object containing:
-        - amount (float): The amount to be paid towards the loan.
-
-    Returns:
-    - JsonResponse: A JSON response indicating the status of the payment.
     """
     id = request.GET.get('q')
     userUID = request.GET.get('u')
-    type = request.GET.get('type')
+    account_type = request.GET.get('type')
     data = json.loads(request.body or '{}')
-
+    
     if not id or not userUID:
         return JsonResponse({"status": "error", "message": "Sorry, access denied"}, status=400)
 
+    from_account = get_object_or_404(BankAccount, id=data.get('from_account'))
+    from_account_balance = get_object_or_404(Balance, account=from_account)
+    amount = Decimal(data.get('amount', 0))
+
+    if from_account_balance.balance < amount:
+        return JsonResponse({"status": "error", "message": "Insufficient funds in the account"}, status=400)
+    if not amount:
+        return JsonResponse({"status": "error", "message": "Amount not specified"}, status=400)
+
+    account = get_account(account_type, id, userUID)
+    if not account:
+        return JsonResponse({"status": "error", "message": "Invalid account type or account not found"}, status=400)
+
+    current_date = timezone.now().date()
+    if current_date == account.created_at.date():
+        return JsonResponse({"status": "error", "message": f"{account_type.capitalize()} payment is not allowed on the first day of account creation."}, status=400)
+
+    if account.last_payment_date >= current_date:
+        return JsonResponse({"status": "error", "message": f"{account_type.capitalize()} payment already made for today"}, status=400)
+
     try:
-        # Retrieve account and user data
-        if type == 'credit':
-            account = get_object_or_404(CreditCard, id=id, user__userUID=userUID)
-        elif type == 'loan':
-            account = get_object_or_404(LoanAccount, id=id, user__userUID=userUID)
-        else:
-            return JsonResponse({"status": "error", "message": "Invalid account type"}, status=400)
-
-        user = get_object_or_404(CustomUser, userUID=userUID)
-        balance = get_object_or_404(Balance, account=account)
-        current_date = timezone.now().date()
-
         with transaction.atomic():
-            if type == 'credit':
-                if account.last_payment_date == account.created_at.date():
-                    return JsonResponse({
-                        "status": "error",
-                        "message": "Credit payment is not allowed on the first day of account creation."
-                    }, status=400)
-
-                if account.last_payment_date < current_date:
-                    # Record the payment
-                    ExpenseIncome.objects.create(
-                        user=user,
-                        title='Credit Payment',
-                        amount=abs(balance.balance),
-                        date=current_date,
-                        description=f'Credit payment for card ending in {account.account_number[-4:]} from {user.first_name} {user.last_name} on {current_date}',
-                        category='Credit Payment',
-                        type='Credit Payment',
-                        account=account
-                    )
-
-                    # Update balance and account
-                    balance.balance = 0
-                    account.interest = 0
-                    account.last_payment_date = current_date
-                    balance.save()
-                    account.save()
-
-                    return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
-
-                return JsonResponse({"status": "error", "message": "Card payment already made for today"}, status=400)
-
-            elif type == 'loan':
-                amount = Decimal(data.get('amount', 0))
-
-                if account.last_payment_date == account.created_at.date():
-                    return JsonResponse({
-                        "status": "error",
-                        "message": "Loan payment is not allowed on the first day of account creation."
-                    }, status=400)
-
-                if account.last_payment_date >= current_date:
-                    return JsonResponse({"status": "error", "message": "Loan payment already made for today"}, status=400)
-                
-                extra_amount = 0
-
-                if amount > account.loan_remaining:
-                    extra_amount = amount - account.loan_remaining
-
-                # Record the payment
-                ExpenseIncome.objects.create(
-                    user=user,
-                    title='Loan Payment',
-                    amount=amount,
-                    date=current_date,
-                    description=f'Loan payment for account {account.account_name} from {user.first_name} {user.last_name} on {current_date}',
-                    category='Loan Payment',
-                    type='Loan Payment',
-                    account=account
-                )
-
-                # Update loan balance and account
-                account.loan_remaining -= (amount - extra_amount)
-                account.last_payment_date = current_date
-                account.save()
-                balance.delete()
-
-                if extra_amount > 0:
-                    # Handle extra amount
-                    newAcc = BankAccount.objects.create(
-                        user=user,
-                        account_number=account.account_number,
-                        account_type='genaral',
-                        account_name='Bank Account',
-                    )
-
-                    Balance.objects.create(
-                        account=newAcc,
-                        balance=extra_amount
-                    )
-                    
-                    account.is_active = False
-                    account.save()
-
-                    return JsonResponse({"status": "success", "message": f"Loan payment successful. Extra amount added to your bank account"}, status=200)
-
-                return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
-
+            if account_type == 'credit':
+                return handle_credit_payment(account, from_account, current_date, userUID, from_account_balance)
+            elif account_type == 'loan':
+                return handle_loan_payment(account, from_account, amount, current_date, userUID, from_account_balance)
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+
+def get_account(account_type, id, userUID):
+    """
+    Helper to fetch the correct account based on type.
+    """
+    if account_type == 'credit':
+        return get_object_or_404(CreditCard, id=id, user__userUID=userUID)
+    elif account_type == 'loan':
+        return get_object_or_404(LoanAccount, id=id, user__userUID=userUID)
+    return None
+
+
+def create_expense_income(user, account, from_account, amount, current_date, category, description):
+    """
+    Helper to create expense/income records.
+    """
+    ExpenseIncome.objects.bulk_create([
+        ExpenseIncome(
+            user=user,
+            title=f'{category} Payment',
+            amount=abs(amount),
+            date=current_date,
+            description=description,
+            category=category,
+            type=f'{category} Payment',
+            account=account
+        ),
+        ExpenseIncome(
+            user=user,
+            title=f'{category} Payment to {account.account_name}',
+            amount=abs(amount),
+            date=current_date,
+            description=description,
+            category=category,
+            type='Expense',
+            account=from_account
+        )
+    ])
+
+
+def handle_credit_payment(account, from_account, current_date, userUID, from_account_balance):
+    """
+    Handles credit card payments.
+    """
+    user = get_object_or_404(CustomUser, userUID=userUID)
+    balance = get_object_or_404(Balance, account=account)
+    
+    description = f'Credit payment for card ending in {account.account_number[-4:]} from {user.first_name} {user.last_name} on {current_date}'
+    create_expense_income(user, account, from_account, balance.balance, current_date, 'Credit', description)
+
+    # Update balance and account
+    from_account_balance.balance -= abs(balance.balance)
+    from_account_balance.save()
+    balance.balance = 0
+    account.interest = 0
+    account.last_payment_date = current_date
+    balance.save()
+    account.save()
+
+    return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
+
+
+def handle_loan_payment(account, from_account, amount, current_date, userUID, from_account_balance):
+    """
+    Handles loan payments.
+    """
+    user = get_object_or_404(CustomUser, userUID=userUID)
+    extra_amount = max(0, amount - account.loan_remaining)
+
+    description = f'Loan payment for account {account.account_name} from {user.first_name} {user.last_name} on {current_date}'
+    create_expense_income(user, account, from_account, amount, current_date, 'Loan', description)
+
+    # Update loan balance and account
+    from_account_balance.balance -= abs(amount)
+    from_account_balance.save()
+    account.loan_remaining -= (amount - extra_amount)
+    account.last_payment_date = current_date
+    account.save()
+
+    if extra_amount > 0:
+        handle_extra_loan_amount(user, extra_amount, account)
+
+    return JsonResponse({"status": "success", "message": "Payment successful"}, status=200)
+
+
+def handle_extra_loan_amount(user, extra_amount, account):
+    """
+    Handles any extra loan payment amounts by creating a new account and transferring the excess.
+    """
+    new_account = BankAccount.objects.create(
+        user=user,
+        account_number=account.account_number,
+        account_type='general',
+        account_name='Bank Account',
+    )
+    Balance.objects.create(account=new_account, balance=extra_amount)
+    
+    account.is_active = False
+    account.save()
+
+
+
+
 
 
 @csrf_exempt

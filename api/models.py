@@ -47,7 +47,7 @@ class ExpenseIncome(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=255)
-    type = models.CharField(max_length=255, choices=[('Expense', 'Expense'), ('Income', 'Income')])
+    type = models.CharField(max_length=255, choices=[('Expense', 'Expense'), ('Income', 'Income'), ('Credit Payment', 'Credit Payment'), ('Loan Payment', 'Loan Payment')])
     account = models.ForeignKey('BankAccount', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
