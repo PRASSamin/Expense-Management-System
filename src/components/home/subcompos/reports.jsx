@@ -59,10 +59,10 @@ const Reports = ({ userData }) => {
 
 
     return (
-        <main className='mt-[70px] overflow-auto px-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <main className='h-[calc(100vh-70px)] mt-[70px] overflow-auto px-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
             {
                 !Cookies.get('userData') ? (
-                    <div className='col-span-1 md:col-span-2 flex items-center justify-center'>
+                    <div className='h-full col-span-1 md:col-span-2 flex items-center justify-center'>
                         <button onClick={() => navigate('/login')} className='bg-[#00EA79] rounded-md shadow hover:bg-[#006cd8] transition-all duration-300'>
                             <h1 className='text-[#000] text-[14px] md:text-[16px] font-bold px-3 py-3'>Login required</h1>
                         </button>
@@ -84,7 +84,7 @@ const Reports = ({ userData }) => {
 
 
                         <QuickAcc
-                        userData={userData}
+                            userData={userData}
                             setIsRefresh={setIsRefresh} />
 
                         <div className='col-span-1 md:col-span-2 flex flex-col gap-4'>
