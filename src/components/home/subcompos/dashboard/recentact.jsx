@@ -196,7 +196,7 @@ const getAccountType = (type) => {
         case 'loan':
             return 'Loan Account';
         default:
-            return '';
+            return type;
     }
 };
 

@@ -248,7 +248,7 @@ const DetailedBAccount = ({ account_id, account_type, onClose, userUID, fetchAcc
                                     />}
 
 
-                                    {account?.account_type === 'credit' || account?.account_type === 'loan' ? <ActionButton
+                                    {/* {account?.account_type === 'credit' || account?.account_type === 'loan' ? <ActionButton
                                         onClick={() => {
 
                                             setWannaPay(account?.account_type);
@@ -257,7 +257,7 @@ const DetailedBAccount = ({ account_id, account_type, onClose, userUID, fetchAcc
                                         loadingState='paying'
                                         buttonText={account?.account_type === 'credit' ? 'Pay Credit' : 'Pay Loan'}
                                         buttonClass={'bg-purple-300 text-purple-800 hover:bg-purple-200'}
-                                    /> : null}
+                                    /> : null} */}
 
                                 </div>
 
