@@ -5,12 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
 
 const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh }) => {
-    const dropdownRef = useRef(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [isOtherShow, setIsOtherShow] = useState(false);
     const [categories, setCategories] = useState({ expenses: [], incomes: [] });
-    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-    const [isAccountsFething, setIsAccountsFething] = useState(false);
 
     const [accounts, setAccounts] = useState([]);
 
@@ -76,8 +73,6 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
 
 
     const fetchAccounts = async () => {
-        setIsAccountsFething(true);
-
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${import.meta.env.VITE_GET_USER_BANK_ACCOUNTS_API_EP}?u=${user.userUID}`);
             if (res?.data?.data?.length === 0) {
@@ -106,9 +101,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                 document.getElementById("submit").disabled = true;
             }
             console.log(err);
-        } finally {
-            setIsAccountsFething(false);
-        }
+        } 
 
     };
 
@@ -240,7 +233,7 @@ const Add = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh, isRefresh
                     </div>
                     <div>
                         <label htmlFor="amount">Amount<span className='text-red-500'>*</span></label>
-                        <input placeholder='eg. 5000' onChange={(e) => setAddData({ ...addData, amount: e.target.value })} type="number" name="amount" id="amount" className='placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
+                        <input placeholder='eg. 5000' onChange={(e) => setAddData({ ...addData, amount: e.target.value })} type="number" name="amount" step={0.01} id="amount" className='placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
                     </div>
                     <div>
                         <label htmlFor="category">Category<span className='text-red-500'>*</span></label>
