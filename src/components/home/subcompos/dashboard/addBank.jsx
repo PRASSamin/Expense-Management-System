@@ -221,8 +221,8 @@ const AddBank = ({ isShow, setIsShow, expenseOrIncome, user, setIsRefresh }) => 
 
 
                         <div>
-                            <label htmlFor="transfer_rate">Transfer Rate<span className='text-red-500'>*</span></label>
-                            <input placeholder='eg. 1' autoComplete='off' onChange={(e) => setAddData({ ...addData, transfer_rate: e.target.value })}
+                            <label htmlFor="transfer_rate">Transfer Rate</label>
+                            <input placeholder='eg. 1' autoComplete='off' step="0.01" onChange={(e) => setAddData({ ...addData, transfer_rate: e.target.value })}
                                 type="number" name="transfer_rate" id="transfer_rate"
                                 className='placeholder:text-sm w-full border border-gray-300 rounded px-2 py-1' />
                         </div>
