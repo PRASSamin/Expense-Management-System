@@ -22,7 +22,7 @@ const Expenses = ({ userData }) => {
                         return
                     }
                     setIsAddShow(!isAddShow)
-                }} className='w-full bg-[#4495E4] px-3 rounded-md w-full shadow hover:bg-[#006cd8] transition-all duration-300  flex items-center
+                }} className='bg-[#4495E4] px-3 rounded-md shadow hover:bg-[#006cd8] transition-all duration-300  flex items-center
                 font-bold text-white text-[14px] justify-center w-full py-2.5 gap-5'>
                     New Expense
                 </button>

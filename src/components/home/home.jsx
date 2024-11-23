@@ -148,7 +148,7 @@ const Home = ({ activeTab }) => {
           </div>
         </div>
         {
-          activeTab === 'dashboard' ? <Reports userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'accounts' ? <BankAccounts userData={userData} /> : <Dashboard userData={userData} />}
+          activeTab === 'dashboard' ? <Dashboard userData={userData} /> : activeTab === 'incomes' ? <Incomes userData={userData} /> : activeTab === 'expenses' ? <Expenses userData={userData} /> : activeTab === 'accounts' ? <BankAccounts userData={userData} /> : <Reports userData={userData} />}
       </section>
     </div>
   )
