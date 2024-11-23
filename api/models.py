@@ -69,7 +69,7 @@ class BankAccount(models.Model):
     account_type = models.CharField(max_length=10)
     mobile_bank = models.CharField(max_length=100, null=True, blank=True)
     account_name = models.CharField(max_length=100) 
-    transfer_rate = models.IntegerField(default=0, null=True, blank=True)
+    transfer_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_default = models.BooleanField(default=False)
