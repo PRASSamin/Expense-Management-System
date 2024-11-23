@@ -92,28 +92,23 @@ WSGI_APPLICATION = 'Expense_Management_System.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'OPTIONS': {
-#             'charset': 'utf8mb4',
-#             'use_unicode': True,
-#         },
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': os.getenv("MYSQL_DATABASE"),
-#         'USER': os.getenv("MYSQL_USER"),
-#         'PASSWORD': os.getenv("MYSQL_PASSWORD"),
-#         'HOST': os.getenv("MYSQL_HOST"),
-#         'PORT': os.getenv("MYSQL_PORT")
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "db.sqlite3",
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("POSTGRES_DATABASE"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+        'HOST': os.getenv("POSTGRES_HOST"),
+        'PORT': os.getenv("POSTGRES_PORT")
+    }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": "db.sqlite3",
+#     },
+# }
 
 
 # Password validation
